@@ -48,7 +48,7 @@ const Welcome = () => {
                             <Link to={Path.Embeddings}>Embeddings</Link>
                         </li>
                         <li>
-                            <Link to={Path.Dalle}>DALL-E</Link>
+                            <Link to={Path.Dalle}>DALL·E</Link>
                         </li>
                         <li>
                             <Link to={Path.ASR}>ASR</Link>

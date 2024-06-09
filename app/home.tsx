@@ -191,7 +191,7 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     },
                     {
                         path: Path.Dalle,
-                        name: "DALL-E",
+                        name: "DALL·E",
                         icon: <PictureFilled/>,
                     },
                     {

@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag kadxy/openai-next-lab:${{ github.ref_name }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: kadxy
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push the Docker image
+        run: |
+          docker push kadxy/openai-next-lab:${{ github.ref_name }}
+          docker tag kadxy/openai-next-lab:${{ github.ref_name }} kadxy/openai-next-lab:latest
+          docker push kadxy/openai-next-lab:latest

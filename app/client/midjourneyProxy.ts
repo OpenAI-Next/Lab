@@ -146,7 +146,7 @@ export interface MidjourneyCancelTaskResponseType {
     description: string;
 }
 
-export class MidjourneyAPI {
+export class DrawAPI {
     private readonly apiKey: string;
 
     constructor(apiKey: string) {

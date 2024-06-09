@@ -21,19 +21,19 @@ export interface UploadConfig {
 export enum Provider {
     NextAPI,
     ProxyAPI,
-    MidjourneyAPI,
+    DrawAPI,
 }
 
 export const PROVIDER_NAME = {
-    [Provider.NextAPI]: "Next API",
-    [Provider.ProxyAPI]: "Proxy API",
-    [Provider.MidjourneyAPI]: "Midjourney API",
+    [Provider.NextAPI]: "NextAPI",
+    [Provider.ProxyAPI]: "ProxyAPI",
+    [Provider.DrawAPI]: "DrawAPI",
 } as const;
 
 export const ProviderBaseUrlMap = {
     [Provider.NextAPI]: "https://api.openai-next.com",
     [Provider.ProxyAPI]: "https://proxy.openai-next.com",
-    [Provider.MidjourneyAPI]: "https://mj.openai-next.com",
+    [Provider.DrawAPI]: "https://mj.openai-next.com",
 } as const;
 
 export const api2Provider = {
@@ -42,7 +42,7 @@ export const api2Provider = {
     DallE: Provider.NextAPI,
     TTS: Provider.NextAPI,
     Whisper: Provider.NextAPI,
-    Midjourney: Provider.MidjourneyAPI,
+    Midjourney: Provider.DrawAPI,
     Suno: Provider.ProxyAPI,
     Pika: Provider.ProxyAPI,
     Doc2X: Provider.ProxyAPI,

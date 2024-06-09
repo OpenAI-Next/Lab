@@ -36,7 +36,7 @@ import {
     UnorderedListOutlined
 } from "@ant-design/icons";
 import {
-    MidjourneyAPI,
+    DrawAPI,
     MidjourneyDescribeTaskRequestPayload,
     MidjourneyDoActionQueryType,
     MidjourneyFetchTaskRequestPayload,
@@ -151,7 +151,7 @@ export interface MidjourneyBlendTaskConfigType {
 const handleSubmit = async (
     values: any,
     action: "IMAGINE" | "DESCRIBE" | "ACTION" | "BLEND" | "SHORTEN" | "MODAL",
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateResponse: (res: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
     setSubmitting: (submitting: boolean) => void,
@@ -212,7 +212,7 @@ const handleSubmit = async (
 
 const ImagineForm = (props: {
     form: ProFormInstance,
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateResponse: (res: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
     fillShortenForm: (prompt: string) => void,
@@ -577,7 +577,7 @@ const ImagineForm = (props: {
 
 const BlendForm = (props: {
     form: ProFormInstance,
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateResponse: (task: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
 }) => {
@@ -653,7 +653,7 @@ const BlendForm = (props: {
 
 const DescribeForm = (props: {
     form: ProFormInstance,
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateResponse: (task: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
 }) => {
@@ -708,7 +708,7 @@ const DescribeForm = (props: {
 
 const ShortenForm = (props: {
     form: ProFormInstance,
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateResponse: (task: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
 }) => {
@@ -746,7 +746,7 @@ const ShortenForm = (props: {
 
 const ActionForm = (props: {
     form: ProFormInstance,
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateResponse: (task: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
 }) => {
@@ -793,7 +793,7 @@ const ActionForm = (props: {
 
 const ModalForm = (props: {
     form: ProFormInstance;
-    api: MidjourneyAPI
+    api: DrawAPI
     updateResponse: (task: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
     queryTask: (taskId: string) => void,
@@ -878,7 +878,7 @@ const ModalForm = (props: {
 
 const QueryTaskForm = (props: {
     form: ProFormInstance,
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateResponse: (task: MidjourneyTaskList) => void,
     updateError: (error: any) => void,
 }) => {
@@ -934,7 +934,7 @@ const QueryTaskForm = (props: {
 
 const QuerySeedForm = (props: {
     form: ProFormInstance,
-    api: MidjourneyAPI,
+    api: DrawAPI,
     updateTaskSeed: (taskId: string, seed: string, error?: string) => void,
     updateError: (error: any) => void,
 }) => {
@@ -992,7 +992,7 @@ const QuerySeedForm = (props: {
 
 const MidjourneyTasksRenderer = (props: {
     tasks: MidjourneyTaskList[],
-    api: MidjourneyAPI,
+    api: DrawAPI,
     onUpdated: (res: MidjourneyTaskList, isDelete?: boolean) => void,
     onError: (error: any) => void,
     onFillActionForm: (action: MidjourneyDoActionQueryType) => void,
@@ -1190,7 +1190,7 @@ const MidjourneyTasksRenderer = (props: {
 
 export function MidjourneyPage() {
     const appConfig = useAppConfig();
-    const midjourneyApi = new MidjourneyAPI(appConfig.getFirstApiKey(api2Provider.Midjourney));
+    const drawApi = new DrawAPI(appConfig.getFirstApiKey(api2Provider.Midjourney));
     const [mjImagineTaskForm] = ProForm.useForm();
     const [mjBlendTaskForm] = ProForm.useForm();
     const [mjDescribeTaskForm] = ProForm.useForm();
@@ -1284,7 +1284,7 @@ export function MidjourneyPage() {
             setTimeout(resolve, timeOut);
         });
         try {
-            const res = await midjourneyApi.fetchTask({taskId});
+            const res = await drawApi.fetchTask({taskId});
             const status = res.status;
             const resJson = await res.json();
             if (status === MidjourneyTaskResStatus.OK) {
@@ -1302,7 +1302,7 @@ export function MidjourneyPage() {
         "IMAGINE":
             <ImagineForm
                 form={mjImagineTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateResponse={updateResponse}
                 updateError={updateError}
                 fillShortenForm={(prompt: string) => {
@@ -1314,35 +1314,35 @@ export function MidjourneyPage() {
         "BLEND":
             <BlendForm
                 form={mjBlendTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateResponse={updateResponse}
                 updateError={updateError}
             />,
         "DESCRIBE":
             <DescribeForm
                 form={mjDescribeTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateResponse={updateResponse}
                 updateError={updateError}
             />,
         "SHORTEN":
             <ShortenForm
                 form={mjShortenTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateResponse={updateResponse}
                 updateError={updateError}
             />,
         "ACTION":
             <ActionForm
                 form={mjActionTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateResponse={updateResponse}
                 updateError={updateError}
             />,
         "MODAL":
             <ModalForm
                 form={mjModalTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateResponse={updateResponse}
                 updateError={updateError}
                 queryTask={queryTask}
@@ -1353,14 +1353,14 @@ export function MidjourneyPage() {
         "TASK":
             <QueryTaskForm
                 form={mjQueryTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateResponse={updateResponse}
                 updateError={updateError}
             />,
         "SEED":
             <QuerySeedForm
                 form={mjQueryTaskForm}
-                api={midjourneyApi}
+                api={drawApi}
                 updateTaskSeed={updateTaskSeed}
                 updateError={updateError}
             />,
@@ -1421,7 +1421,7 @@ export function MidjourneyPage() {
                 <h1>Task Data</h1>
                 <MidjourneyTasksRenderer
                     tasks={taskData}
-                    api={midjourneyApi}
+                    api={drawApi}
                     onUpdated={updateResponse}
                     onError={updateError}
                     onFillActionForm={(config: MidjourneyDoActionQueryType) => {

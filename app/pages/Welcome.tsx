@@ -27,13 +27,13 @@ const Welcome = () => {
                     <Text>Available Providers:</Text>
                     <ul>
                         <li>
-                            <Link to={"https://api.openai-next.com"} target="_blank">Next API</Link>
+                            <Link to={"https://api.openai-next.com"} target="_blank">NextAPI</Link>
                         </li>
                         <li>
-                            <Link to={"https://proxy.openai-next.com"} target="_blank">Proxy API</Link>
+                            <Link to={"https://proxy.openai-next.com"} target="_blank">ProxyAPI</Link>
                         </li>
                         <li>
-                            <Link to={"https://mj.openai-next.com"} target="_blank">Midjourney API</Link>
+                            <Link to={"https://mj.openai-next.com"} target="_blank">DrawAPI</Link>
                         </li>
                     </ul>
                 </Paragraph>

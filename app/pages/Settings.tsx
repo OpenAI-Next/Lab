@@ -128,8 +128,8 @@ export function Settings() {
                                                             value: Provider.ProxyAPI
                                                         },
                                                         {
-                                                            label: PROVIDER_NAME[Provider.MidjourneyAPI],
-                                                            value: Provider.MidjourneyAPI
+                                                            label: PROVIDER_NAME[Provider.DrawAPI],
+                                                            value: Provider.DrawAPI
                                                         }
                                                     ]}
                                                     placeholder="API Provider"
@@ -150,7 +150,7 @@ export function Settings() {
                                                     }}
                                                     extra={(config?.apiKeys[index]?.provider === Provider.NextAPI && !config?.apiKeys[index]?.apiKey) ?
                                                         <a style={{marginLeft:2}} onClick={() => setShowShellApiApiKeyModal(true)}>
-                                                            Load from Next API
+                                                            Load from NextAPI
                                                         </a> : null}
                                                 />
                                             </>

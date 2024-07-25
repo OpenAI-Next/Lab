@@ -7,7 +7,7 @@ import {handelResponseError, safeJsonStringify} from "@/app/utils";
 import {renderCode, RenderSubmitter} from "@/app/render";
 import {api2Provider, useAppConfig} from "@/app/store";
 import {Col, Divider} from "antd";
-import {LumaApi, LumaCreateTaskRequest} from "@/app/client/Luma";
+import {LumaApi, LumaGenerationTaskRequest} from "@/app/client/Luma";
 
 const LumaCreateForm = (props: {
     form: any,
@@ -19,7 +19,7 @@ const LumaCreateForm = (props: {
     const [abortController, setAbortController] = useState<AbortController | null>(null);
 
     return (
-        <ProForm<LumaCreateTaskRequest>
+        <ProForm<LumaGenerationTaskRequest>
             {...PRO_FORM_PROPS}
             form={props.form}
             onFinish={async (values) => {
@@ -29,7 +29,7 @@ const LumaCreateForm = (props: {
                 setAbortController(controller);
                 setSubmitting(true);
                 try {
-                    const res = await props.api.createLumaTask(values, controller.signal);
+                    const res = await props.api.generateLumaTask(values, controller.signal);
                     if (res.ok) {
                         const resJson = await res.json();
                         // const task = {} as any;

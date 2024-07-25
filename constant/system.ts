@@ -43,9 +43,16 @@ export enum PikaEndpoint {
 }
 
 export enum LumaEndpoint {
-    LUMA_CREATE = "v1/luma/generations",
-    LUMA_QUERY = "v1/luma/task",
+    CREATE = "v1/luma/generations",
+    EXTEND = "v1/luma/extend",
+    QUERY = "v1/luma/task?id={{id}}",
 
+}
+
+export enum LumaVipEndpoint {
+    CREATE = "v1/lumavip/generations",
+    EXTEND = "v1/lumavip/extend",
+    QUERY = "v1/lumavip/task?id={{id}}",
 }
 
 // MidjourneyProxy 请求端点
@@ -74,4 +81,10 @@ export enum Doc2XEndpoint {
 
 export enum GptsSearchEndpoint {
     Default = "v1/gpts/search?search={{keywords}}",
+}
+
+export enum UrlAnalysisEndpoint {
+    SUMMARY = "v1/urlanalysis/summary",                 // 链接总结
+    CHAT= "v1/urlanalysis/chat",                        // 链接聊天
+    SUBTITLE= "v1/urlanalysis/subtitle",                // 字幕导出
 }

@@ -3,10 +3,20 @@ import {api2ProviderBaseUrl} from "@/app/store";
 import {getRequestOptions} from "@/app/client/helper";
 import {CreatePikaTaskRequest, QueryPikaTaskRequest} from "@/app/client/pika";
 
-export interface LumaCreateTaskRequest {
-    user_prompt: string; // "A teddy bear in sunglasses playing electric guitar, dancing and headbanging in the jungle in front of a large beautiful waterfall"
-    aspect_ratio: string; // "16:9"
-    expand_prompt: boolean;
+export interface LumaGenerationTaskRequest {
+    user_prompt: string;                    // 提示词
+    aspect_ratio: string;                   // 固定为16:9, luma官方暂时不支持更改，请暂时固定传"16:9"
+    expand_prompt: boolean;                 // 是否优化扩展提示词
+    image_url?: string;                     // 开始帧图片
+    image_end_url?: string;                 // 结束帧图片，关键帧
+}
+
+export interface LumaExtendTaskRequest {
+    user_prompt: string;                    // 提示词
+    aspect_ratio: string;                   // 固定为16:9, luma官方暂时不支持更改，请暂时固定传"16:9"
+    expand_prompt: boolean;                 // 是否优化扩展提示词
+    video_url: string;                      // 需要扩展的视频 URL，可以不是 luma 生成的视频，任意第三方视频或者 luma 的视频都可
+    image_end_url?: string;                 // 结束帧图片，关键帧
 }
 
 export class LumaApi{
@@ -20,7 +30,7 @@ export class LumaApi{
         return [api2ProviderBaseUrl.Pika, endpoint].join("/");
     }
 
-    async createLumaTask(request: LumaCreateTaskRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
+    async generateLumaTask(request: LumaGenerationTaskRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
         const abortSignal = signal || controller.signal;
@@ -28,7 +38,7 @@ export class LumaApi{
         signal && signal.addEventListener("abort", () => controller.abort());
 
         try {
-            const res = await fetch(this.path(LumaEndpoint.LUMA_CREATE), {
+            const res = await fetch(this.path(LumaEndpoint.CREATE), {
                 ...getRequestOptions(this.apiKey, request),
                 signal: abortSignal
             });

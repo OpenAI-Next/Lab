@@ -67,7 +67,7 @@ export const UPLOAD_INFO = {
         position: ["url"],
     },
     [Provider.ProxyAPI]: {
-        action: [[ProviderBaseUrlMap[Provider.NextAPI]], "fileSystem/upload"].join("/"),
+        action: [[ProviderBaseUrlMap[Provider.ProxyAPI]], "fileSystem/upload"].join("/"),
         position: ["url"],
     },
     // [Provider.GodAPI]: {

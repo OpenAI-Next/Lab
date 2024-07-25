@@ -1,14 +1,13 @@
-import {LumaEndpoint, PikaEndpoint, REQUEST_TIMEOUT_MS} from "@/constant";
+import {LumaEndpoint, REQUEST_TIMEOUT_MS} from "@/constant";
 import {api2ProviderBaseUrl} from "@/app/store";
 import {getRequestOptions} from "@/app/client/helper";
-import {CreatePikaTaskRequest, QueryPikaTaskRequest} from "@/app/client/pika";
 
 export interface LumaGenerationTaskRequest {
     user_prompt: string;                    // 提示词
     aspect_ratio: string;                   // 固定为16:9, luma官方暂时不支持更改，请暂时固定传"16:9"
     expand_prompt: boolean;                 // 是否优化扩展提示词
-    image_url?: string;                     // 开始帧图片
-    image_end_url?: string;                 // 结束帧图片，关键帧
+    image_url?: any;                        // 开始帧图片
+    image_end_url?: any;                    // 结束帧图片，关键帧
 }
 
 export interface LumaExtendTaskRequest {
@@ -19,18 +18,30 @@ export interface LumaExtendTaskRequest {
     image_end_url?: string;                 // 结束帧图片，关键帧
 }
 
-export class LumaApi{
+type AccountType = "relax" | "vip";
+
+const AccountType2Path = {
+    relax: "luma",
+    vip: "lumavip",
+} as const;
+
+export class LumaApi {
     private readonly apiKey: string;
 
     constructor(apiKey: string) {
         this.apiKey = apiKey;
     }
 
-    path(endpoint: LumaEndpoint) {
-        return [api2ProviderBaseUrl.Pika, endpoint].join("/");
+    path(accountType: AccountType, endpoint: LumaEndpoint) {
+        return [api2ProviderBaseUrl.Pika, endpoint].join("/").replace("{{luma_account_type}}", AccountType2Path[accountType]);
     }
 
-    async generateLumaTask(request: LumaGenerationTaskRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
+    async generateLumaTask(request: LumaGenerationTaskRequest, accountType: AccountType, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
+
+        // convert image_url and image_end_url to url
+        request.image_url && (request.image_url = request.image_url.url);
+        request.image_end_url && (request.image_end_url = request.image_end_url.url);
+
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
         const abortSignal = signal || controller.signal;
@@ -38,7 +49,7 @@ export class LumaApi{
         signal && signal.addEventListener("abort", () => controller.abort());
 
         try {
-            const res = await fetch(this.path(LumaEndpoint.CREATE), {
+            const res = await fetch(this.path(accountType, LumaEndpoint.CREATE), {
                 ...getRequestOptions(this.apiKey, request),
                 signal: abortSignal
             });

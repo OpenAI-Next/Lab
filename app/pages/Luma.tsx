@@ -1,7 +1,7 @@
 // app/pages/Luma.tsx
 
 import React, {useState} from "react";
-import {ProForm, ProFormRadio, ProFormSwitch, ProFormText, ProFormTextArea} from "@ant-design/pro-components";
+import {ProForm, ProFormRadio, ProFormSwitch, ProFormTextArea, ProFormUploadButton} from "@ant-design/pro-components";
 import {COL_SCROLL_STYLE, PRO_FORM_PROPS} from "@/constant";
 import {handelResponseError, safeJsonStringify} from "@/app/utils";
 import {renderCode, RenderSubmitter} from "@/app/render";
@@ -9,14 +9,19 @@ import {api2Provider, useAppConfig} from "@/app/store";
 import {Col, Divider} from "antd";
 import {LumaApi, LumaGenerationTaskRequest} from "@/app/client/Luma";
 
-const LumaCreateForm = (props: {
+const LumaGenerateForm = (props: {
     form: any,
     api: LumaApi,
     updateTask: (task: any) => void,
     updateError: (error: any) => void,
 }) => {
+    const appConfig = useAppConfig();
+
+
     const [submitting, setSubmitting] = useState(false);
     const [abortController, setAbortController] = useState<AbortController | null>(null);
+
+    const [accountType, setAccountType] = useState<"relax" | "vip">("relax");
 
     return (
         <ProForm<LumaGenerationTaskRequest>
@@ -29,7 +34,7 @@ const LumaCreateForm = (props: {
                 setAbortController(controller);
                 setSubmitting(true);
                 try {
-                    const res = await props.api.generateLumaTask(values, controller.signal);
+                    const res = await props.api.generateLumaTask(values, accountType, controller.signal);
                     if (res.ok) {
                         const resJson = await res.json();
                         // const task = {} as any;
@@ -67,6 +72,23 @@ const LumaCreateForm = (props: {
                 expand_prompt: true,
             }}
         >
+
+            <ProFormRadio.Group
+                label={"Account Type"}
+                rules={[{required: true}]}
+                options={[
+                    {label: "Relax", value: "relax"},
+                    {label: "Luma VIP", value: "vip"},
+                ]}
+                fieldProps={{
+                    value: accountType,
+                    onChange: (e) => setAccountType(e.target.value)
+                }}
+                radioType="button"
+            />
+
+            <Divider/>
+
             <ProFormTextArea
                 name={"user_prompt"}
                 label={"User Prompt"}
@@ -81,6 +103,64 @@ const LumaCreateForm = (props: {
             <ProFormSwitch
                 name={"expand_prompt"}
                 label={"Expand Prompt"}
+            />
+
+            <ProFormUploadButton
+                name={"image_url"}
+                label={"Image URL"}
+                max={1}
+                action={appConfig.getUploadConfig().action}
+                fieldProps={{
+                    listType: "picture-card",
+                    headers: {
+                        Authorization: appConfig.getUploadConfig().auth,
+                    },
+                    onChange: (info) => {
+                        const getValueByPosition = (obj: any, position: readonly any[]) => {
+                            return position.reduce((acc, key) => acc && acc[key], obj);
+                        };
+
+                        if (info.file.status === "done") {
+                            try {
+                                const response = info.file.response;
+                                if (response) {
+                                    info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
+                                }
+                            } catch (e) {
+                                console.error(e);
+                            }
+                        }
+                    },
+                }}
+            />
+
+            <ProFormUploadButton
+                name={"image_end_url"}
+                label={"Image End URL"}
+                max={1}
+                action={appConfig.getUploadConfig().action}
+                fieldProps={{
+                    listType: "picture-card",
+                    headers: {
+                        Authorization: appConfig.getUploadConfig().auth,
+                    },
+                    onChange: (info) => {
+                        const getValueByPosition = (obj: any, position: readonly any[]) => {
+                            return position.reduce((acc, key) => acc && acc[key], obj);
+                        };
+
+                        if (info.file.status === "done") {
+                            try {
+                                const response = info.file.response;
+                                if (response) {
+                                    info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
+                                }
+                            } catch (e) {
+                                console.error(e);
+                            }
+                        }
+                    },
+                }}
             />
         </ProForm>
     )
@@ -109,7 +189,7 @@ const LumaPage = () => {
     return (
         <>
             <Col flex="340px" style={COL_SCROLL_STYLE}>
-                <LumaCreateForm
+                <LumaGenerateForm
                     form={lumaCreateForm}
                     api={lumaApi}
                     updateTask={updateTask}

@@ -43,16 +43,10 @@ export enum PikaEndpoint {
 }
 
 export enum LumaEndpoint {
-    CREATE = "v1/luma/generations",
-    EXTEND = "v1/luma/extend",
-    QUERY = "v1/luma/task?id={{id}}",
+    CREATE = "v1/{{luma_account_type}}/generations",
+    EXTEND = "v1/{{luma_account_type}}/extend",
+    QUERY = "v1/{{luma_account_type}}/task?id={{id}}",
 
-}
-
-export enum LumaVipEndpoint {
-    CREATE = "v1/lumavip/generations",
-    EXTEND = "v1/lumavip/extend",
-    QUERY = "v1/lumavip/task?id={{id}}",
 }
 
 // MidjourneyProxy 请求端点

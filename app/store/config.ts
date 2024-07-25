@@ -21,19 +21,16 @@ export interface UploadConfig {
 export enum Provider {
     NextAPI,
     ProxyAPI,
-    DrawAPI,
 }
 
 export const PROVIDER_NAME = {
-    [Provider.NextAPI]: "NextAPI",
-    [Provider.ProxyAPI]: "ProxyAPI",
-    [Provider.DrawAPI]: "DrawAPI",
+    [Provider.NextAPI]: "Next API",
+    [Provider.ProxyAPI]: "Proxy API",
 } as const;
 
 export const ProviderBaseUrlMap = {
     [Provider.NextAPI]: "https://api.openai-next.com",
-    [Provider.ProxyAPI]: "https://proxy.openai-next.com",
-    [Provider.DrawAPI]: "https://mj.openai-next.com",
+    [Provider.ProxyAPI]: "https://mj.openai-next.com",
 } as const;
 
 export const api2Provider = {
@@ -42,7 +39,7 @@ export const api2Provider = {
     DallE: Provider.NextAPI,
     TTS: Provider.NextAPI,
     Whisper: Provider.NextAPI,
-    Midjourney: Provider.DrawAPI,
+    Midjourney: Provider.ProxyAPI,
     Suno: Provider.ProxyAPI,
     Pika: Provider.ProxyAPI,
     Luma: Provider.ProxyAPI,
@@ -70,9 +67,13 @@ export const UPLOAD_INFO = {
         position: ["url"],
     },
     [Provider.ProxyAPI]: {
-        action: [[ProviderBaseUrlMap[Provider.ProxyAPI]], "v1/file"].join("/"),
-        position: ["data", "url"],
+        action: [[ProviderBaseUrlMap[Provider.NextAPI]], "fileSystem/upload"].join("/"),
+        position: ["url"],
     },
+    // [Provider.GodAPI]: {
+    //     action: [[ProviderBaseUrlMap[Provider.ProxyAPI]], "v1/file"].join("/"),
+    //     position: ["data", "url"],
+    // },
 } as const;
 
 const DEFAULT_CONFIG = {

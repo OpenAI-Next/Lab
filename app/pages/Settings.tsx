@@ -126,10 +126,6 @@ export function Settings() {
                                                         {
                                                             label: PROVIDER_NAME[Provider.ProxyAPI],
                                                             value: Provider.ProxyAPI
-                                                        },
-                                                        {
-                                                            label: PROVIDER_NAME[Provider.DrawAPI],
-                                                            value: Provider.DrawAPI
                                                         }
                                                     ]}
                                                     placeholder="API Provider"

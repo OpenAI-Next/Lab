@@ -145,7 +145,7 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
             layout="side"
             locale="en-US"
             siderWidth={200}
-            defaultCollapsed={true}
+            defaultCollapsed={false}
             breadcrumbRender={false}
             breakpoint={false}
             fixedHeader={true}
@@ -227,7 +227,7 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     {
                         path: Path.Luma,
                         name: "Luma",
-                        icon: <LumaIcon/>,
+                        icon: <Icon component={LumaIcon}/>,
                     },
                     {
                         path: Path.GPTs,

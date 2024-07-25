@@ -1,5 +1,5 @@
 export const SITE_TITLE = "OpenAI Next Lab";
-export const SITE_DESCRIPTION = "在线测试平台";
+export const SITE_DESCRIPTION = "Online Test Platform";
 export const REQUEST_TIMEOUT_MS = 60 * 1000;
 
 export enum Path {

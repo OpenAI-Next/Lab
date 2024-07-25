@@ -1731,7 +1731,8 @@ const PROVIDER_MODEL_LIST: { [provider_name: string]: ProviderModelListType } = 
             },
         ],
     },
-}
+};
+
 
 export const PROVIDER_MODEL_LIST_WITHOUT_OUTDATED: {
     [provider_name: string]: ProviderModelListType

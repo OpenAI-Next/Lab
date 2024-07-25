@@ -1,0 +1,2998 @@
+[
+  {
+    "provider": "OpenAI",
+    "logo": "string",
+    "website": {
+      "home": "https://www.openai.com",
+      "docs": "https://www.openai.com/docs",
+      "price": "https://www.openai.com/price"
+    },
+    "models_list": [
+      {
+        "name": "gpt-4o-mini",
+        "release_time": 1715529600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.15,
+            "output": 0.6
+          }
+        ],
+        "description": "Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4o",
+        "release_time": 1715529600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 5,
+            "output": 15
+          }
+        ],
+        "description": "Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-turbo",
+        "release_time": 1712073600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 10,
+            "output": 30
+          }
+        ],
+        "description": "The latest GPT-4 Turbo model with vision capabilities. Vision requests can now use JSON mode and function calling.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1704067200
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-turbo-preview",
+        "release_time": 1701302400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 10,
+            "output": 30
+          }
+        ],
+        "description": "GPT-4 Turbo preview model. Currently points to gpt-4-0125-preview.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1704067200
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-0125-preview",
+        "release_time": 1701302400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 10,
+            "output": 30
+          }
+        ],
+        "description": "GPT-4 Turbo preview model intended to reduce cases of 'laziness' where the model doesn’t complete a task.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1704067200
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-1106-preview",
+        "release_time": 1688860800,
+        "category": "chat",
+        "price": [
+          {
+            "input": 10,
+            "output": 30
+          }
+        ],
+        "description": "GPT-4 Turbo preview model featuring improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1681862400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4",
+        "release_time": 1686585600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 20,
+            "output": 60
+          }
+        ],
+        "description": "A large multimodal model that can solve difficult problems with greater accuracy thanks to its broader general knowledge and advanced reasoning capabilities.",
+        "info": {
+          "max_context": 8192,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-3.5-turbo-0125",
+        "release_time": 1701302400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.5,
+            "output": 1.5
+          }
+        ],
+        "description": "The latest GPT-3.5 Turbo model with higher accuracy at responding in requested formats and a fix for a bug which caused a text encoding issue for non-English language function calls.",
+        "info": {
+          "max_context": 16385,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-3.5-turbo",
+        "release_time": 1701302400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.5,
+            "output": 1.5
+          }
+        ],
+        "description": "Currently points to gpt-3.5-turbo-0125.",
+        "info": {
+          "max_context": 16385,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-3.5-turbo-1106",
+        "release_time": 1698873600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.5,
+            "output": 1.5
+          }
+        ],
+        "description": "GPT-3.5 Turbo model with improved instruction following, JSON mode, reproducible outputs, parallel function calling, and more.",
+        "info": {
+          "max_context": 16385,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-3.5-turbo-instruct",
+        "release_time": 1634169600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.5,
+            "output": 1.5
+          }
+        ],
+        "description": "Similar capabilities as GPT-3 era models. Compatible with legacy Completions endpoint and not Chat Completions.",
+        "info": {
+          "max_context": 4096,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-32k",
+        "release_time": 1744166400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 60,
+            "output": 120
+          }
+        ],
+        "description": "A GPT-4 model with extended context window of 32,000 tokens.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1744166400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-32k-0613",
+        "release_time": 1744166400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 60,
+            "output": 120
+          }
+        ],
+        "description": "A GPT-4 model with extended context window of 32,000 tokens, snapshot from June 13th 2023.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1744166400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-32k-0314",
+        "release_time": 1744166400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 60,
+            "output": 120
+          }
+        ],
+        "description": "A GPT-4 model with extended context window of 32,000 tokens, legacy snapshot from March 14th 2023.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1744166400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-vision-preview",
+        "release_time": 1733596800,
+        "category": "chat",
+        "price": [
+          {
+            "input": 10,
+            "output": 30
+          }
+        ],
+        "description": "A GPT-4 preview model with vision capabilities.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1733596800
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-1106-vision-preview",
+        "release_time": 1733596800,
+        "category": "chat",
+        "price": [
+          {
+            "input": 10,
+            "output": 30
+          }
+        ],
+        "description": "A GPT-4 preview model with vision capabilities, version 1106.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1733596800
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-0613",
+        "release_time": 1686585600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 20,
+            "output": 60
+          }
+        ],
+        "description": "Snapshot of gpt-4 from June 13th 2023 with improved function calling support.",
+        "info": {
+          "max_context": 8192,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-4-0314",
+        "release_time": 1678838400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 20,
+            "output": 60
+          }
+        ],
+        "description": "Legacy snapshot of gpt-4 from March 14th 2023.",
+        "info": {
+          "max_context": 8192,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gpt-3.5-turbo-0613",
+        "release_time": 1678310400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 1.5,
+            "output": 2.0
+          }
+        ],
+        "description": "An earlier version of GPT-3.5 Turbo, now deprecated.",
+        "info": {
+          "max_context": 16385,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": 1726166400
+      },
+      {
+        "name": "gpt-3.5-turbo-16k-0613",
+        "release_time": 1678310400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 3.0,
+            "output": 4.0
+          }
+        ],
+        "description": "An earlier version of GPT-3.5 Turbo with a 16k context window, now deprecated.",
+        "info": {
+          "max_context": 16385,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1633046400
+        },
+        "shutdown_time": 1726166400
+      }
+    ]
+  },
+  {
+    "provider": "Anthropic",
+    "logo": "string",
+    "website": {
+      "home": "https://www.anthropic.com",
+      "docs": "https://www.anthropic.com/docs",
+      "price": "https://www.anthropic.com/price"
+    },
+    "models_list": [
+      {
+        "name": "claude-3-5-haiku",
+        "release_time": null,
+        "category": "chat",
+        "price": [],
+        "description": "Coming soon...",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-3-5-sonnet-20240620",
+        "release_time": 1718822400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 3,
+            "output": 15
+          }
+        ],
+        "description": "Our most intelligent model.",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-3-5-opus",
+        "release_time": null,
+        "category": "chat",
+        "price": [],
+        "description": "Coming soon...",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-3-haiku-20240307",
+        "release_time": 1709337600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.25,
+            "output": 1
+          }
+        ],
+        "description": "Fast and cost-effective.",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-3-sonnet-20240229",
+        "release_time": 1709337600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 3,
+            "output": 15
+          }
+        ],
+        "description": "Balance of speed and intelligence.",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-3-opus-20240229",
+        "release_time": 1709232000,
+        "category": "chat",
+        "price": [
+          {
+            "input": 15,
+            "output": 75
+          }
+        ],
+        "description": "Excels at writing and complex tasks.",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-2-1",
+        "release_time": 1689993600,
+        "category": "chat",
+        "price": [
+          {
+            "input": 8,
+            "output": 24
+          }
+        ],
+        "description": "High accuracy with 200K context window.",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-2-0",
+        "release_time": 1675814400,
+        "category": "chat",
+        "price": [
+          {
+            "input": 8,
+            "output": 24
+          }
+        ],
+        "description": "Previous version with 100K context window.",
+        "info": {
+          "max_context": 100000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "claude-instant",
+        "release_time": 1680480000,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.8,
+            "output": 2.4
+          }
+        ],
+        "description": "Instant responses with 100K context window.",
+        "info": {
+          "max_context": 100000,
+          "max_tokens": 4096,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "Google_Gemini",
+    "logo": "string",
+    "website": {
+      "home": "https://www.google.com",
+      "docs": "https://cloud.google.com/ai-platform/docs",
+      "price": "https://cloud.google.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "gemini-1-5-pro-latest",
+        "release_time": 1717132800,
+        "category": "multimodal",
+        "price": [
+          {
+            "input": 7.00,
+            "output": 21.00
+          }
+        ],
+        "description": "Gemini 1.5 Pro is a mid-size multimodal model optimized for a wide range of reasoning tasks such as code generation, text generation, text editing, problem solving, and more.",
+        "info": {
+          "max_context": 1048576,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1701475200
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gemini-1-5-flash-latest",
+        "release_time": 1717132800,
+        "category": "multimodal",
+        "price": [
+          {
+            "input": 0.70,
+            "output": 2.10
+          }
+        ],
+        "description": "Gemini 1.5 Flash is a fast and versatile multimodal model for scaling across diverse tasks.",
+        "info": {
+          "max_context": 1048576,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1701475200
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "gemini-1-0-pro-latest",
+        "release_time": 1704067200,
+        "category": "NLP",
+        "price": [
+          {
+            "input": 0.50,
+            "output": 1.50
+          }
+        ],
+        "description": "Gemini 1.0 Pro is an NLP model that handles tasks like multi-turn text and code chat, and code generation.",
+        "info": {
+          "max_context": null,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1701475200
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "Mistral.ai",
+    "logo": "string",
+    "website": {
+      "home": "https://mistral.ai",
+      "docs": "https://docs.mistral.ai",
+      "price": "https://mistral.ai/pricing"
+    },
+    "models_list": [
+      {
+        "name": "mistral-7b",
+        "release_time": 1689638400,
+        "category": "LLM",
+        "price": [],
+        "description": "Mistral 7B is an open-weight model designed for a variety of natural language processing tasks including text summarization, question answering, and code generation.",
+        "info": {
+          "max_context": 4096,
+          "max_tokens": 2048,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "7B": 7000000000
+          },
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "mixtral-8x7b",
+        "release_time": 1692921600,
+        "category": "LLM",
+        "price": [],
+        "description": "Mixtral 8x7B is a sparse Mixture-of-Experts (MoE) model that excels at text summarization, question answering, and text completion tasks.",
+        "info": {
+          "max_context": 4096,
+          "max_tokens": 2048,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "8x7B": 56000000000
+          },
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "mixtral-8x22b",
+        "release_time": 1692921600,
+        "category": "LLM",
+        "price": [],
+        "description": "Mixtral 8x22B is an advanced model designed for more complex tasks including data extraction, document summarization, and writing assistance.",
+        "info": {
+          "max_context": 4096,
+          "max_tokens": 2048,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "8x22B": 176000000000
+          },
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "codestral",
+        "release_time": 1717132800,
+        "category": "code generation",
+        "price": [],
+        "description": "Codestral is a code-focused model supporting over 80 programming languages, optimized for tasks like generating code snippets, completing functions, and writing tests.",
+        "info": {
+          "max_context": 32768,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "22B": 22000000000
+          },
+          "training_data": 1701475200
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "Moonshot AI",
+    "logo": "string",
+    "website": {
+      "home": "https://moonshot.cn",
+      "docs": "https://docs.moonshot.cn",
+      "price": "https://moonshot.cn/pricing"
+    },
+    "models_list": [
+      {
+        "name": "moonshot-v1-8k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 12.00,
+            "output": 12.00
+          }
+        ],
+        "description": "Moonshot v1 8K is designed for a variety of natural language processing tasks with a context window of up to 8,000 tokens.",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": 8000,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "10B": 10000000000
+          },
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "moonshot-v1-32k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 24.00,
+            "output": 24.00
+          }
+        ],
+        "description": "Moonshot v1 32K offers a larger context window for more complex language processing tasks, supporting up to 32,000 tokens.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": 32000,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "20B": 20000000000
+          },
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "moonshot-v1-128k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 60.00,
+            "output": 60.00
+          }
+        ],
+        "description": "Moonshot v1 128K is optimized for handling extensive text inputs with a context window of up to 128,000 tokens.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 128000,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "50B": 50000000000
+          },
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "ChatGLM",
+    "logo": "string",
+    "website": {
+      "home": "https://www.chatglm.com",
+      "docs": "https://docs.chatglm.com",
+      "price": "https://chatglm.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "GLM-4-0520",
+        "release_time": 1717286400,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.1,
+            "output": 0.05
+          }
+        ],
+        "description": "我们当前的最先进最智能的模型，指令遵从能力大幅提升18.6%，具有128k上下文，发布于20240605。",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "GLM-4V",
+        "release_time": null,
+        "category": "multimodal",
+        "price": [
+          {
+            "input": 0.05,
+            "output": 0.025
+          }
+        ],
+        "description": "支持视觉问答、图像字幕、视觉定位、复杂目标检测等各类图像理解任务，具有2k上下文。",
+        "info": {
+          "max_context": 2000,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "GLM-4-AirX",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.01,
+            "output": null
+          }
+        ],
+        "description": "GLM-4-Air 的高性能版本，效果不变，推理速度达到其2.6倍。具有8k上下文。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "GLM-4-Air",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.001,
+            "output": 0.0005
+          }
+        ],
+        "description": "性价比最高的版本，综合性能接近GLM-4，具有128k上下文，速度快，价格实惠。",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "GLM-4-Flash",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0001,
+            "output": 0.00005
+          }
+        ],
+        "description": "适用简单任务，速度最快，价格最实惠的版本，具有128k上下文。",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": 8192,
+          "temperature_range": [0.0, 1.0],
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": 1696118400
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "Baichuan AI",
+    "logo": "string",
+    "website": {
+      "home": "https://www.baichuan-ai.com",
+      "docs": "https://docs.baichuan-ai.com",
+      "price": "https://baichuan-ai.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "Baichuan4",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.1,
+            "output": 0.1
+          }
+        ],
+        "description": "Baichuan4 model with 32k context window, available 24/7.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Baichuan3-Turbo",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.012,
+            "output": 0.012
+          }
+        ],
+        "description": "Baichuan3-Turbo model with 32k context window, available 24/7.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Baichuan3-Turbo-128k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.024,
+            "output": 0.024
+          }
+        ],
+        "description": "Baichuan3-Turbo-128k model with 128k context window, available 24/7.",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Baichuan2-Turbo",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.008,
+            "output": 0.008
+          }
+        ],
+        "description": "Baichuan2-Turbo model with 32k context window, available 24/7.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Baichuan2-Turbo-192k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.016,
+            "output": 0.016
+          }
+        ],
+        "description": "Baichuan2-Turbo-192k model with 192k context window, available 24/7.",
+        "info": {
+          "max_context": 192000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Baichuan2-53B",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.01,
+            "output": 0.01
+          }
+        ],
+        "description": "Baichuan2-53B model with 32k context window, available 00:00 ~ 08:00.",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "DeepSeek",
+    "logo": "string",
+    "website": {
+      "home": "https://www.deepseek.com",
+      "docs": "https://docs.deepseek.com",
+      "price": "https://deepseek.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "deepseek-chat",
+        "release_time": null,
+        "category": "chat",
+        "price": [
+          {
+            "input": 0.14,
+            "output": 0.28
+          }
+        ],
+        "description": "擅长通用对话任务，32K 上下文。",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": 4000,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "236B": 236000000000
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "deepseek-coder",
+        "release_time": null,
+        "category": "coding",
+        "price": [
+          {
+            "input": 0.14,
+            "output": 0.28
+          }
+        ],
+        "description": "擅长处理编程和数学任务，32K 上下文。",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": 4000,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "236B": 236000000000
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "LingYi",
+    "logo": "string",
+    "website": {
+      "home": "https://www.lingyiwanwu.com",
+      "docs": "https://docs.lingyiwanwu.com",
+      "price": "https://lingyiwanwu.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "yi-large",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 2.80,
+            "output": 2.80
+          }
+        ],
+        "description": "最新版本的yi-large模型。千亿参数大尺寸模型，提供超强问答及文本生成能力，具备极强的推理能力。并且对 System Prompt 做了专属强化。",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "yi-medium",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.35,
+            "output": 0.35
+          }
+        ],
+        "description": "中型尺寸模型升级微调，能力均衡，性价比高。深度优化指令遵循能力。",
+        "info": {
+          "max_context": 16000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "yi-vision",
+        "release_time": null,
+        "category": "vision",
+        "price": [
+          {
+            "input": 0.84,
+            "output": 0.84
+          }
+        ],
+        "description": "复杂视觉任务模型，提供高性能图片理解、分析能力。",
+        "info": {
+          "max_context": 4000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "yi-medium-200k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 1.68,
+            "output": 1.68
+          }
+        ],
+        "description": "200K超长上下文窗口，提供长文本深度理解和生成能力。",
+        "info": {
+          "max_context": 200000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "yi-spark",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.14,
+            "output": 0.14
+          }
+        ],
+        "description": "小而精悍，轻量极速模型。提供强化数学运算和代码编写能力。",
+        "info": {
+          "max_context": 16000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "yi-large-rag",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 3.50,
+            "output": 3.50
+          }
+        ],
+        "description": "实时全网检索信息服务，模型进阶能力。基于yi-large模型，结合检索与生成技术提供精准答案。支持客户私有知识库（请联系客服申请）。",
+        "info": {
+          "max_context": 16000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "yi-large-turbo",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 1.68,
+            "output": 1.68
+          }
+        ],
+        "description": "超高性价比、卓越性能。根据性能和推理速度、成本，进行平衡性高精度调优。",
+        "info": {
+          "max_context": 16000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "yi-large-preview",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 2.80,
+            "output": 2.80
+          }
+        ],
+        "description": "初期版本，推荐使用yi-large（新版本）初期版本，适用于相对复杂业务场景。",
+        "info": {
+          "max_context": 16000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "MiniMax",
+    "logo": "string",
+    "website": {
+      "home": "https://www.minimaxi.com",
+      "docs": "https://docs.minimaxi.com",
+      "price": "https://minimaxi.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "abab6.5",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0042,
+            "output": 0.0042
+          }
+        ],
+        "description": "复杂场景，例如应用题计算、科学计算等场景。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": 1000,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "tokens_per_char": 0.625
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "abab6.5s",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0014,
+            "output": 0.0014
+          }
+        ],
+        "description": "通用场景。",
+        "info": {
+          "max_context": 245000,
+          "max_tokens": 1000,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "tokens_per_char": 0.625
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "abab6.5t",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0007,
+            "output": 0.0007
+          }
+        ],
+        "description": "中文人设对话场景。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": 1000,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "tokens_per_char": 0.8
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "abab6.5g",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0007,
+            "output": 0.0007
+          }
+        ],
+        "description": "英文等多语种人设对话场景。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": 1000,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "tokens_per_char": 0.8
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "abab5.5",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0021,
+            "output": 0.0021
+          }
+        ],
+        "description": "中文人设对话场景插件功能（plugins）：该功能目前支持调用我们集成的搜索引擎生成内容 ，提供网络引擎检索的内容，辅助大模型生成结果。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": 1000,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "tokens_per_char": 1.33
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "abab5.5s",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0007,
+            "output": 0.0007
+          }
+        ],
+        "description": "中文人设对话场景插件功能（plugins）：该功能目前支持调用我们集成的搜索引擎生成内容 ，提供网络引擎检索的内容，辅助大模型生成结果。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": 1000,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": {
+            "tokens_per_char": 0.8
+          },
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "ByteDance",
+    "logo": "string",
+    "website": {
+      "home": "https://www.volcengine.com",
+      "docs": "https://docs.volcengine.com",
+      "price": "https://volcengine.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "Doubao-lite-4k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.042,
+            "output": 0.084
+          }
+        ],
+        "description": "Doubao-lite拥有极致的响应速度，更好的性价比，为客户不同场景提供更灵活的选择。支持4k上下文窗口的推理和精调。",
+        "info": {
+          "max_context": 4000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Doubao-lite-32k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.042,
+            "output": 0.084
+          }
+        ],
+        "description": "Doubao-lite拥有极致的响应速度，更好的性价比，为客户不同场景提供更灵活的选择。支持32k上下文窗口的推理和精调。",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Doubao-lite-128k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.112,
+            "output": 0.14
+          }
+        ],
+        "description": "Doubao-lite 拥有极致的响应速度，更好的性价比，为客户不同场景提供更灵活的选择。支持128k上下文窗口的推理和精调。",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Doubao-pro-4k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.112,
+            "output": 0.28
+          }
+        ],
+        "description": "效果最好的主力模型，适合处理复杂任务，在参考问答、总结摘要、创作、文本分类、角色扮演等场景都有很好的效果。支持4k上下文窗口的推理和精调。",
+        "info": {
+          "max_context": 4000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Doubao-pro-32k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.112,
+            "output": 0.28
+          }
+        ],
+        "description": "效果最好的主力模型，适合处理复杂任务，在参考问答、总结摘要、创作、文本分类、角色扮演等场景都有很好的效果。支持32k上下文窗口的推理和精调。",
+        "info": {
+          "max_context": 32000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Doubao-pro-128k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.7,
+            "output": 1.26
+          }
+        ],
+        "description": "效果最好的主力模型，适合处理复杂任务，在参考问答、总结摘要、创作、文本分类、角色扮演等场景都有很好的效果。支持128k上下文窗口。",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "Baidu",
+    "logo": "string",
+    "website": {
+      "home": "https://cloud.baidu.com/",
+      "docs": "https://cloud.baidu.com/",
+      "price": "https://cloud.baidu.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "ERNIE 4.0 Turbo",
+        "release_time": "2024-06-28",
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0042,
+            "output": 0.0084
+          }
+        ],
+        "description": "ERNIE 4.0 Turbo是百度自研的旗舰级超大规模大语言模型，综合效果表现出色，广泛适用于各领域复杂任务场景；支持自动对接百度搜索插件，保障问答信息时效。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "ERNIE 4.0",
+        "release_time": "2024-06-13",
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.0168,
+            "output": 0.0168
+          }
+        ],
+        "description": "ERNIE 4.0是百度自研的旗舰级超大规模大语言模型，相较ERNIE 3.5实现了模型能力全面升级，广泛适用于各领域复杂任务场景；支持自动对接百度搜索插件，保障问答信息时效。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "ERNIE 3.5",
+        "release_time": "2024-06-13",
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.00168,
+            "output": 0.00168
+          }
+        ],
+        "description": "ERNIE 3.5是百度自研的旗舰级大规模大语言模型，覆盖海量中英文语料，具有强大的通用能力，可满足绝大部分对话问答、创作生成、插件应用场景要求。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "ERNIE-3.5-128k (Preview)",
+        "release_time": "2024-06-13",
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.00672,
+            "output": 0.01344
+          }
+        ],
+        "description": "ERNIE-3.5-128k 预览版，支持128k上下文窗口。",
+        "info": {
+          "max_context": 128000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "ERNIE Character",
+        "release_time": "2024-06-24",
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.00056,
+            "output": 0.00112
+          }
+        ],
+        "description": "ERNIE Character 适合游戏NPC、客服对话、对话角色扮演等应用场景，人设风格更为鲜明、一致，指令遵循能力更强，推理性能更优。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": false,
+          "tool_choice_support": false,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "ERNIE Function",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.00056,
+            "output": 0.00112
+          }
+        ],
+        "description": "ERNIE Function系列，支持丰富的函数调用功能。",
+        "info": {
+          "max_context": 8000,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "Alibaba",
+    "logo": "string",
+    "website": {
+      "home": "https://www.aliyun.com",
+      "docs": "https://docs.aliyun.com",
+      "price": "https://aliyun.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "qwen2-72b-instruct",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 5.00,
+            "output": 10.00
+          }
+        ],
+        "description": "Qwen2系列模型，包括各种规模，从0.5B到72B，适用于复杂任务场景。",
+        "info": {
+          "max_context": "128000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "72B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen2-57b-a14b-instruct",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 3.50,
+            "output": 7.00
+          }
+        ],
+        "description": "Qwen2系列模型，适用于各种规模的复杂任务。",
+        "info": {
+          "max_context": "65536",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "57B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen2-7b-instruct",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 1.00,
+            "output": 2.00
+          }
+        ],
+        "description": "Qwen2系列模型，适用于多语言能力和复杂任务。",
+        "info": {
+          "max_context": "32768",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "7B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen1.5-110b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 7.00,
+            "output": 14.00
+          }
+        ],
+        "description": "Qwen1.5系列模型，显著提升了聊天模型与人类偏好的一致性。",
+        "info": {
+          "max_context": "32000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "110B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen1.5-72b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 5.00,
+            "output": 10.00
+          }
+        ],
+        "description": "Qwen1.5系列模型，提升了多语言能力和外部系统链接能力。",
+        "info": {
+          "max_context": "32000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "72B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen1.5-32b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 3.50,
+            "output": 7.00
+          }
+        ],
+        "description": "Qwen1.5系列模型，提升了聊天能力和多语言支持。",
+        "info": {
+          "max_context": "32000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "32B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen1.5-14b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 2.00,
+            "output": 4.00
+          }
+        ],
+        "description": "Qwen1.5系列模型，适用于通用对话和多语言支持。",
+        "info": {
+          "max_context": "8000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "14B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen1.5-7b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 1.00,
+            "output": 2.00
+          }
+        ],
+        "description": "Qwen1.5系列模型，适用于多语言对话和生成任务。",
+        "info": {
+          "max_context": "8000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "7B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen-72b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 20.00,
+            "output": 20.00
+          }
+        ],
+        "description": "Qwen系列模型，具有强大的语言理解和生成能力。",
+        "info": {
+          "max_context": "32000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "72B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen-14b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 8.00,
+            "output": 8.00
+          }
+        ],
+        "description": "Qwen系列模型，适用于通用对话和语言生成任务。",
+        "info": {
+          "max_context": "8000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "14B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "qwen-7b-chat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 6.00,
+            "output": 6.00
+          }
+        ],
+        "description": "Qwen系列模型，提供高效的语言理解和生成能力。",
+        "info": {
+          "max_context": "8000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": false,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "14B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "Tencent",
+    "logo": "string",
+    "website": {
+      "home": "https://cloud.tencent.com",
+      "docs": "https://cloud.tencent.com/document/product/1415",
+      "price": "https://cloud.tencent.com/document/product/1415/63395"
+    },
+    "models_list": [
+      {
+        "name": "hunyuan-pro",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 3.00,
+            "output": 10.00
+          }
+        ],
+        "description": "当前混元模型中效果最优版本，万亿级参数规模MOE-32K长文模型。在各种 benchmark 上达到绝对领先的水平，复杂指令和推理，具备复杂数学能力，支持 functioncall，在多语言翻译、金融法律医疗等领域应用重点优化。",
+        "info": {
+          "max_context": "28000",
+          "max_tokens": "4000",
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "1T",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "hunyuan-standard",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.45,
+            "output": 0.50
+          }
+        ],
+        "description": "采用更优的路由策略，同时缓解了负载均衡和专家趋同的问题。长文方面，大海捞针指标达到99.9%。MOE-32K性价比相对更高，在平衡效果、价格的同时，可对实现对长文本输入的处理。",
+        "info": {
+          "max_context": "30000",
+          "max_tokens": "2000",
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "32B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "hunyuan-standard-256K",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 1.50,
+            "output": 6.00
+          }
+        ],
+        "description": "MOE-256K在长度和效果上进一步突破，极大的扩展了可输入长度。",
+        "info": {
+          "max_context": "250000",
+          "max_tokens": "6000",
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": false,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": "256B",
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "iFLYTEK",
+    "logo": "string",
+    "website": {
+      "home": "https://spark.example.com",
+      "docs": "https://docs.spark.example.com",
+      "price": "https://spark.example.com/pricing"
+    },
+    "models_list": [
+      {
+        "name": "Spark4.0 Ultra",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 14.59,
+            "output": 14.59
+          }
+        ],
+        "description": "最强大的星火大模型版本，效果极佳。全方位提升效果，引领智能巅峰。优化联网搜索链路，提供精准回答。强化文本总结能力，提升办公生产力。",
+        "info": {
+          "max_context": null,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Spark Max",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 4.38,
+            "output": 4.38
+          }
+        ],
+        "description": "最全面的星火大模型版本，功能丰富。支持联网搜索、天气、日期等多个内置插件。核心能力全面升级，各场景应用效果普遍提升。支持System角色人设与FunctionCall函数调用。",
+        "info": {
+          "max_context": null,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "Spark Pro",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 4.38,
+            "output": 4.38
+          }
+        ],
+        "description": "专业级大语言模型，兼顾模型效果与性能。数学、代码、医疗、教育等场景专项优化。支持联网搜索、天气、日期等多个内置插件。覆盖大部分知识问答、语言理解、文本创作等多个场景。",
+        "info": {
+          "max_context": null,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "QiHu360",
+    "logo": "string",
+    "website": {
+      "home": "https://ai.360.cn",
+      "docs": "https://ai.360.cn/docs",
+      "price": "https://ai.360.cn/pricing"
+    },
+    "models_list": [
+      {
+        "name": "360gpt-turbo-responsibility-8k",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 1.74,
+            "output": 1.74
+          }
+        ],
+        "description": "360gpt-turbo-responsibility-8k，支持8K上下文长度，适用于高负责任场景。",
+        "info": {
+          "max_context": "8000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": null,
+          "tool_choice_support": null,
+          "network_search_support": null,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "360gpt-pro",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.73,
+            "output": 0.73
+          }
+        ],
+        "description": "360gpt-pro，专业级大模型，适用于广泛的任务场景。",
+        "info": {
+          "max_context": null,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": null,
+          "tool_choice_support": null,
+          "network_search_support": null,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "360gpt-turbo",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.29,
+            "output": 0.29
+          }
+        ],
+        "description": "360gpt-turbo，性价比高的模型，适用于常见任务。",
+        "info": {
+          "max_context": null,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": null,
+          "tool_choice_support": null,
+          "network_search_support": null,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  },
+  {
+    "provider": "SenseCore",
+    "logo": "string",
+    "website": {
+      "home": "https://sensenova.cn",
+      "docs": "https://sensenova.cn/docs",
+      "price": "https://sensenova.cn/pricing"
+    },
+    "models_list": [
+      {
+        "name": "SenseChat-5",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 5.80,
+            "output": 14.50
+          }
+        ],
+        "description": "最新版本模型 (V5)，128K上下文长度，语言、知识、推理、数学、代码等领域能力显著提升，达到或超越GPT-4 Turbo。",
+        "info": {
+          "max_context": "128000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "SenseChat",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 1.74,
+            "output": 1.74
+          }
+        ],
+        "description": "基础版本模型 (V4)，4K上下文长度，通用能力强大。",
+        "info": {
+          "max_context": "4000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "SenseChat-32K",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 5.22,
+            "output": 5.22
+          }
+        ],
+        "description": "基础版本模型 (V4)，32K上下文长度，灵活应用于各类场景。",
+        "info": {
+          "max_context": "32000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "SenseChat-128K",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 8.70,
+            "output": 8.70
+          }
+        ],
+        "description": "基础版本模型 (V4)，128K上下文长度，在长文本理解及生成等任务中表现出色。",
+        "info": {
+          "max_context": "128000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "SenseChat-Turbo",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 0.29,
+            "output": 0.73
+          }
+        ],
+        "description": "适用于快速问答、模型微调场景。",
+        "info": {
+          "max_context": null,
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": false,
+            "output": false
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      },
+      {
+        "name": "SenseChat-Vision",
+        "release_time": null,
+        "category": "LLM",
+        "price": [
+          {
+            "input": 14.50,
+            "output": 14.50
+          }
+        ],
+        "description": "最新版本模型 (V5)，4K上下文长度，图文感知能力达到全球领先水平，在多个知名多模态榜单均取得领先成绩。",
+        "info": {
+          "max_context": "4000",
+          "max_tokens": null,
+          "temperature_range": null,
+          "function_call_support": true,
+          "tool_choice_support": true,
+          "network_search_support": true,
+          "image_ability": {
+            "input": true,
+            "output": true
+          },
+          "parameter": null,
+          "training_data": null
+        },
+        "shutdown_time": null
+      }
+    ]
+  }
+
+]

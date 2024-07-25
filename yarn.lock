@@ -17,7 +17,7 @@
   dependencies:
     "@ctrl/tinycolor" "^3.6.1"
 
-"@ant-design/cssinjs@^1.11.1", "@ant-design/cssinjs@^1.19.1", "@ant-design/cssinjs@^1.20.0":
+"@ant-design/cssinjs@^1.11.1", "@ant-design/cssinjs@^1.19.1":
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/@ant-design/cssinjs/-/cssinjs-1.20.0.tgz#878bc6c5b08f73db76da54c347a7ebb3fa4858bb"
   integrity sha512-uG3iWzJxgNkADdZmc6W0Ci3iQAUOvLMcM8SnnmWq3r6JeocACft4ChnY/YWvI2Y+rG/68QBla/O+udke1yH3vg==

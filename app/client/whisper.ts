@@ -47,7 +47,7 @@ export class OpenAIWhisperAPI {
             signal && signal.addEventListener("abort", () => controller.abort());
 
             const res = await fetch(this.path(), {
-                // 由于 Whisper 需要使用 form-data 上传文件，所以不使用通用的 getRequestOptions 方法
+                // 由于 ASR 需要使用 form-data 上传文件，所以不使用通用的 getRequestOptions 方法
                 ...this.getRequestOptions(request),
                 signal: abortSignal,
             });

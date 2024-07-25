@@ -7,12 +7,13 @@ export enum Path {
     Chat = "/chat",
     Embeddings = "/embeddings",
     Dalle = "/dalle",
+    TTS = "/tts",
     ASR = "/asr",
-    Whisper = "/whisper",
     Settings = "/settings",
     Midjourney = "/midjourney",
     Suno = "/suno",
     Pika = "/pika",
+    Luma= "/luma",
     GPTs = "/gpts",
     Doc2X = "/doc2x",
     Pricing = "/pricing",
@@ -39,6 +40,12 @@ export enum SunoEndpoint {
 export enum PikaEndpoint {
     PIKA_CREATE = "v1/video/create",
     PIKA_QUERY = "v1/video/query?site=pika&model={{model}}&id={{id}}",
+}
+
+export enum LumaEndpoint {
+    LUMA_CREATE = "v1/luma/generations",
+    LUMA_QUERY = "v1/luma/task",
+
 }
 
 // MidjourneyProxy 请求端点

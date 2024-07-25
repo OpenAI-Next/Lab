@@ -51,10 +51,10 @@ const Welcome = () => {
                             <Link to={Path.Dalle}>DALL·E</Link>
                         </li>
                         <li>
-                            <Link to={Path.ASR}>ASR</Link>
+                            <Link to={Path.TTS}>ASR</Link>
                         </li>
                         <li>
-                            <Link to={Path.Whisper}>Whisper</Link>
+                            <Link to={Path.ASR}>Whisper</Link>
                         </li>
                         <li>
                             <Link to={Path.Midjourney}>Midjourney</Link>
@@ -64,6 +64,9 @@ const Welcome = () => {
                         </li>
                         <li>
                             <Link to={Path.Pika}>Pika</Link>
+                        </li>
+                        <li>
+                            <Link to={Path.Luma}>Luma</Link>
                         </li>
                         <li>
                             <Link to={Path.Doc2X}>Doc2X</Link>

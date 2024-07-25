@@ -10,6 +10,7 @@ import LoadingIcon from "@/app/icons/three-dots.svg";
 import MidjourneyIcon from "@/app/icons/midjourney.svg";
 import DalleIcon from "@/app/icons/dalle.svg";
 import PikaIcon from "@/app/icons/pika.svg";
+import LumaIcon from "@/app/icons/luma.svg";
 import {HashRouter as Router, Route, Routes, useLocation, useNavigate,} from "react-router-dom";
 import {Theme, useAppConfig} from "@/app/store";
 import {ProConfigProvider, ProLayout, type ProTokenType,} from '@ant-design/pro-components';
@@ -97,6 +98,10 @@ const DallePage = dynamic(async () => (await import("./pages/Dalle")).default, {
 
 const PikaPage = dynamic(async () => (await import("./pages/Pika")).default, {
     loading: () => <Loading logo={<PikaIcon/>}/>,
+});
+
+const LumaPage = dynamic(async () => (await import("./pages/Luma")).default, {
+    loading: () => <Loading logo={<LumaIcon/>}/>,
 });
 
 const GPTsPage = dynamic(async () => (await import("./pages/GPTs")).default, {
@@ -195,12 +200,12 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                         icon: <PictureFilled/>,
                     },
                     {
-                        path: Path.ASR,
+                        path: Path.TTS,
                         name: "ASR",
                         icon: <SoundFilled/>
                     },
                     {
-                        path: Path.Whisper,
+                        path: Path.ASR,
                         name: "Whisper",
                         icon: <AudioFilled/>
                     },
@@ -218,6 +223,11 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                         path: Path.Pika,
                         name: "Pika",
                         icon: <VideoCameraFilled/>,
+                    },
+                    {
+                        path: Path.Luma,
+                        name: "Luma",
+                        icon: <LumaIcon/>,
                     },
                     {
                         path: Path.GPTs,
@@ -254,11 +264,12 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     <Route path={Path.Chat} element={<ChatCompletionsPage/>}/>
                     <Route path={Path.Embeddings} element={<EmbeddingsPage/>}/>
                     <Route path={Path.Dalle} element={<DallePage/>}/>
-                    <Route path={Path.ASR} element={<TTSPage/>}/>
-                    <Route path={Path.Whisper} element={<WhisperPage/>}/>
+                    <Route path={Path.TTS} element={<TTSPage/>}/>
+                    <Route path={Path.ASR} element={<WhisperPage/>}/>
                     <Route path={Path.Midjourney} element={<MidjourneyPage/>}/>
                     <Route path={Path.Suno} element={<SunoPage/>}/>
                     <Route path={Path.Pika} element={<PikaPage/>}/>
+                    <Route path={Path.Luma} element={<LumaPage/>}/>
                     <Route path={Path.Doc2X} element={<Doc2XPage/>}/>
                     <Route path={Path.GPTs} element={<GPTsPage/>}/>
                     <Route path={Path.Pricing} element={<PricingPage/>}/>

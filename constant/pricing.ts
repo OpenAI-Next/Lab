@@ -1,3 +1,88 @@
+type ModelCategory = "Chat" | "Draw" | "TTS" | "ASR" | "Emb" | "Mod";
+
+type Provider =
+    "OpenAI"
+    | "Azure"
+    | "Anthropic"
+    | "Google_Gemini"
+    | "Google_PaLM"
+    | "Google_Gemma"
+    | "Meta_LLaMA2"
+    | "Meta_LLaMA3"
+    | "Meta_Code_LLaMA"
+    | "Sonar"
+    | "LLaVA"
+    | "Mistral"
+    | "Databricks"
+    | "Moonshot"
+    | "ChatGLM"
+    | "Baichuan"
+    | "DeepSeek"
+    | "LingYi"
+    | "MiniMax"
+    | "ByteDance"
+    | "Baidu"
+    | "Alibaba"
+    | "Tencent"
+    | "iFLYTEK"
+    | "QiHu360"
+    | "SenseCore"
+    | "GPTs"
+    | "Midjourney"
+    | "Stable_Diffusion2"
+    | "Stable_Diffusion3"
+    | "Luma"
+    | "Runway"
+    | "Pika"
+    | "Suno"
+    | "Udio";
+
+interface NewPricing {
+    update_time: number;// 更新时间，时间戳
+    by_volume?: {// 按量计费，不填则不支持
+        prompt: number | null;
+        complete: number | null;
+        unit?: string;// 单位，默认为 1M tokens
+    }
+    by_time?: {// 按次计费，不填则不支持
+        price: number | { columns: any[]; dataSource: any[]; };
+        unit?: string;// 单位，默认为1次
+    }
+    comment?: string;// 备注
+}
+
+interface NewModelListType {
+    provider: Provider;                             // 模型厂商
+    logo: string;                                   // 模型图标，base64/URL
+    website: {
+        home: string;                               // 官网首页
+        docs: string;                               // 开发文档
+        price: string;                              // 价格文档
+    };
+    models_list: {
+        name: string;                               // 模型名称
+        release_time: number;                       // 发布时间，时间戳
+        category: ModelCategory;                    // 模型类别
+        price: NewPricing[];                        // 价格
+        description: string;                        // 模型描述
+        info: {                                     // 模型信息
+            max_context: number;                    // 最大上下文长度，单位tokens
+            max_tokens: number;                     // 最大生成长度，单位tokens
+            temperature_range: [number, number];    // 温度范围，[最小值，最大值]
+            function_call_support: boolean;         // 是否支持函数调用
+            tool_choice_support: boolean;           // 是否支持工具选择
+            network_search_support: boolean;        // 是否支持网络搜索
+            image_ability: {
+                input: boolean;                     // 是否支持输入图片
+                output: boolean;                    // 是否支持输出图片
+            }
+            parameter: number;                      // 模型参数，单位B
+            training_data: number;                  // 训练数据截止时间，时间戳
+        }
+        shutdown_time?: number;                     // 下架时间，时间戳，填写即视为模型已下架
+    }[];
+}
+
 export const US2CNY = 8;
 
 export interface ProviderModelListType {

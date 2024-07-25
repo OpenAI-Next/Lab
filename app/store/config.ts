@@ -45,6 +45,7 @@ export const api2Provider = {
     Midjourney: Provider.DrawAPI,
     Suno: Provider.ProxyAPI,
     Pika: Provider.ProxyAPI,
+    Luma: Provider.ProxyAPI,
     Doc2X: Provider.ProxyAPI,
     GPTs: Provider.ProxyAPI,
 } as const;
@@ -58,6 +59,7 @@ export const api2ProviderBaseUrl = {
     Midjourney: ProviderBaseUrlMap[api2Provider.Midjourney],
     Suno: ProviderBaseUrlMap[api2Provider.Suno],
     Pika: ProviderBaseUrlMap[api2Provider.Pika],
+    Luma: ProviderBaseUrlMap[api2Provider.Luma],
     Doc2X: ProviderBaseUrlMap[api2Provider.Doc2X],
     Gpts: ProviderBaseUrlMap[api2Provider.GPTs],
 } as const;

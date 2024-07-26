@@ -201,12 +201,12 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     },
                     {
                         path: Path.TTS,
-                        name: "ASR",
+                        name: "TTS",
                         icon: <SoundFilled/>
                     },
                     {
                         path: Path.ASR,
-                        name: "Whisper",
+                        name: "ASR",
                         icon: <AudioFilled/>
                     },
                     {

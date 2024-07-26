@@ -278,7 +278,7 @@ export class ChatCompletionAPI {
                     this.path(),
                     {
                         method: "POST",
-                        headers: getHeadersWithApiKey(this.apiKey),
+                        headers: getHeadersWithApiKey(this.apiKey) as any,
                         body: JSON.stringify(options),
                         signal: abortSignal,
                         onmessage: (msg) => {

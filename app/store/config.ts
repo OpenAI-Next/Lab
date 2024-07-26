@@ -29,8 +29,10 @@ export const PROVIDER_NAME = {
 } as const;
 
 export const ProviderBaseUrlMap = {
-    [Provider.NextAPI]: "https://api.openai-next.com",
-    [Provider.ProxyAPI]: "https://mj.openai-next.com",
+    // [Provider.NextAPI]: "https://api.openai-next.com",
+    // [Provider.ProxyAPI]: "https://mj.openai-next.com",
+    [Provider.NextAPI]: "/nextapi",
+    [Provider.ProxyAPI]: "/proxyapi",
 } as const;
 
 export const api2Provider = {

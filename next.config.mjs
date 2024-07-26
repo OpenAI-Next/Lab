@@ -56,4 +56,17 @@ nextConfig.headers = async () => {
     ];
 };
 
+nextConfig.rewrites = async () => {
+    return [
+        {
+            source: "/nextapi/:path*",
+            destination: "https://api.openai-next.com/:path*",
+        },
+        {
+            source: "/proxyapi/:path*",
+            destination: "https://mj.openai-next.com/:path*",
+        }
+    ];
+};
+
 export default nextConfig;

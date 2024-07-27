@@ -1,3 +1,5 @@
+import StableDiffusionPage from "@/app/pages/StableDiffusion";
+
 export const SITE_TITLE = "OpenAI Next Lab";
 export const SITE_DESCRIPTION = "Online Test Platform";
 export const REQUEST_TIMEOUT_MS = 60 * 1000;
@@ -16,6 +18,7 @@ export enum Path {
     Luma = "/luma",
     GPTs = "/gpts",
     Doc2X = "/doc2x",
+    StableDiffusion = "/stable-diffusion",
     Pricing = "/pricing",
     Tools = "/tools",
 }

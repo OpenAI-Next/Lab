@@ -1,6 +1,8 @@
 import {REQUEST_TIMEOUT_MS, StableDiffusionEndpoint} from "@/constant";
 import {api2ProviderBaseUrl} from "@/app/store";
 import {getRequestOptions} from "@/app/client/helper";
+// https://platform.stability.ai/docs/api-reference
+// https://apifox.com/apidoc/shared-ff6085ac-315b-4497-bd70-5e954f30f503
 
 export interface StableDiffusionImageUltraRequest {
     /**
@@ -90,7 +92,7 @@ export class StableDiffusionAPI {
         return [api2ProviderBaseUrl.StableDiffusion, endpoint].join("/");
     }
 
-    async submit(request: any, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
+    async submit(request: StableDiffusionImageUltraRequest | StableDiffusionImageCoreRequest | StableDiffusion3Request, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
         const abortSignal = signal || controller.signal;

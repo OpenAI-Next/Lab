@@ -8,6 +8,7 @@ import SystemLogo from "@/app/icons/logo/logo.svg";
 import SunoIcon from "@/app/icons/suno.svg";
 import LoadingIcon from "@/app/icons/three-dots.svg";
 import MidjourneyIcon from "@/app/icons/midjourney.svg";
+import StableDiffusionIcon from "@/app/icons/stable-diffusion.svg";
 import DalleIcon from "@/app/icons/dalle.svg";
 import PikaIcon from "@/app/icons/pika.svg";
 import LumaIcon from "@/app/icons/luma.svg";
@@ -66,6 +67,10 @@ const Settings = dynamic(async () => (await import("./pages/Settings")).Settings
 
 const MidjourneyPage = dynamic(async () => (await import("./pages/Midjourney")).MidjourneyPage, {
     loading: () => <Loading logo={<MidjourneyIcon/>}/>,
+});
+
+const StableDiffusionPage = dynamic(async () => (await import("./pages/StableDiffusion")).StableDiffusionPage, {
+    loading: () => <Loading logo={<StableDiffusionIcon/>}/>,
 });
 
 const SunoPage = dynamic(async () => (await import("./pages/Suno")).SunoPage, {
@@ -215,6 +220,11 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                         icon: <Icon component={MidjourneyIcon}/>,
                     },
                     {
+                        path: Path.StableDiffusion,
+                        name: "Stable Diffusion",
+                        icon: <Icon component={StableDiffusionIcon}/>,
+                    },
+                    {
                         path: Path.Suno,
                         name: "Suno",
                         icon: <Icon component={SunoIcon}/>,
@@ -222,7 +232,8 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     {
                         path: Path.Pika,
                         name: "Pika",
-                        icon: <VideoCameraFilled/>,
+                        // icon: <VideoCameraFilled/>,
+                        icon: <Icon component={PikaIcon}/>,
                     },
                     {
                         path: Path.Luma,
@@ -267,6 +278,7 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     <Route path={Path.TTS} element={<TTSPage/>}/>
                     <Route path={Path.ASR} element={<WhisperPage/>}/>
                     <Route path={Path.Midjourney} element={<MidjourneyPage/>}/>
+                    <Route path={Path.StableDiffusion} element={<StableDiffusionPage/>}/>
                     <Route path={Path.Suno} element={<SunoPage/>}/>
                     <Route path={Path.Pika} element={<PikaPage/>}/>
                     <Route path={Path.Luma} element={<LumaPage/>}/>

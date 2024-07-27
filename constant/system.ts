@@ -13,7 +13,7 @@ export enum Path {
     Midjourney = "/midjourney",
     Suno = "/suno",
     Pika = "/pika",
-    Luma= "/luma",
+    Luma = "/luma",
     GPTs = "/gpts",
     Doc2X = "/doc2x",
     Pricing = "/pricing",
@@ -79,6 +79,13 @@ export enum GptsSearchEndpoint {
 
 export enum UrlAnalysisEndpoint {
     SUMMARY = "v1/urlanalysis/summary",                 // 链接总结
-    CHAT= "v1/urlanalysis/chat",                        // 链接聊天
-    SUBTITLE= "v1/urlanalysis/subtitle",                // 字幕导出
+    CHAT = "v1/urlanalysis/chat",                        // 链接聊天
+    SUBTITLE = "v1/urlanalysis/subtitle",                // 字幕导出
+}
+
+export enum StableDiffusionEndpoint {
+    ImageUltra = "sd/v2beta/stable-image/generate/ultra",
+    ImageCore = "sd/v2beta/stable-image/generate/core",
+    StableDiffusion3 = "sd/v2beta/stable-image/generate/sd3",
+    TextToImage = "sd/v1/generation/{{engine_id}}/text-to-image",
 }

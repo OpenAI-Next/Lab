@@ -47,6 +47,7 @@ export const api2Provider = {
     Luma: Provider.ProxyAPI,
     Doc2X: Provider.ProxyAPI,
     GPTs: Provider.ProxyAPI,
+    StableDiffusion: Provider.ProxyAPI,
 } as const;
 
 export const api2ProviderBaseUrl = {
@@ -61,6 +62,7 @@ export const api2ProviderBaseUrl = {
     Luma: ProviderBaseUrlMap[api2Provider.Luma],
     Doc2X: ProviderBaseUrlMap[api2Provider.Doc2X],
     Gpts: ProviderBaseUrlMap[api2Provider.GPTs],
+    StableDiffusion: ProviderBaseUrlMap[api2Provider.StableDiffusion],
 } as const;
 
 export const UPLOAD_INFO = {

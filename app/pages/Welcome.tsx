@@ -30,10 +30,7 @@ const Welcome = () => {
                             <Link to={"https://api.openai-next.com"} target="_blank">NextAPI</Link>
                         </li>
                         <li>
-                            <Link to={"https://proxy.openai-next.com"} target="_blank">ProxyAPI</Link>
-                        </li>
-                        <li>
-                            <Link to={"https://mj.openai-next.com"} target="_blank">DrawAPI</Link>
+                            <Link to={"https://mj.openai-next.com"} target="_blank">ProxyAPI</Link>
                         </li>
                     </ul>
                 </Paragraph>
@@ -58,6 +55,9 @@ const Welcome = () => {
                         </li>
                         <li>
                             <Link to={Path.Midjourney}>Midjourney</Link>
+                        </li>
+                        <li>
+                            <Link to={Path.StableDiffusion}>Stable Diffusion</Link>
                         </li>
                         <li>
                             <Link to={Path.Suno}>Suno</Link>

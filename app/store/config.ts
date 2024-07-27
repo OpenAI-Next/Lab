@@ -35,6 +35,11 @@ export const ProviderBaseUrlMap = {
     [Provider.ProxyAPI]: "/proxyapi",
 } as const;
 
+export const ProviderRealBaseUrlMap = {
+    [Provider.NextAPI]: "https://api.openai-next.com",
+    [Provider.ProxyAPI]: "https://mj.openai-next.com",
+} as const;
+
 export const api2Provider = {
     Chat: Provider.NextAPI,
     Embeddings: Provider.NextAPI,

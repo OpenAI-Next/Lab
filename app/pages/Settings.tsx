@@ -1,8 +1,8 @@
 import React, {lazy, useState} from "react";
-import {Provider, PROVIDER_NAME, ProviderBaseUrlMap, useAppConfig,} from "../store";
+import {Provider, PROVIDER_NAME, ProviderRealBaseUrlMap, useAppConfig,} from "../store";
 
 import {SCROLL_STYLE, SITE_TITLE} from "@/constant";
-import {Button, Col, Row, Space} from "antd";
+import {Button, Col, message, Row, Space} from "antd";
 import {ProCard, ProCardProps, ProForm, ProFormList, ProFormSelect, ProFormText} from '@ant-design/pro-components';
 import {DeleteOutlined, DownloadOutlined, UploadOutlined} from "@ant-design/icons";
 import {ShellApiToken} from "@/app/client/shell-api";
@@ -20,6 +20,7 @@ export function Settings() {
     const updateConfig = config.update;
 
     const [showShellApiApiKeyModal, setShowShellApiApiKeyModal] = useState(false);
+    const [shellApiBaseUrl, setShellApiBaseUrl] = useState('')
 
     const onExport = () => {
         const data = JSON.stringify(localStorage, null, 2);
@@ -144,10 +145,16 @@ export function Settings() {
                                                             config.apiKeys[index].apiKey = e.target.value
                                                         }),
                                                     }}
-                                                    extra={(config?.apiKeys[index]?.provider === Provider.NextAPI && !config?.apiKeys[index]?.apiKey) ?
-                                                        <a style={{marginLeft:2}} onClick={() => setShowShellApiApiKeyModal(true)}>
-                                                            Load from NextAPI
-                                                        </a> : null}
+                                                    extra={(!config?.apiKeys[index]?.apiKey) &&
+                                                        <a
+                                                            style={{marginLeft: 2}}
+                                                            onClick={() => {
+                                                                setShellApiBaseUrl(ProviderRealBaseUrlMap[config?.apiKeys[index]?.provider])
+                                                                setShowShellApiApiKeyModal(true)
+                                                            }}
+                                                        >
+                                                            Load from {PROVIDER_NAME[config?.apiKeys[index]?.provider]}
+                                                        </a>}
                                                 />
                                             </>
                                         )
@@ -190,13 +197,7 @@ export function Settings() {
             <ShellApiApiKey
                 open={showShellApiApiKeyModal}
                 onClose={() => setShowShellApiApiKeyModal(false)}
-                baseUrl={ProviderBaseUrlMap[Provider.NextAPI]}
-                onSelect={(token: ShellApiToken) => {
-                    updateConfig((config) => {
-                        config.apiKeys.find((k) => k.provider === Provider.NextAPI)!.apiKey = token.key;
-                    });
-                    setShowShellApiApiKeyModal(false);
-                }}
+                baseUrl={shellApiBaseUrl}
             />
         </>
     );

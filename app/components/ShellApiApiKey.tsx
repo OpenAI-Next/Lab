@@ -1,6 +1,6 @@
 // app/components/ShellApiApiKey.tsx
 
-import {Button, Modal, Result, StepProps, Steps, Table} from "antd";
+import {App, Button, Modal, Result, StepProps, Steps, Table} from "antd";
 import {ShellApi, ShellApiLoginRequest, ShellApiToken} from "@/app/client/shell-api";
 import React, {useState} from "react";
 import {SmileOutlined, SolutionOutlined, UserOutlined} from "@ant-design/icons";
@@ -10,11 +10,9 @@ const ShellApiApiKey = (props: {
     open: boolean;
     onClose: () => void;
     baseUrl: string;
-    onSelect: (token: ShellApiToken) => void;
 }) => {
-
+    const {message} = App.useApp()
     const api = new ShellApi(props.baseUrl);
-
     const [step, setStep] = useState(0);
 
     const [status, setStatus] = useState<("error" | "wait" | "process" | "finish" | undefined)[]>(['process', 'wait', 'wait']);
@@ -38,6 +36,12 @@ const ShellApiApiKey = (props: {
             closeIcon={false}
             width={580}
             centered={true}
+            destroyOnClose={true}
+            afterClose={() => {
+                setStep(0);
+                setStatus(["process", "wait", "wait"]);
+                setError(undefined);
+            }}
         >
             <Steps items={steps} style={{marginBottom: 32}}/>
             {step === 0 &&
@@ -139,9 +143,13 @@ const ShellApiApiKey = (props: {
                                     <Button
                                         block
                                         type="link"
-                                        onClick={() => props.onSelect(record)}
+                                        onClick={async () => {
+                                            await window.navigator.clipboard.writeText("sk-" + record.key);
+                                            message.success("API Key copied to clipboard");
+                                            props.onClose();
+                                        }}
                                     >
-                                        Select
+                                        Copy
                                     </Button>
                                 )
                             }

@@ -32,6 +32,7 @@ export interface StableDiffusionResponse {
 
 interface StableDiffusionData extends StableDiffusionResponse {
     prompt: any;
+    output_format: "jpeg" | "png" | "webp";
 }
 
 const StableDiffusionForm = (props: {
@@ -50,7 +51,6 @@ const StableDiffusionForm = (props: {
     const [abortController, setAbortController] = useState<AbortController | null>(null);
 
     const selectedMode = (ProForm.useWatch("mode", props.form) || "text-to-image") as "image-to-image" | "text-to-image";
-
     const selectedModel = ProForm.useWatch("model", props.form) as "sd3-medium" | "sd3-large" | "sd3-large-turbo";
 
     return (
@@ -78,7 +78,11 @@ const StableDiffusionForm = (props: {
                         const res = await props.api.submit(sdType, values, controller.signal);
                         if (res.ok) {
                             const resJson = await res.json() as StableDiffusionResponse;
-                            props.updateResponse({prompt: values.prompt, ...resJson});
+                            props.updateResponse({
+                                ...resJson,
+                                prompt: values.prompt,
+                                output_format: values.output_format ?? "png",
+                            });
                         } else {
                             await handelResponseError(res, props.updateError);
                         }
@@ -249,12 +253,29 @@ const StableDiffusionDataRenderer = (props: {
                             copyable: true,
                         },
                         {
+                            title: "Image File",
+                            key: "image_download",
+                            render: (_dom, record) => {
+                                return <a
+                                    onClick={() => {
+                                        const url = "data:image/" + record.output_format + ";base64," + record.image;
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = `${record.prompt}.` + record.output_format;
+                                        a.click();
+                                    }}
+                                >
+                                    Click to download
+                                </a>
+                            }
+                        },
+                        {
                             title: "Image Preview",
                             key: "image",
                             render: (_dom, record) => {
                                 if (record?.image) {
                                     return <Image
-                                        src={"data:image;base64," + record.image}
+                                        src={"data:image/" + record.output_format + ";base64," + record.image}
                                         alt={record.image}
                                         style={{maxWidth: 240}}
                                     />;
@@ -271,12 +292,7 @@ const StableDiffusionDataRenderer = (props: {
                             title: '操作',
                             valueType: 'option',
                             render: () => [
-                                <a
-                                    key="delete"
-                                    onClick={() => props.onDelData(index)}
-                                >
-                                    Delete
-                                </a>,
+                                <a key="delete" onClick={() => props.onDelData(index)}>Delete</a>
                             ],
                         },
                     ]}

@@ -137,10 +137,10 @@ export class StableDiffusionAPI {
                 if (Array.isArray(imageData) && imageData.length > 0) {
                     const fileData = imageData[0];
                     if (fileData && fileData.originFileObj instanceof File) {
-                        console.log("File object:", fileData.originFileObj);
-                        console.log("File name:", fileData.name);
-                        console.log("File type:", fileData.originFileObj.type);
-                        console.log("File size:", fileData.originFileObj.size);
+                        // console.log("File object:", fileData.originFileObj);
+                        // console.log("File name:", fileData.name);
+                        // console.log("File type:", fileData.originFileObj.type);
+                        // console.log("File size:", fileData.originFileObj.size);
                         const blob = fileData.originFileObj.slice(0, fileData.originFileObj.size, fileData.originFileObj.type);
                         formData.append('image', blob, fileData.name);
                     } else {
@@ -155,9 +155,9 @@ export class StableDiffusionAPI {
             }
         }
 
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
+        // for (let [key, value] of formData.entries()) {
+        //     console.log(key, value);
+        // }
 
         return {
             method: "POST",

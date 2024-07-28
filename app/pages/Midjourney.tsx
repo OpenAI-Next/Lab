@@ -907,6 +907,7 @@ const ModalForm = (props: {
                 originalImageUrl={originalImageUrl}
                 onClose={() => setShowImageMaskModal(false)}
                 onFinished={(maskBase64) => {
+                    console.log("maskBase64", maskBase64);
                     props.form.setFieldsValue({maskBase64});
                     setShowImageMaskModal(false);
                 }}

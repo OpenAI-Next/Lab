@@ -151,18 +151,35 @@ const ImageMaskModal = (props: {
 
     const getMaskBase64 = () => {
         if (!maskCanvasRef.current) return '';
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = maskCanvasRef.current.width;
-        tempCanvas.height = maskCanvasRef.current.height;
-        const tempCtx = tempCanvas.getContext('2d');
-        if (tempCtx) {
-            tempCtx.fillStyle = 'black';
-            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-            tempCtx.globalCompositeOperation = 'destination-out';
-            tempCtx.drawImage(maskCanvasRef.current, 0, 0);
-            tempCtx.globalCompositeOperation = 'source-over';
+        const canvas = maskCanvasRef.current;
+        const ctx = canvas.getContext('2d');
+
+        if (ctx) {
+            // 获取图像数据
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // 创建新的画布来生成最终的蒙版
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            if (tempCtx) {
+                // 填充黑色背景
+                tempCtx.fillStyle = 'black';
+                tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+                // 设置合成操作为 "source-over"
+                tempCtx.globalCompositeOperation = 'source-over';
+
+                // 将原始的白色绘制内容直接绘制到黑色背景上
+                tempCtx.drawImage(canvas, 0, 0);
+            }
+
+            return tempCanvas.toDataURL('image/png').split(',')[1];
         }
-        return tempCanvas.toDataURL('image/png').split(',')[1];
+        return '';
     };
 
     const handleFinish = () => {

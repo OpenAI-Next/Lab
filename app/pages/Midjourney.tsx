@@ -6,7 +6,7 @@ import {
     Divider,
     Empty,
     FloatButton,
-    Image,
+    Image, Input,
     message,
     Segmented,
     Space,
@@ -52,6 +52,8 @@ import {
 import {CodeModal, renderCode, RenderSubmitter} from "@/app/render";
 import {handelResponseError, safeJsonStringify} from "@/app/utils";
 import {api2Provider, useAppConfig} from "@/app/store";
+import ImageMaskModal from "@/app/components/ImageMask";
+import {ProFormItem} from "@ant-design/pro-form";
 
 const Midjourney_Preset_Description_Option = {
     styleList: [
@@ -810,69 +812,106 @@ const ModalForm = (props: {
     const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
 
+    const [showImageMaskModal, setShowImageMaskModal] = useState(false);
+    const [originalImageUrl, setOriginalImageUrl] = useState<string>("");
+
+
     return (
-        <ProForm<MidjourneyModalTaskRequestPayload>
-            form={props.form}
-            onFinish={async (values) => {
-                // Modal 任务返回的不是完整的任务信息，不需要更新任务列表，而是刷新当前任务的状态
+        <>
+            <ProForm<MidjourneyModalTaskRequestPayload>
+                form={props.form}
+                onFinish={async (values) => {
+                    // Modal 任务返回的不是完整的任务信息，不需要更新任务列表，而是刷新当前任务的状态
 
-                props.updateError(null);
-                const controller = new AbortController();
-                setAbortController(controller);
-                setSubmitting(true);
-                try {
-                    const res = await props.api.submitModalTask(values, controller.signal);
-                    const resJson = await res.json() as MidjourneySubmitTaskResponseType
-                    if (res.ok && resJson.code === 1) {
-                        message.success(resJson.description + " Please manually refresh the task.");
-                        // 重置表单，避免重复提交
-                        props.form.resetFields();
-                        props.queryTask(values.taskId);
-                    } else {
-                        props.updateError(resJson);
+                    props.updateError(null);
+                    const controller = new AbortController();
+                    setAbortController(controller);
+                    setSubmitting(true);
+                    try {
+                        const res = await props.api.submitModalTask(values, controller.signal);
+                        const resJson = await res.json() as MidjourneySubmitTaskResponseType
+                        if (res.ok && resJson.code === 1) {
+                            message.success(resJson.description + " . Please manually refresh the task.");
+                            // 重置表单，避免重复提交
+                            props.form.resetFields();
+                            props.queryTask(values.taskId);
+                        } else {
+                            props.updateError(resJson);
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        props.updateError(e);
+                    } finally {
+                        setAbortController(null);
+                        setSubmitting(false);
                     }
-                } catch (e) {
-                    console.error(e);
-                    props.updateError(e);
-                } finally {
-                    setAbortController(null);
-                    setSubmitting(false);
-                }
-            }}
-            submitter={{
-                render: (submitterProps) => {
-                    return <RenderSubmitter
-                        abortController={abortController}
-                        submitting={submitting}
-                        submitterProps={submitterProps}
-                        getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
+                }}
+                submitter={{
+                    render: (submitterProps) => {
+                        return <RenderSubmitter
+                            abortController={abortController}
+                            submitting={submitting}
+                            submitterProps={submitterProps}
+                            getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
+                        />
+                    }
+                }}
+            >
+                <ProFormText
+                    name="taskId"
+                    label="Task ID"
+                    rules={[{required: true}]}
+                />
+
+                <ProFormTextArea
+                    name="prompt"
+                    label="Prompt"
+                    placeholder="Example (Custom Zoom) : {{Changed Prompt}} --zoom 1  --ar 1:2"
+                    tooltip="This parameter needs to be passed most of the time."
+                    fieldProps={{autoSize: {minRows: 4, maxRows: 10}}}
+                    rules={[{required: false}]}
+                />
+
+                <ProFormTextArea
+                    name="maskBase64"
+                    label="Mask Base64"
+                    tooltip="This field is used to be passed in when partially redrawing."
+                    fieldProps={{autoSize: {minRows: 4, maxRows: 10}}}
+                    rules={[{required: false}]}
+                />
+
+                <Divider/>
+
+                <ProFormItem
+                    label="Redraw Mask Helper"
+                >
+                    <Input.TextArea
+                        placeholder="Original Image URL"
+                        onChange={(e) => setOriginalImageUrl(e.target.value)}
+                        value={originalImageUrl}
+                        style={{marginBottom: 8}}
+                        autoSize={{minRows: 1, maxRows: 3}}
                     />
-                }
-            }}
-        >
-            <ProFormText
-                name="taskId"
-                label="Task ID"
-                rules={[{required: true}]}
+                    <Button
+                        onClick={() =>{
+                            setShowImageMaskModal(true);
+                        }}
+                        disabled={!originalImageUrl}
+                    >
+                        Open Redraw Mask Helper
+                    </Button>
+                </ProFormItem>
+            </ProForm>
+            <ImageMaskModal
+                open={showImageMaskModal}
+                originalImageUrl={originalImageUrl}
+                onClose={() => setShowImageMaskModal(false)}
+                onFinished={(maskBase64) => {
+                    props.form.setFieldsValue({maskBase64});
+                    setShowImageMaskModal(false);
+                }}
             />
-
-            <ProFormTextArea
-                name="prompt"
-                label="Prompt"
-                placeholder="Example (Custom Zoom) : {{Changed Prompt}} --zoom 1  --ar 1:2"
-                tooltip="This parameter needs to be passed most of the time."
-                fieldProps={{autoSize: {minRows: 4, maxRows: 10}}}
-                rules={[{required: false}]}
-            />
-
-            <ProFormTextArea
-                name="maskBase64"
-                label="Mask Base64"
-                tooltip="This field is used to be passed in when partially redrawing."
-                fieldProps={{autoSize: {minRows: 4, maxRows: 10}}}
-                rules={[{required: false}]}
-            />
-        </ProForm>
+        </>
     )
 }
 

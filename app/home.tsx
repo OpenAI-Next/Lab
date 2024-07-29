@@ -12,6 +12,7 @@ import StableDiffusionIcon from "@/app/icons/stable-diffusion.svg";
 import DalleIcon from "@/app/icons/dalle.svg";
 import PikaIcon from "@/app/icons/pika.svg";
 import LumaIcon from "@/app/icons/luma.svg";
+import BiBiGPTIcon from "@/app/icons/bibi-gpt.svg";
 import {HashRouter as Router, Route, Routes, useLocation, useNavigate,} from "react-router-dom";
 import {Theme, useAppConfig} from "@/app/store";
 import {ProConfigProvider, ProLayout, type ProTokenType,} from '@ant-design/pro-components';
@@ -107,6 +108,10 @@ const PikaPage = dynamic(async () => (await import("./pages/Pika")).default, {
 
 const LumaPage = dynamic(async () => (await import("./pages/Luma")).default, {
     loading: () => <Loading logo={<LumaIcon/>}/>,
+});
+
+const BiBiGPTPage = dynamic(async () => (await import("./pages/BibiGpt")).default, {
+    loading: () => <Loading logo={<BiBiGPTIcon/>}/>,
 });
 
 const GPTsPage = dynamic(async () => (await import("./pages/GPTs")).default, {
@@ -241,6 +246,11 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                         icon: <Icon component={LumaIcon}/>,
                     },
                     {
+                        path: Path.BiBiGPT,
+                        name: "BiBi GPT",
+                        icon: <Icon component={BiBiGPTIcon}/>,
+                    },
+                    {
                         path: Path.GPTs,
                         name: "GPTs",
                         icon: <ProductFilled/>,
@@ -283,6 +293,7 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     <Route path={Path.Pika} element={<PikaPage/>}/>
                     <Route path={Path.Luma} element={<LumaPage/>}/>
                     <Route path={Path.Doc2X} element={<Doc2XPage/>}/>
+                    <Route path={Path.BiBiGPT} element={<BiBiGPTPage/>}/>
                     <Route path={Path.GPTs} element={<GPTsPage/>}/>
                     <Route path={Path.Pricing} element={<PricingPage/>}/>
                     <Route path={Path.Tools} element={<ToolsPage/>}/>

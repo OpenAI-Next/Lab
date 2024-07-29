@@ -16,6 +16,7 @@ export enum Path {
     Luma = "/luma",
     GPTs = "/gpts",
     Doc2X = "/doc2x",
+    BiBiGPT = "/bibi-gpt",
     StableDiffusion = "/stable-diffusion",
     Pricing = "/pricing",
     Tools = "/tools",

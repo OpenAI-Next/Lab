@@ -1,4 +1,14 @@
-interface BibiOpenRequest {
+export interface BibiBaseResponse {
+    success: boolean;
+    id: string;
+    service: string;
+    sourceUrl: string;
+    htmlUrl: string;
+    costDuration: number;
+    remainingTime: number;
+}
+
+export interface BibiOpenRequest {
     url: string;
     limitation: {
         maxDuration: number;
@@ -17,15 +27,36 @@ interface BibiOpenRequest {
     includeDetail: boolean;
 }
 
-interface BibiOpenResponse {
-    success: boolean;
-    id: string;
-    service: string;
-    sourceUrl: string;
-    htmlUrl: string;
-    costDuration: number;
-    remainingTime: number;
+export interface BibiOpenResponse extends BibiBaseResponse {
     summary: string;
+}
+
+export interface BibiChatRequest {
+    url: string;
+    question: string;
+    history: string[];
+    language: string;
+    includeDetail: boolean;
+}
+
+export interface BibiChatResponse extends BibiBaseResponse {
+    answer: string;
+    sourceDocuments: {
+        pageContent: string,
+        metadata: object
+    }[];
+}
+
+export interface BibiSubtitleRequest {
+    subtitle: string;
+}
+
+export interface BibiSubtitleResponse extends BibiBaseResponse {
+    summary: string;
+    detail: {
+        title: string;
+        descriptionText: string;
+    }
 }
 
 export class BibiGPTAPI {

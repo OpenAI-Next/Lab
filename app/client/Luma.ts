@@ -58,7 +58,7 @@ export class LumaApi {
 
             return res;
         } catch (e) {
-            console.error("[LumaProxy] failed to make a pika create-task request", e);
+            console.error("[LumaProxy] failed to make a pika generate-task request", e);
             throw e;
         }
     }
@@ -85,7 +85,7 @@ export class LumaApi {
 
                 return res;
             } catch (e) {
-                console.error("[LumaProxy] failed to make a pika create-task request", e);
+                console.error("[LumaProxy] failed to make a pika generate-task request", e);
                 throw e;
             }
     }
@@ -108,7 +108,7 @@ export class LumaApi {
 
             return res;
         } catch (e) {
-            console.error("[LumaProxy] failed to make a pika create-task request", e);
+            console.error("[LumaProxy] failed to make a pika generate-task request", e);
             throw e;
         }
     }

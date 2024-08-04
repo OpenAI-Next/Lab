@@ -179,3 +179,4 @@ export function CloseAllSound(audio?: any): void {
         audio.currentTime = 0; // 重置音频播放位置
     }
 }
+

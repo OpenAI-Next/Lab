@@ -366,7 +366,7 @@ const ImagineForm = (props: {
                         label="Stop"
                         min={10}
                         max={100}
-                        tooltip={"Use the --stop parameter to finish a Job partway through the process. Stopping a Job at an earlier percentage can create blurrier, less detailed results."}
+                        tooltip={"Use the --stop parameter to finish a Job partway through the process. Stopping a Job at an earlier percentage can generate blurrier, less detailed results."}
                         width="xs"
                     />
 
@@ -468,7 +468,7 @@ const ImagineForm = (props: {
                         max={4294967295}
                         width={"lg"}
                         fieldProps={{keyboard: false, controls: false}}
-                        tooltip={"The Midjourney bot uses a seed number to create a field of visual noise, like television static, as a starting point to generate the initial image grids. Seed numbers are generated randomly for each image but can be specified with the --seed parameter. If you use the same seed number and prompt, you will get similar final images."}
+                        tooltip={"The Midjourney bot uses a seed number to generate a field of visual noise, like television static, as a starting point to generate the initial image grids. Seed numbers are generated randomly for each image but can be specified with the --seed parameter. If you use the same seed number and prompt, you will get similar final images."}
                     />
 
                     <ProFormUploadButton
@@ -501,7 +501,7 @@ const ImagineForm = (props: {
                     <ProFormUploadButton
                         name="cref"
                         label="Character Reference"
-                        tooltip={"You can use images as character references in your prompt to create images of the same character in different situations."}
+                        tooltip={"You can use images as character references in your prompt to generate images of the same character in different situations."}
                         max={2}
                         action={appConfig.getUploadConfig().action}
                         accept={"image/*"}

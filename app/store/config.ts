@@ -53,6 +53,7 @@ export const api2Provider = {
     Doc2X: Provider.ProxyAPI,
     GPTs: Provider.ProxyAPI,
     StableDiffusion: Provider.ProxyAPI,
+    BibiGPT: Provider.ProxyAPI,
 } as const;
 
 export const api2ProviderBaseUrl = {

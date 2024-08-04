@@ -212,7 +212,7 @@ export class PikaAPI {
 
             return res;
         } catch (e) {
-            console.error("[PikaProxy] failed to make a pika create-task request", e);
+            console.error("[PikaProxy] failed to make a pika generate-task request", e);
             throw e;
         }
     }

@@ -175,9 +175,9 @@ export class DallEAPI {
             return res;
         } catch (e) {
             if (e instanceof Error && e.name === "AbortError") {
-                console.warn("[Request] DallE create request aborted");
+                console.warn("[Request] DallE generate request aborted");
             } else {
-                console.error("[Request] Failed to make a DallE create request", e);
+                console.error("[Request] Failed to make a DallE generate request", e);
             }
             throw e;
         }

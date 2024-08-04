@@ -35,8 +35,11 @@ export enum OpenaiPath {
 
 // SunoProxy 请求端点
 export enum SunoEndpoint {
-    SUNO_CREATE = "v1/song/create",
-    SUNO_QUERY = "v1/song/feed?ids={{ids}}&server_id={{server_id}}",
+    SUNO_UPLOAD= "suno/v2/uploads/audio",
+    SUNO_GENERATE = "suno/v2/generate",
+    SUNO_QUERY = "suno/v2/feed?ids={{ids}}",// 此处需传clips id 而非 任务 id，多个用英文逗号分割
+    SUNO_LYRICS_GENERATE = "suno/v1/v3.0/lyrics",
+    SUNO_LYRICS_FEED = "suno/v1/v3.0/lyrics/{{id}}",
 }
 
 export enum PikaEndpoint {
@@ -48,7 +51,6 @@ export enum LumaEndpoint {
     CREATE = "v1/{{luma_account_type}}/generations",
     EXTEND = "v1/{{luma_account_type}}/extend",
     QUERY = "v1/{{luma_account_type}}/task?id={{id}}",
-
 }
 
 // MidjourneyProxy 请求端点

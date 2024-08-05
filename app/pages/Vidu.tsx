@@ -140,6 +140,7 @@ const GenerationForm = (props: {
                                 }}
                                 tooltip={"Automatically expand short prompts into detailed descriptions to enhance generation. This increases richness but may lead to over embellishment."}
                                 rules={[{required: true}]}
+                                initialValue={true}
                             />
                             <ProFormTextArea
                                 name={"content"}

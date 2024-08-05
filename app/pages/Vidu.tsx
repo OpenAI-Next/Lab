@@ -1,34 +1,44 @@
 // app/pages/Vidu.tsx
 
 import {api2Provider, useAppConfig} from "@/app/store";
-import {SunoClip, SunoGenerateResponse, SunoUploadRequest} from "@/app/client/sunoProxy";
+import {SunoUploadRequest} from "@/app/client/sunoProxy";
 import {
     ProCard,
+    ProDescriptions,
     ProForm,
-    ProFormDigit,
     ProFormGroup,
     ProFormInstance,
     ProFormList,
+    ProFormRadio,
     ProFormSelect,
     ProFormSwitch,
+    ProFormText,
     ProFormTextArea
 } from "@ant-design/pro-components";
 import React, {ReactNode, useState} from "react";
-import {FileTextOutlined, UnorderedListOutlined} from "@ant-design/icons";
-import {Col, Divider, Segmented} from "antd";
+import {ExperimentOutlined, FileTextOutlined, UnorderedListOutlined} from "@ant-design/icons";
+import {Button, Col, Divider, Empty, Image, Segmented, Spin, Typography} from "antd";
 import {COL_SCROLL_STYLE, PRO_FORM_PROPS} from "@/constant";
-import {renderCode, RenderSubmitter} from "@/app/render";
-import {handelResponseError, safeJsonStringify} from "@/app/utils";
-import {ViduAPI, ViduTaskGenerationRequest} from "@/app/client/ViduProxy";
+import {CodeModal, renderCode, RenderSubmitter} from "@/app/render";
+import {CloseAllSound, handelResponseError, safeJsonStringify} from "@/app/utils";
+import {
+    ViduAPI,
+    ViduTaskGenerationRequest,
+    ViduTaskGenerationResponse,
+    ViduUpscaleTaskRequest
+} from "@/app/client/ViduProxy";
+import {randomTextPrompt} from "@/constant/vidu";
 
 const GenerationForm = (props: {
     form: ProFormInstance<SunoUploadRequest>,
     api: ViduAPI,
-    updateResponse: (data: any) => void,
+    updateResponse: (data: ViduTaskGenerationResponse) => void,
     updateError: (error: any) => void,
 }) => {
     const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
+
+    const UserPrompt = ProForm.useWatch(["input", "prompts"], props.form);
 
     return (
         <ProForm<ViduTaskGenerationRequest>
@@ -42,8 +52,8 @@ const GenerationForm = (props: {
                 try {
                     const res = await props.api.generateViduTask(values, controller.signal);
                     if (res.ok) {
-                        const resJson = await res.json() as SunoGenerateResponse
-                        props.updateResponse(resJson.clips);
+                        const resJson = await res.json() as ViduTaskGenerationResponse;
+                        props.updateResponse(resJson);
                     } else {
                         await handelResponseError(res, props.updateError);
                     }
@@ -55,7 +65,13 @@ const GenerationForm = (props: {
                     setSubmitting(false);
                 }
             }}
-            initialValues={{}}
+            initialValues={{
+                settings: {
+                    aspect_ratio: "16:9",
+                    duration: 4,
+                    model: "vidu-1"
+                }
+            }}
             submitter={{
                 render: (submitterProps) => {
                     return <RenderSubmitter
@@ -70,6 +86,7 @@ const GenerationForm = (props: {
             <ProFormList
                 name={["input", "prompts"]}
                 label={"Prompts"}
+                tooltip={"Just input text or add an image as a reference, and you are all set to start creating your video!"}
                 required
                 itemRender={({listDom, action}, {index}) => (
                     <ProCard
@@ -82,67 +99,88 @@ const GenerationForm = (props: {
                         {listDom}
                     </ProCard>
                 )}
-                min={1}
+                max={2}
                 rules={[
                     {
                         required: true,
-                        validator: async (rule, value) => {
-                            if (!value) throw new Error("Prompts is required");
-                            if (value.length === 0) throw new Error("At least one prompt is required");
+                        validator: async (_rule, value) => {
+                            if (!value || value.length < 1) throw new Error("Prompts is required");
+                            if (value.length === 2 && value[0].type === value[1].type) throw new Error("Only one prompt of each type is allowed");
                             return Promise.resolve();
                         }
                     }
                 ]}
             >
-                <ProFormGroup>
-                    <ProFormSelect
-                        name={"type"}
-                        label={"Type"}
-                        options={[
-                            {label: "Text", value: "text"},
-                            {label: "Image", value: "image"},
-                        ]}
-                        fieldProps={{
-                            allowClear: true,
-                        }}
-                        width={"xs"}
-                        rules={[{required: true}]}
-                    />
-                    <ProFormSwitch
-                        name={"enhance"}
-                        label={"Enhance"}
-                        fieldProps={{
-                            checkedChildren: "Yes",
-                            unCheckedChildren: "No",
-                        }}
-                        rules={[{required: true}]}
-                    />
-                    <ProFormTextArea
-                        name={"content"}
-                        label={"Content"}
-                        fieldProps={{
-                            placeholder: "Content",
-                            autoSize: {minRows: 2},
-                        }}
-                        width={"md"}
-                        rules={[{required: true}]}
-                    />
-                </ProFormGroup>
+                {(_f, index) => {
+                    return (
+                        <ProFormGroup>
+                            <ProFormRadio.Group
+                                name={"type"}
+                                label={"Type"}
+                                options={[
+                                    {label: "Text", value: "text"},
+                                    {label: "Image", value: "image"},
+                                ]}
+                                width={"xs"}
+                                rules={[{required: true}]}
+                                fieldProps={{
+                                    // reset other fields when type changes, to avoid unavailable options
+                                    onChange: () => {
+                                        props.form.resetFields(["settings", "type"]);
+                                        props.form.resetFields(["settings", "style"]);
+                                    }
+                                }}
+                            />
+                            <ProFormSwitch
+                                name={"enhance"}
+                                label={"Enhance"}
+                                fieldProps={{
+                                    checkedChildren: "Yes",
+                                    unCheckedChildren: "No",
+                                }}
+                                tooltip={"Automatically expand short prompts into detailed descriptions to enhance generation. This increases richness but may lead to over embellishment."}
+                                rules={[{required: true}]}
+                            />
+                            <ProFormTextArea
+                                name={"content"}
+                                label={"Content"}
+                                fieldProps={{
+                                    autoSize: {minRows: 2, maxRows: 4},
+                                }}
+                                placeholder={UserPrompt?.[index]?.type === "text" ? "Text prompt" : UserPrompt?.[index]?.type === "image" ? "Image URL" : "Select type first"}
+                                width={"md"}
+                                rules={[{required: true}]}
+                            />
+
+                            {UserPrompt?.[index]?.type === "text" && <ProForm.Item>
+                                <Button
+                                    type={"dashed"}
+                                    icon={<ExperimentOutlined/>}
+                                    onClick={() => {
+                                        props.form.setFieldValue(["input", "prompts", index, "content"], randomTextPrompt[Math.floor(Math.random() * randomTextPrompt.length)]);
+                                    }}
+                                    block
+                                >
+                                    Random Prompt
+                                </Button>
+                            </ProForm.Item>}
+                        </ProFormGroup>
+                    )
+                }}
             </ProFormList>
 
             <ProFormSelect
                 name={"type"}
                 label={"Type"}
-                options={[
-                    {label: "img2video", value: "img2video"},
-                ]}
+                options={props.api.availableTaskTypes(UserPrompt)}
                 rules={[{required: true}]}
             />
 
             <ProFormSelect
                 name={["settings", "style"]}
                 label={"Style"}
-                options={["general"]}
+                options={props.api.availableStyles(UserPrompt)}
+                tooltip={"Select the video style, available for text-to-video only."}
                 rules={[{required: true}]}
             />
 
@@ -153,18 +191,21 @@ const GenerationForm = (props: {
                 rules={[{required: true}]}
             />
 
-            <ProFormDigit
+            <ProFormRadio.Group
                 name={["settings", "duration"]}
                 label={"Duration"}
+                options={[
+                    {label: "4s", value: 4},
+                    {label: "8s", value: 8}
+                ]}
                 rules={[{required: true}]}
+                tooltip={"Supports 4s/8s video creation. Longer durations will take more time."}
             />
 
             <ProFormSelect
                 name={["settings", "model"]}
                 label={"Model"}
-                options={[
-                    {label: "vidu-1", value: "vidu-1"},
-                ]}
+                options={props.api.availableModels(false)}
                 rules={[{required: true}]}
             />
 
@@ -172,47 +213,354 @@ const GenerationForm = (props: {
     );
 }
 
+const UpscaleForm = (props: {
+    form: ProFormInstance<SunoUploadRequest>,
+    api: ViduAPI,
+    updateResponse: (data: ViduTaskGenerationResponse) => void,
+    updateError: (error: any) => void,
+}) => {
+    const [abortController, setAbortController] = useState<AbortController | null>(null);
+    const [submitting, setSubmitting] = useState(false);
+
+    return (
+        <ProForm<ViduUpscaleTaskRequest>
+            {...PRO_FORM_PROPS}
+            form={props.form}
+            onFinish={async (values) => {
+                props.updateError(null);
+                const controller = new AbortController();
+                setAbortController(controller);
+                setSubmitting(true);
+                try {
+                    const res = await props.api.submitUpscaleTask(values, controller.signal);
+                    if (res.ok) {
+                        const resJson = await res.json() as ViduTaskGenerationResponse;
+                        props.updateResponse(resJson);
+                    } else {
+                        await handelResponseError(res, props.updateError);
+                    }
+                } catch (e) {
+                    props.updateError(e);
+                    console.error(e);
+                } finally {
+                    setAbortController(null);
+                    setSubmitting(false);
+                }
+            }}
+            initialValues={{
+                type: "upscale",
+                settings: {
+                    duration: 4,
+                    model: "stable",
+                }
+            }}
+            submitter={{
+                render: (submitterProps) => {
+                    return <RenderSubmitter
+                        abortController={abortController}
+                        submitting={submitting}
+                        submitterProps={submitterProps}
+                        getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
+                    />
+                }
+            }}
+        >
+            <ProFormText
+                name={["input", "creation_id"]}
+                label={"Creation ID"}
+                rules={[{required: true}]}
+            />
+
+            <ProFormSelect
+                name={["type"]}
+                label={"Type"}
+                options={props.api.availableTaskTypes([], true)}
+            />
+
+            <ProFormSelect
+                name={["settings", "model"]}
+                label={"Model"}
+                options={props.api.availableModels(true)}
+                rules={[{required: true}]}
+            />
+
+
+            <ProFormRadio.Group
+                name={["settings", "duration"]}
+                label={"Duration"}
+                options={[
+                    {label: "4s", value: 4},
+                    {label: "8s", value: 8}
+                ]}
+                rules={[{required: true}]}
+                tooltip={"Supports 4s/8s video creation. Longer durations will take more time."}
+            />
+        </ProForm>
+    );
+}
+
+const QueryForm = (props: {
+    form: ProFormInstance<SunoUploadRequest>,
+    api: ViduAPI,
+    updateResponse: (data: ViduTaskGenerationResponse) => void,
+    updateError: (error: any) => void,
+}) => {
+    const [abortController, setAbortController] = useState<AbortController | null>(null);
+    const [submitting, setSubmitting] = useState(false);
+
+    return (
+        <ProForm
+            {...PRO_FORM_PROPS}
+            form={props.form}
+            onFinish={async (values) => {
+                props.updateError(null);
+                const controller = new AbortController();
+                setAbortController(controller);
+                setSubmitting(true);
+                try {
+                    const res = await props.api.getViduTask(values.id, controller.signal);
+                    if (res.ok) {
+                        const resJson = await res.json() as ViduTaskGenerationResponse;
+                        props.updateResponse(resJson);
+                    } else {
+                        await handelResponseError(res, props.updateError);
+                    }
+                } catch (e) {
+                    props.updateError(e);
+                    console.error(e);
+                } finally {
+                    setAbortController(null);
+                    setSubmitting(false);
+                }
+            }}
+            submitter={{
+                render: (submitterProps) => {
+                    return <RenderSubmitter
+                        abortController={abortController}
+                        submitting={submitting}
+                        submitterProps={submitterProps}
+                        getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
+                    />
+                }
+            }}
+        >
+            <ProFormText
+                name={"id"}
+                label={"Task ID"}
+                rules={[{required: true}]}
+            />
+        </ProForm>
+    );
+}
+
+const ViduTaskRenderer = (props: {
+    task: ViduTaskGenerationResponse[],
+    api: ViduAPI,
+    updateTask: (task: ViduTaskGenerationResponse) => void,
+    updateError: (error: any) => void,
+}) => {
+    const [loadingStates, setLoadingStates] = useState<{ [key: number]: boolean }>({0: false, 1: false});
+    const [showCodeModal, setShowCodeModal] = useState(false);
+
+    const [codeContent, setCodeContent] = useState({});
+
+    if (!props.task || props.task.length === 0) return <Empty/>
+
+    const handleRefresh = async (index: number) => {
+        setLoadingStates(prevStates => ({...prevStates, [index]: true}));
+
+        try {
+            const res = await props.api.getViduTask(props.task[index].id);
+            if (res.ok) {
+                const resJson = await res.json() as unknown as any;
+                props.updateTask(resJson);
+            } else {
+                await handelResponseError(res, props.updateError);
+            }
+        } catch (e) {
+            props.updateError(e);
+        } finally {
+            setLoadingStates(prevStates => ({...prevStates, [index]: false}));
+        }
+    }
+
+    return (
+        <>
+            {props.task.map((task, index) => (
+                <Spin spinning={loadingStates[index] ?? false} key={task.id}>
+                    <ProDescriptions<ViduTaskGenerationResponse>
+                        title={`Task ${index + 1}`}
+                        dataSource={task}
+                        column={1}
+                        bordered
+                        style={{
+                            marginBottom: 20,
+                        }}
+                        size={"small"}
+                        columns={[
+                            {
+                                title: "Task ID",
+                                dataIndex: ["id"],
+                                copyable: true,
+                            },
+                            {
+                                title: "Type",
+                                dataIndex: ["type"],
+                            },
+                            {
+                                title: "State",
+                                dataIndex: ["state"],
+                                valueEnum: {
+                                    "queueing": {text: "Queueing", status: "Processing"},
+                                    "processing": {text: "Processing", status: "Processing"},
+                                    "success": {text: "Success", status: "Success"},
+                                }
+                            },
+                            {
+                                title: "created_at",
+                                dataIndex: ["created_at"],
+                            },
+                            {
+                                title: "Prompts",
+                                render: (_, record) => {
+                                    return record.input.prompts.map((prompt, index) => (
+                                        <div key={index}>
+                                            {prompt.type}: {prompt.content}
+                                        </div>
+                                    ))
+                                }
+                            },
+                            {
+                                title: "Creation ID",
+                                render: (_, record) => {
+                                    if (!record?.creations?.[0]?.id) return null;
+                                    return (
+                                        <Typography.Text copyable>
+                                            {record?.creations?.[0]?.id}
+                                        </Typography.Text>
+                                    )
+                                }
+                            },
+                            {
+                                title: "Creation_Preview",
+                                key: "creation-preview",
+                                render: (_, record) => {
+                                    if (!record?.creations?.[0]?.cover_uri) return null;
+                                    return (
+                                        <Image
+                                            alt={record?.id}
+                                            src={record?.creations?.[0]?.cover_uri}
+                                            preview={(record?.creations?.[0]?.uri && record?.state === "success") ? {
+                                                imageRender: () => <video controls
+                                                                          src={record?.creations?.[0]?.uri || ""}
+                                                                          style={{maxHeight: "80vh"}}/>,
+                                                toolbarRender: () => null,
+                                                onVisibleChange: (visible: boolean) => !visible && CloseAllSound(),
+                                            } : false}
+                                            width={240}
+                                        />
+                                    )
+                                }
+                            },
+                            {
+                                title: "URI",
+                                dataIndex: ["creations", 0, "uri"],
+                                ellipsis: true,
+                                copyable: true,
+                            },
+                            {
+                                title: "Cover URI",
+                                dataIndex: ["creations", 0, "cover_uri"],
+                                ellipsis: true,
+                                copyable: true,
+                            },
+                            {
+                                title: 'Option',
+                                valueType: 'option',
+                                render: () => [
+                                    <a
+                                        key="query"
+                                        onClick={() => handleRefresh(index)}
+                                    >
+                                        Refresh
+                                    </a>,
+                                    <a
+                                        key="detail"
+                                        onClick={() => {
+                                            setCodeContent(task)
+                                            setShowCodeModal(true)
+                                        }}
+                                    >
+                                        Detail
+                                    </a>,
+                                ],
+                            },
+                        ]}
+                    />
+                </Spin>
+            ))}
+            <CodeModal
+                open={showCodeModal}
+                onClose={() => setShowCodeModal(false)}
+                code={safeJsonStringify(codeContent, "Failed to stringify the code")}
+            />
+        </>
+    )
+}
+
 export function ViduPage() {
     const appConfig = useAppConfig();
     const viduApi = new ViduAPI(appConfig.getFirstApiKey(api2Provider.Vidu));
     const [generationForm] = ProForm.useForm();
+    const [upscaleForm] = ProForm.useForm();
     const [queryForm] = ProForm.useForm();
 
-    const [taskData, setTaskData] = useState<SunoClip[]>([]);
+    const [taskData, setTaskData] = useState<ViduTaskGenerationResponse[]>([]);
     const [errorData, setErrorData] = useState<any>(null)
 
     const type_options = [
         {label: "Generate", value: "generate", icon: <UnorderedListOutlined/>},
+        {label: "Upscale", value: "upscale", icon: <FileTextOutlined/>},
         {label: "Query", value: "query", icon: <FileTextOutlined/>},
     ]
 
-    const [formType, setFormType] = useState<"generate" | "query">("generate");
+    const [formType, setFormType] = useState<"generate" | "query" | "upscale">("generate");
 
-    const updateTaskData = (data: SunoClip[]) => {
+    const updateTaskData = (data: ViduTaskGenerationResponse) => {
         const updatedTaskData = taskData.slice(); // 创建 taskData 的副本
 
-        data.forEach((clip: SunoClip) => {
-            const index = updatedTaskData.findIndex((c: SunoClip) => c.id === clip.id);
-            if (index === -1) {
-                // 如果 id 不存在，添加新数据
-                updatedTaskData.push(clip);
-            } else {
-                // 如果 id 已存在，更新数据
-                updatedTaskData[index] = {...updatedTaskData[index], ...clip};
-            }
-        });
+        const index = updatedTaskData.findIndex((c: ViduTaskGenerationResponse) => c.id === data.id);
+
+        if (index === -1) {
+            // 如果 id 不存在，添加新数据
+            updatedTaskData.push(data);
+        } else {
+            // 如果 id 已存在，更新数据
+            updatedTaskData[index] = data;
+        }
 
         setTaskData(updatedTaskData);
     }
 
-    const RenderSunoForms: { [key in typeof formType]: ReactNode } = {
+    const RenderViduForms: { [key in typeof formType]: ReactNode } = {
         "generate": <GenerationForm
             form={generationForm}
             api={viduApi}
             updateResponse={updateTaskData}
             updateError={setErrorData}
         />,
-        "query": <></>,
+        "upscale": <UpscaleForm
+            form={upscaleForm}
+            api={viduApi}
+            updateResponse={updateTaskData}
+            updateError={setErrorData}
+        />,
+        "query": <QueryForm
+            form={queryForm}
+            api={viduApi}
+            updateResponse={updateTaskData}
+            updateError={setErrorData}
+        />
     }
 
     return (
@@ -225,14 +573,19 @@ export function ViduPage() {
                     block
                     onChange={(value) => setFormType(value as typeof formType)}
                 />
-                {RenderSunoForms[formType as keyof typeof RenderSunoForms]}
+                {RenderViduForms[formType as keyof typeof RenderViduForms]}
             </Col>
             <Col flex={"none"}>
                 <Divider type={"vertical"} style={{height: "100%"}}/>
             </Col>
             <Col flex="auto" style={COL_SCROLL_STYLE}>
-                <h1>Clips Info</h1>
-
+                <h1>Tasks Info</h1>
+                <ViduTaskRenderer
+                    task={taskData}
+                    api={viduApi}
+                    updateTask={updateTaskData}
+                    updateError={setErrorData}
+                />
 
                 {errorData && <>
                     <h1>Error</h1>

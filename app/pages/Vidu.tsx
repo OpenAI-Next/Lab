@@ -275,6 +275,7 @@ const UpscaleForm = (props: {
                 name={["type"]}
                 label={"Type"}
                 options={props.api.availableTaskTypes([], true)}
+                rules={[{required: true}]}
             />
 
             <ProFormSelect

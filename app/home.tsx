@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import {CENTER_STYLE, Path} from "@/constant";
 import SystemLogo from "@/app/icons/logo/logo.svg";
 import SunoIcon from "@/app/icons/suno.svg";
+import ViduIcon from "@/app/icons/vidu.svg";
 import LoadingIcon from "@/app/icons/three-dots.svg";
 import MidjourneyIcon from "@/app/icons/midjourney.svg";
 import StableDiffusionIcon from "@/app/icons/stable-diffusion.svg";
@@ -76,6 +77,10 @@ const StableDiffusionPage = dynamic(async () => (await import("./pages/StableDif
 
 const SunoPage = dynamic(async () => (await import("./pages/Suno")).SunoPage, {
     loading: () => <Loading logo={<SunoIcon/>}/>,
+});
+
+const ViduPage = dynamic(async () => (await import("./pages/Vidu")).ViduPage, {
+    loading: () => <Loading logo={<ViduIcon/>}/>,
 });
 
 const PricingPage = dynamic(async () => (await import("./pages/Pricing")).PricingPage, {
@@ -235,9 +240,13 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                         icon: <Icon component={SunoIcon}/>,
                     },
                     {
+                        path: Path.Vidu,
+                        name: "Vidu",
+                        icon: <Icon component={ViduIcon}/>,
+                    },
+                    {
                         path: Path.Pika,
                         name: "Pika",
-                        // icon: <VideoCameraFilled/>,
                         icon: <Icon component={PikaIcon}/>,
                     },
                     {
@@ -290,6 +299,7 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     <Route path={Path.Midjourney} element={<MidjourneyPage/>}/>
                     <Route path={Path.StableDiffusion} element={<StableDiffusionPage/>}/>
                     <Route path={Path.Suno} element={<SunoPage/>}/>
+                    <Route path={Path.Vidu} element={<ViduPage/>}/>
                     <Route path={Path.Pika} element={<PikaPage/>}/>
                     <Route path={Path.Luma} element={<LumaPage/>}/>
                     <Route path={Path.Doc2X} element={<Doc2XPage/>}/>

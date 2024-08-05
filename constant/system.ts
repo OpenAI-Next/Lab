@@ -12,6 +12,7 @@ export enum Path {
     Settings = "/settings",
     Midjourney = "/midjourney",
     Suno = "/suno",
+    Vidu = "/vidu",
     Pika = "/pika",
     Luma = "/luma",
     GPTs = "/gpts",
@@ -35,11 +36,17 @@ export enum OpenaiPath {
 
 // SunoProxy 请求端点
 export enum SunoEndpoint {
-    SUNO_UPLOAD= "suno/v2/uploads/audio",
+    SUNO_UPLOAD = "suno/v2/uploads/audio",
     SUNO_GENERATE = "suno/v2/generate",
     SUNO_QUERY = "suno/v2/feed?ids={{ids}}",// 此处需传clips id 而非 任务 id，多个用英文逗号分割
     SUNO_LYRICS_GENERATE = "suno/v1/v3.0/lyrics",
     SUNO_LYRICS_FEED = "suno/v1/v3.0/lyrics/{{id}}",
+}
+
+// ViduProxy 请求端点
+export enum ViduEndpoint {
+    GENERATION = "vidu/v1/tasks",
+    TASK_GET = "vidu/v1/tasks/{{id}}",
 }
 
 export enum PikaEndpoint {

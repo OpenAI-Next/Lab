@@ -22,12 +22,12 @@ import {COL_SCROLL_STYLE, PRO_FORM_PROPS} from "@/constant";
 import {CodeModal, renderCode, RenderSubmitter} from "@/app/render";
 import {CloseAllSound, handelResponseError, safeJsonStringify} from "@/app/utils";
 import {
-    randomTextPrompt,
     ViduAPI,
     ViduTaskGenerationRequest,
     ViduTaskGenerationResponse,
     ViduUpscaleTaskRequest
 } from "@/app/client/ViduProxy";
+
 const GenerationForm = (props: {
     form: ProFormInstance<SunoUploadRequest>,
     api: ViduAPI,
@@ -78,6 +78,7 @@ const GenerationForm = (props: {
                         submitting={submitting}
                         submitterProps={submitterProps}
                         getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
+                        noApiKeys={props.api.noKey()}
                     />
                 }
             }}
@@ -261,6 +262,7 @@ const UpscaleForm = (props: {
                         submitting={submitting}
                         submitterProps={submitterProps}
                         getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
+                        noApiKeys={props.api.noKey()}
                     />
                 }
             }}
@@ -341,6 +343,7 @@ const QueryForm = (props: {
                         submitting={submitting}
                         submitterProps={submitterProps}
                         getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
+                        noApiKeys={props.api.noKey()}
                     />
                 }
             }}

@@ -5,6 +5,8 @@ import {copyText} from "@/app/utils";
 import {ProForm, SubmitterProps} from "@ant-design/pro-components";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import {a11yDark} from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import {useNavigate} from "react-router-dom";
+import {Path} from "@/constant";
 
 export const CodeModal = (prop: { open: boolean, code: string, onClose: () => void }) => {
     return (
@@ -81,8 +83,15 @@ export const RenderSubmitter = (props: {
     submitting: boolean,
     abortController: AbortController | null,
     submitterProps: SubmitterProps & { submit: () => void; reset: () => void; }
-    getValues: (() => string) | false
+    getValues: (() => string) | false,
+    noApiKeys?: boolean
 }) => {
+
+    const navigate = useNavigate()
+
+    const navigateToSettings = () => {
+        navigate(Path.Settings)
+    }
 
     const [showCodeModal, setShowCodeModal] = React.useState(false);
 
@@ -90,46 +99,42 @@ export const RenderSubmitter = (props: {
         <>
             <ProForm.Item>
                 <Affix offsetBottom={12}>
-                    <div
-                        style={{}}
+                    <Space
+                        direction={"vertical"}
+                        style={{width: "100%",}}
+                        size={[8, 8]}
                     >
-                        <Space
-                            direction={"vertical"}
-                            style={{width: "100%",}}
-                            size={[8, 8]}
+                        <Button
+                            block
+                            icon={props.submitting ? <LoadingOutlined/> : undefined}
+                            type={props.submitting ? "default" : "primary"}
+                            danger={props.submitting || props.noApiKeys}
+                            onClick={() => props.noApiKeys ? navigateToSettings() : props.submitting ? props.abortController?.abort() : props.submitterProps.submit()}
                         >
-                            <Button
-                                block
-                                icon={props.submitting ? <LoadingOutlined/> : undefined}
-                                type={props.submitting ? "default" : "primary"}
-                                danger={props.submitting}
-                                onClick={() => props.submitting ? props.abortController?.abort() : props.submitterProps.submit()}
-                            >
-                                {props.submitting ? "Cancel" : "Send"}
-                            </Button>
-                            <Row gutter={8}>
-                                {props.getValues !== false && (
-                                    <Col span={12}>
-                                        <Button
-                                            block
-                                            onClick={() => setShowCodeModal(true)}
-                                        >
-                                            Show Data
-                                        </Button>
-                                    </Col>
-                                )}
-                                <Col span={props.getValues !== false ? 12 : 24}>
+                            {props.noApiKeys ? "Set API Keys" : props.submitting ? "Cancel" : "Send"}
+                        </Button>
+                        <Row gutter={8}>
+                            {props.getValues !== false && (
+                                <Col span={12}>
                                     <Button
                                         block
-                                        danger
-                                        onClick={() => props.submitterProps.reset()}
+                                        onClick={() => setShowCodeModal(true)}
                                     >
-                                        Reset
+                                        Show Data
                                     </Button>
                                 </Col>
-                            </Row>
-                        </Space>
-                    </div>
+                            )}
+                            <Col span={props.getValues !== false ? 12 : 24}>
+                                <Button
+                                    block
+                                    danger
+                                    onClick={() => props.submitterProps.reset()}
+                                >
+                                    Reset
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Space>
                 </Affix>
             </ProForm.Item>
             {props.getValues !== false &&

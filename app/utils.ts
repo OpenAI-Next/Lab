@@ -180,3 +180,6 @@ export function CloseAllSound(audio?: any): void {
     }
 }
 
+export function noApiKeys(key: string): boolean {
+    return key === '' || key === undefined || key === null;
+}

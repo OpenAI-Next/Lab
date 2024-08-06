@@ -3,6 +3,7 @@
 import {ViduEndpoint} from "@/constant";
 import {api2ProviderBaseUrl} from "@/app/store";
 import {getRequestOptions} from "@/app/client/helper";
+import {noApiKeys} from "@/app/utils";
 
 export interface ViduTaskGenerationRequest {
     input: {
@@ -213,6 +214,10 @@ export class ViduAPI {
 
     constructor(apiKey: string) {
         this.apiKey = apiKey;
+    }
+
+    noKey(): boolean {
+        return noApiKeys(this.apiKey);
     }
 
     path(endpoint: ViduEndpoint) {

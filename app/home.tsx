@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import {CENTER_STYLE, Path} from "@/constant";
 import SystemLogo from "@/app/icons/logo/logo.svg";
 import SunoIcon from "@/app/icons/suno.svg";
+import FluxIcon from "@/app/icons/flux.svg";
 import ViduIcon from "@/app/icons/vidu.svg";
 import LoadingIcon from "@/app/icons/three-dots.svg";
 import MidjourneyIcon from "@/app/icons/midjourney.svg";
@@ -107,6 +108,10 @@ const DallePage = dynamic(async () => (await import("./pages/Dalle")).default, {
     loading: () => <Loading logo={<DalleIcon/>}/>,
 });
 
+const FluxPage = dynamic(async () => (await import("./pages/Flux")).FluxPage, {
+    loading: () => <Loading logo={<FluxIcon/>}/>,
+});
+
 const PikaPage = dynamic(async () => (await import("./pages/Pika")).default, {
     loading: () => <Loading logo={<PikaIcon/>}/>,
 });
@@ -134,6 +139,8 @@ const EmbeddingsPage = dynamic(async () => (await import("./pages/Embeddings")).
 const Doc2XPage = dynamic(async () => (await import("./pages/Doc2X")).default, {
     loading: () => <Loading/>,
 });
+
+
 
 const printCopyRight = () => console.log("@Kadxy 2024.")
 
@@ -215,6 +222,11 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                         icon: <PictureFilled/>,
                     },
                     {
+                        path: Path.Flux,
+                        name: "Flux",
+                        icon: <Icon component={FluxIcon}/>,
+                    },
+                    {
                         path: Path.TTS,
                         name: "TTS",
                         icon: <SoundFilled/>
@@ -294,6 +306,7 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                     <Route path={Path.Chat} element={<ChatCompletionsPage/>}/>
                     <Route path={Path.Embeddings} element={<EmbeddingsPage/>}/>
                     <Route path={Path.Dalle} element={<DallePage/>}/>
+                    <Route path={Path.Flux} element={<FluxPage/>}/>
                     <Route path={Path.TTS} element={<TTSPage/>}/>
                     <Route path={Path.ASR} element={<WhisperPage/>}/>
                     <Route path={Path.Midjourney} element={<MidjourneyPage/>}/>

@@ -7,6 +7,7 @@ export enum Path {
     Chat = "/chat",
     Embeddings = "/embeddings",
     Dalle = "/dalle",
+    Flux = "/flux",
     TTS = "/tts",
     ASR = "/asr",
     Settings = "/settings",

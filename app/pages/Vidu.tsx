@@ -16,7 +16,7 @@ import {
     ProFormTextArea
 } from "@ant-design/pro-components";
 import React, {ReactNode, useState} from "react";
-import {ExperimentOutlined, FileTextOutlined, UnorderedListOutlined} from "@ant-design/icons";
+import {ExpandAltOutlined, ExperimentOutlined, FileTextOutlined, UnorderedListOutlined} from "@ant-design/icons";
 import {Button, Col, Divider, Empty, Image, Segmented, Spin, Typography} from "antd";
 import {COL_SCROLL_STYLE, PRO_FORM_PROPS} from "@/constant";
 import {CodeModal, renderCode, RenderSubmitter} from "@/app/render";
@@ -29,7 +29,7 @@ import {
 } from "@/app/client/ViduProxy";
 
 const GenerationForm = (props: {
-    form: ProFormInstance<SunoUploadRequest>,
+    form: ProFormInstance,
     api: ViduAPI,
     updateResponse: (data: ViduTaskGenerationResponse) => void,
     updateError: (error: any) => void,
@@ -215,7 +215,7 @@ const GenerationForm = (props: {
 }
 
 const UpscaleForm = (props: {
-    form: ProFormInstance<SunoUploadRequest>,
+    form: ProFormInstance,
     api: ViduAPI,
     updateResponse: (data: ViduTaskGenerationResponse) => void,
     updateError: (error: any) => void,
@@ -303,7 +303,7 @@ const UpscaleForm = (props: {
 }
 
 const QueryForm = (props: {
-    form: ProFormInstance<SunoUploadRequest>,
+    form: ProFormInstance,
     api: ViduAPI,
     updateResponse: (data: ViduTaskGenerationResponse) => void,
     updateError: (error: any) => void,
@@ -524,7 +524,7 @@ export function ViduPage() {
 
     const type_options = [
         {label: "Generate", value: "generate", icon: <UnorderedListOutlined/>},
-        {label: "Upscale", value: "upscale", icon: <FileTextOutlined/>},
+        {label: "Upscale", value: "upscale", icon: <ExpandAltOutlined />},
         {label: "Query", value: "query", icon: <FileTextOutlined/>},
     ]
 
@@ -569,7 +569,7 @@ export function ViduPage() {
 
     return (
         <>
-            <Col flex="400px" style={COL_SCROLL_STYLE}>
+            <Col flex="340px" style={COL_SCROLL_STYLE}>
                 <Segmented
                     value={formType}
                     style={{marginBottom: 20}}

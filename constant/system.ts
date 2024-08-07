@@ -101,3 +101,9 @@ export enum StableDiffusionEndpoint {
     StableDiffusion3 = "sd/v2beta/stable-image/generate/sd3",
     TextToImage = "sd/v1/generation/{{engine_id}}/text-to-image",
 }
+
+export enum FluxEndpoint {
+    IMAGE = "flux/v1/image",
+    GET = "flux/v1/get_result?request_id={{request_id}}",
+    PROMPT_ENHANCE = "flux/v1/chat",
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import {App as AntdApp, ConfigProvider, Row, theme} from "antd";
-import {ReactNode, useEffect, useState} from "react";
+import React, {ReactNode, useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 import {CENTER_STYLE, Path} from "@/constant";
 import SystemLogo from "@/app/icons/logo/logo.svg";
@@ -22,7 +22,7 @@ import Icon, {
     AudioFilled,
     CalculatorFilled,
     DatabaseFilled,
-    FolderOpenFilled,
+    FolderOpenFilled, GithubFilled,
     HomeFilled,
     MessageFilled,
     MoneyCollectFilled,
@@ -191,12 +191,12 @@ const App = (props: { dark: boolean, updateConfig: any }) => {
                         {props.dark ? <SunFilled style={{color: "#FF6D00"}}/> :
                             <MoonFilled style={{color: "#AB47BC"}}/>}
                     </span>,
-                    // <span
-                    //     key="Github"
-                    //     onClick={() => window.open("https://github.com/OpenAI-Next")}
-                    // >
-                    //     <GithubFilled style={{color: props.dark ? "#757575" : "#323232"}}/>
-                    // </span>,
+                    <span
+                        key="Github"
+                        onClick={() => window.open("https://github.com/OpenAI-Next/Lab")}
+                    >
+                        <GithubFilled style={{color: props.dark ? "#757575" : "#323232"}}/>
+                    </span>,
                 ];
             }}
             route={{

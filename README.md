@@ -22,8 +22,9 @@ OpenAI-Next-API 有 2 个平台可供选择，其中 **Next API** 提供按量�
 
 如果你在使用过程中遇到任何问题，欢迎在 [GitHub Issues](https://github.com/OpenAI-Next/Lab/issues) 中反馈。
 
-您也可以加入我们的 [飞书群]() 与我们交流。
-
 ## 贡献代码
 
 我们欢迎您为 OpenAI-Next-Lab 贡献代码，每周我们会对提交的 PR 进行 Review 并及时合并。
+
+## 关联项目
+[ai-model-hub](https://github.com/OpenAI-Next/ai-model-hub) 维护了最新的 AI 模型信息，并提供 npm 包供开发者使用。

@@ -9,6 +9,7 @@ export const CENTER_STYLE: CSSProperties = {
 }
 
 export const SCROLL_STYLE: CSSProperties = {
+    width: "100%",
     height: "100vh",
     overflowY: "scroll",
     scrollbarWidth: "none",

@@ -1,148 +1,9 @@
-import {Row} from "antd";
+import {Row, Typography} from "antd";
 import {SCROLL_STYLE} from "@/constant";
 import {modelHub} from "ai-model-hub";
+import {ProCard, ProTable} from "@ant-design/pro-components";
 
-// const RenderContent = (prop: {
-//     title: ReactNode;
-//     data: ProviderModelListType;
-// }) => {
-//     const getPrice = (price: number) => {
-//         // 将数字转换为字符串
-//         const priceString = price.toString();
-//         // 找到小数点的位置
-//         const decimalIndex = priceString.indexOf('.');
-//
-//         // 如果没有小数点，或者小数点后不足两位，则补足两位小数
-//         if (decimalIndex === -1 || priceString.length - decimalIndex <= 2) {
-//             return price.toFixed(2);
-//         } else {
-//             // 如果有两位以上的小数，则保留原始的小数位数
-//             return priceString;
-//         }
-//     }
-//     const renderTokenPrice = (record: ModelListType, type: "prompt" | "complete") => {
-//         const value = record.price[type];
-//         const {Text} = Typography;
-//
-//         if (value === null) {
-//             return <Text type={"secondary"}>-</Text>;
-//         } else {
-//             return (
-//                 <>
-//                     <Text>${getPrice(value)}</Text>
-//                     <Text type={"secondary"}> / {record.price.unit || "1M tokens"}</Text>
-//                 </>
-//             );
-//         }
-//     }
-//     const renderTimesPrice = (record: ModelListType) => {
-//         const value = record.price.times;
-//         const {Text} = Typography;
-//         if (value === null) {
-//             return <Text type={"secondary"}>-</Text>;
-//         }
-//         if (typeof value === "number") {
-//             return (
-//                 <>
-//                     <Text>${getPrice(value)}</Text>
-//                     <Text type={"secondary"}> / {record.price.unit || "次"}</Text>
-//                 </>
-//             )
-//         }
-//         if (typeof value === "object") {
-//             if (value.columns) return (
-//                 <table style={{width: "100%", borderCollapse: "collapse"}}>
-//                     <thead style={{textAlign: "center", background: "#f2f2f2", fontSize: 13}}>
-//                     <tr style={{textAlign: "center"}}>
-//                         {value.columns.map((col: any, index: number) => (
-//                             <th key={`header-${index}`}
-//                                 style={{border: "1px solid #ddd", padding: "4px"}}
-//                             >
-//                                 {col.title}
-//                             </th>
-//                         ))}
-//                     </tr>
-//                     </thead>
-//                     <tbody style={{textAlign: "center", fontSize: 12}}>
-//                     {value.dataSource.map((row: any, rowIndex: number) => (
-//                         <tr key={`row-${rowIndex}`}>
-//                             {value.columns.map((col: any, colIndex: number) => (
-//                                 <td key={`cell-${rowIndex}-${colIndex}`}
-//                                     style={{border: "1px solid #ddd", padding: "4px"}}>
-//                                     {col.name === "price" ?
-//                                         <Typography.Text style={{fontSize: 12}}>${getPrice(row[col.name])}
-//                                             <Typography.Text style={{fontSize: 12}} type={"secondary"}>
-//                                                 / {record.price.unit || "次"}
-//                                             </Typography.Text>
-//                                         </Typography.Text> : row[col.name]}
-//                                 </td>
-//                             ))}
-//                         </tr>
-//                     ))}
-//                     </tbody>
-//                 </table>
-//             );
-//         }
-//     }
-//
-//
-//     return (
-//         <ProCard
-//             title={prop.title}
-//             bordered
-//             headerBordered
-//         >
-//             <Table
-//                 pagination={false}
-//                 size={"small"}
-//                 columns={[
-//                     {
-//                         title: "模型名称",
-//                         dataIndex: "model",
-//                         render: (value) => <Typography.Text strong copyable>{value}</Typography.Text>,
-//                         width: "20%",
-//                     },
-//                     {
-//                         title: "类型",
-//                         dataIndex: "category",
-//                         width: "10%",
-//                     },
-//                     {
-//                         title: "提示价格",
-//                         dataIndex: ["price", "prompt"],
-//                         render: (_, record) => renderTokenPrice(record, "prompt"),
-//                         width: "15%",
-//                     },
-//                     {
-//                         title: "补全价格",
-//                         dataIndex: ["price", "complete"],
-//                         render: (_, record) => renderTokenPrice(record, "complete"),
-//                         width: "15%",
-//                     },
-//                     {
-//                         title: "按次价格",
-//                         dataIndex: ["price", "times"],
-//                         render: (_, record) => renderTimesPrice(record),
-//                         width: "20%",
-//                     },
-//                     {
-//                         title: "备注",
-//                         dataIndex: "mark",
-//                         width: "15%",
-//                     },
-//                     {
-//                         title: "更多",
-//                         key: "more",
-//                         width: "5%",
-//                         align: "center",
-//                         render: () => <Typography.Link>详情</Typography.Link>
-//                     }
-//                 ]}
-//                 scroll={{x: 900}}
-//             />
-//         </ProCard>
-//     );
-// }
+const {Text} = Typography;
 
 export function PricingPage() {
     return (
@@ -151,13 +12,93 @@ export function PricingPage() {
                 gutter={[16, 16]}
                 style={{...SCROLL_STYLE, height: "100%", padding: 32, borderRadius: 16}}
             >
-                {modelHub.getAll().map((provider) => {
-                    return (
-                        <>
-                            {provider.models_list}
-                        </>
-                    );
-                })}
+                <>
+                    {modelHub.getAll().map((provider) => {
+                        return (
+                            <ProCard
+                                title={provider.provider}
+                                key={provider.provider}
+                                bordered
+                                headerBordered
+                            >
+                                <ProTable
+                                    options={false}
+                                    pagination={false}
+                                    search={false}
+                                    size={"small"}
+                                    dataSource={provider.models_list}
+                                    columns={[
+                                        {
+                                            title: "模型名称",
+                                            dataIndex: "name",
+                                            width: "15%",
+                                            render: (_, record) => <Text strong copyable>{record.name}</Text>
+                                        },
+                                        {
+                                            title: "发布时间",
+                                            dataIndex: "release_time",
+                                            width: "10%",
+                                            render: (_, record) => {
+                                                try {
+                                                    const timestamp = Number(record.release_time) * 1000;
+                                                    if (isNaN(timestamp) || timestamp < 0) {
+                                                        return <Text type={"secondary"}>-</Text>
+                                                    } else {
+                                                        const date = {
+                                                            year: new Date(timestamp).getFullYear(),
+                                                            month: new Date(timestamp).getMonth() + 1,
+                                                            day: new Date(timestamp).getDate(),
+                                                        };
+                                                        return <Text>{date.year}-{(date.month).toString().padStart(2, "0")}-{(date.day).toString().padStart(2, "0")}</Text>
+                                                    }
+                                                } catch (e) {
+                                                    return <Text type={"secondary"}>-</Text>
+                                                }
+                                            },
+                                        },
+                                        {
+                                            title: "模型介绍",
+                                            dataIndex: "description",
+                                            width: "50%",
+                                            ellipsis: true,
+                                        },
+                                        {
+                                            title: "价格（输入）",
+                                            render: (_, record) => {
+                                                const price = record?.price?.[0]?.input;
+                                                const isFree = price === 0;
+                                                return (
+                                                    price ? isFree ? <Text type={"success"}>免费</Text> :
+                                                            <Text>${price} / 1M tokens</Text> :
+                                                        <Text type={"secondary"}>暂无</Text>
+                                                )
+                                            },
+                                            width: "10%",
+                                        },
+                                        {
+                                            title: "价格（输出）",
+                                            render: (_, record) => {
+                                                const price = record?.price?.[0]?.output;
+                                                const isFree = price === 0;
+                                                return (
+                                                    price ? isFree ? <Text type={"success"}>免费</Text> :
+                                                            <Text>${price} / 1M tokens</Text> :
+                                                        <Text type={"secondary"}>暂无</Text>
+                                                )
+                                            },
+                                            width: "10%",
+                                        },
+                                    ]}
+                                />
+                            </ProCard>
+                        );
+                    })}
+                    <Text type={"secondary"} style={{marginTop: 6}}>
+                        You can view the update records of model information, submit feedback or suggestions in
+                        our <Typography.Link
+                        href={"https://github.com/OpenAI-Next/ai-model-hub"}>GitHub Repository</Typography.Link>.
+                    </Text>
+                </>
             </Row>
         </div>
     );

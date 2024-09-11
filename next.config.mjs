@@ -28,7 +28,7 @@ const nextConfig = {
 
         return config;
     },
-    transpilePackages: ['@lobehub/icons'],
+    // transpilePackages: [],
     output: mode,
     reactStrictMode: false,
     images: {

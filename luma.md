@@ -16,14 +16,13 @@ code_clipboard: true
 highlight_theme: darkula
 headingLevel: 2
 generator: "@tarslib/widdershins v4.0.23"
-
 ---
 
 # 个人项目
 
 Base URLs:
 
-* <a href="https://api.gptgod.online">api.gptgod.online: https://api.gptgod.online</a>
+- <a href="https://api.gptgod.online">api.gptgod.online: https://api.gptgod.online</a>
 
 # Authentication
 
@@ -47,9 +46,9 @@ POST /v1/luma/generations
 
 ### 请求参数
 
-|名称|位置|类型|必选|说明|
-|---|---|---|---|---|
-|body|body|object| 否 |none|
+| 名称 | 位置 | 类型   | 必选 | 说明 |
+| ---- | ---- | ------ | ---- | ---- |
+| body | body | object | 否   | none |
 
 > 返回示例
 
@@ -61,9 +60,9 @@ POST /v1/luma/generations
 
 ### 返回结果
 
-|状态码|状态码含义|说明|数据模型|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功|Inline|
+| 状态码 | 状态码含义                                              | 说明 | 数据模型 |
+| ------ | ------------------------------------------------------- | ---- | -------- |
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1) | 成功 | Inline   |
 
 ### 返回数据结构
 
@@ -83,9 +82,9 @@ POST /v1/luma/task
 
 ### 请求参数
 
-|名称|位置|类型|必选|说明|
-|---|---|---|---|---|
-|body|body|object| 否 |none|
+| 名称 | 位置 | 类型   | 必选 | 说明 |
+| ---- | ---- | ------ | ---- | ---- |
+| body | body | object | 否   | none |
 
 > 返回示例
 
@@ -97,11 +96,10 @@ POST /v1/luma/task
 
 ### 返回结果
 
-|状态码|状态码含义|说明|数据模型|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功|Inline|
+| 状态码 | 状态码含义                                              | 说明 | 数据模型 |
+| ------ | ------------------------------------------------------- | ---- | -------- |
+| 200    | [OK](https://tools.ietf.org/html/rfc7231#section-6.3.1) | 成功 | Inline   |
 
 ### 返回数据结构
 
 # 数据模型
-

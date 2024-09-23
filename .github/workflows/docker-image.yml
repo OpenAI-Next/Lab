@@ -3,10 +3,9 @@ name: Docker Image CI
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
-
   build-and-push:
     runs-on: ubuntu-latest
 

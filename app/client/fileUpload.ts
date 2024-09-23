@@ -1,22 +1,18 @@
 interface PROXY_API_RESPONSE {
-    code: number;
-    msg: string;
-    sn: string;
-    data: {
-        url: string;
-        filename: string;
-        image: boolean;
-    }
+  code: number;
+  msg: string;
+  sn: string;
+  data: {
+    url: string;
+    filename: string;
+    image: boolean;
+  };
 }
 
-export class FileUpload{
+export class FileUpload {
+  path() {
+    return "/v1/file";
+  }
 
-    path(){
-        return "/v1/file";
-    }
-
-    auth(){
-
-    }
-
+  auth() {}
 }

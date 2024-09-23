@@ -8,65 +8,65 @@ console.log("[Next] build with chunk: ", !disableChunk);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    webpack(config) {
-        config.module.rules.push(
-            {test: /\.svg$/, use: ["@svgr/webpack"]}
-        );
+  webpack(config) {
+    config.module.rules.push({ test: /\.svg$/, use: ["@svgr/webpack"] });
 
-        if (disableChunk) {
-            config.plugins.push(new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1}));
-        }
+    if (disableChunk) {
+      config.plugins.push(
+        new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+      );
+    }
 
-        config.resolve.fallback = {
-            child_process: false,
-        };
+    config.resolve.fallback = {
+      child_process: false,
+    };
 
-        config.experiments = {
-            // asyncWebAssembly: true,
-            layers: true,
-        };
+    config.experiments = {
+      // asyncWebAssembly: true,
+      layers: true,
+    };
 
-        return config;
-    },
-    // transpilePackages: [],
-    output: mode,
-    reactStrictMode: false,
-    images: {
-        unoptimized: mode === "export",
-    },
-    experimental: {
-        forceSwcTransforms: true,
-    },
+    return config;
+  },
+  // transpilePackages: [],
+  output: mode,
+  reactStrictMode: false,
+  images: {
+    unoptimized: mode === "export",
+  },
+  experimental: {
+    forceSwcTransforms: true,
+  },
 };
 
 const CorsHeaders = [
-    {key: "Access-Control-Allow-Credentials", value: "true"},
-    {key: "Access-Control-Allow-Origin", value: "*"},
-    {key: "Access-Control-Allow-Methods", value: "*",},
-    {key: "Access-Control-Allow-Headers", value: "*",},
-    {key: "Access-Control-Max-Age", value: "86400",},
+  { key: "Access-Control-Allow-Credentials", value: "true" },
+  { key: "Access-Control-Allow-Origin", value: "*" },
+  { key: "Access-Control-Allow-Methods", value: "*" },
+  { key: "Access-Control-Allow-Headers", value: "*" },
+  { key: "Access-Control-Max-Age", value: "86400" },
 ];
 
 nextConfig.headers = async () => {
-    return [
-        {
-            source: "/api/:path*",
-            headers: CorsHeaders,
-        },
-    ];
+  return [
+    {
+      source: "/api/:path*",
+      headers: CorsHeaders,
+    },
+  ];
 };
 
 nextConfig.rewrites = async () => {
-    return [
-        {
-            source: "/nextapi/:path*",
-            destination: "https://api.openai-next.com/:path*",
-        },
-        {
-            source: "/proxyapi/:path*",
-            destination: "https://mj.openai-next.com/:path*",
-        }
-    ];
+  return [
+    {
+      source: "/nextapi/:path*",
+      destination: "https://api.openai-next.com/:path*",
+    },
+    {
+      source: "/proxyapi/:path*",
+      destination: "https://mj.openai-next.com/:path*",
+    },
+  ];
 };
 
 export default nextConfig;

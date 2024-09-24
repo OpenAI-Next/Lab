@@ -11,7 +11,7 @@ import {
 } from "@/app/providers/interfaces";
 import { ApiRequestConfig, makeApiRequest } from "@/app/utils/fetch";
 
-export interface GenerateText2VideoTaskRequest {
+interface GenerateText2VideoTaskRequest {
   /**
    * 生成视频的画面纵横比，可选，枚举值：16:9, 9:16, 1:1
    */
@@ -82,7 +82,7 @@ export interface GenerateText2VideoTaskRequest {
   [property: string]: any;
 }
 
-export interface GenerateText2VideoTaskResponse {
+interface GenerateText2VideoTaskResponse {
   /**
    * 错误码；具体定义错误码
    */
@@ -194,7 +194,11 @@ export class KelingAI implements AIProvider {
     this.api_config.authorization = apiKey;
   }
 
-  callApi: CallApiFunction<KelingApiTypes> = (callKey, params) => {
+  callApi: CallApiFunction<KelingApiTypes, typeof this.api_config> = (
+    callKey,
+    params,
+    endpoint_params,
+  ) => {
     const headers: HeadersInit = {
       Authorization: `Bearer ${this.api_config.authorization}`,
     };

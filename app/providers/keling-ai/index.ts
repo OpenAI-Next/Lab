@@ -123,6 +123,15 @@ export interface KelingApiTypes extends CommonApiTypes {
     req: GenerateText2VideoTaskRequest;
     res: GenerateText2VideoTaskResponse;
   };
+  queryTask: {
+    req: never;
+    res: any;
+    endpoint_params: {
+      action: "images" | "videos";
+      action2: "generations" | "text2video" | "image2video";
+      task_id: string;
+    };
+  };
 }
 
 export class KelingAI implements AIProvider {
@@ -187,6 +196,11 @@ export class KelingAI implements AIProvider {
         method: "GET",
         endpoint: "kling/v1/videos/text2video",
       },
+      queryTask: {
+        label: "查询任务",
+        method: "GET",
+        endpoint: "kling/v1/{action}/{action2}/{task_id}",
+      },
     },
   };
 
@@ -194,11 +208,11 @@ export class KelingAI implements AIProvider {
     this.api_config.authorization = apiKey;
   }
 
-  callApi: CallApiFunction<KelingApiTypes, typeof this.api_config> = (
+  callApi: CallApiFunction<KelingApiTypes> = ({
     callKey,
     params,
     endpoint_params,
-  ) => {
+  }) => {
     const headers: HeadersInit = {
       Authorization: `Bearer ${this.api_config.authorization}`,
     };
@@ -206,12 +220,8 @@ export class KelingAI implements AIProvider {
     switch (callKey) {
       case "generateText2VideoTask":
         const opt: ApiRequestConfig = {
-          name: this.api_config.call_map[callKey].label,
-          url: [
-            this.api_config.base_url,
-            this.api_config.call_map[callKey].endpoint,
-          ].join("/"),
-          opt: {
+          endpoint: this.api_config.call_map[callKey].endpoint,
+          options: {
             method: this.api_config.call_map[callKey].method,
             headers,
             body: params,

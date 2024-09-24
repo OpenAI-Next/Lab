@@ -284,7 +284,7 @@ export interface ProviderWebsite {
 
 /**
  * AI 提供商 API 类型定义，用于限制每个 API 的请求和响应类型
- * KEY 为 API 名称，VALUE 为请求和响应类型
+ * KEY 为 API 名称，VALUE 为请求和响应类型，以及可选的 endpoint 参数
  * 其 KEY 会对以下类型限制：
  * - ProviderAPIConfig 的 call_map 的 KEY
  * - CallApiFunction 的 callKey
@@ -297,6 +297,9 @@ export interface CommonApiTypes {
   [key: string]: {
     req: any;
     res: any;
+    endpoint_params?: {
+      [key: string]: string;
+    };
   };
 }
 
@@ -308,23 +311,21 @@ export interface ProviderAPIConfig<ApiTypes extends CommonApiTypes> {
       label: string;
       method: RequestInit["method"];
       endpoint: string;
-      endpoint_params?: { [key: string]: string };
     };
   };
 }
 
-export type CallApiFunction<
-  ApiTypes extends CommonApiTypes,
-  Config extends ProviderAPIConfig<ApiTypes>,
-> = <K extends keyof ApiTypes>(
-  callKey: K,
-  params: ApiTypes[K]["req"],
-  endpoint_params: Config["call_map"][K]["endpoint_params"] extends {
+export type CallApiFunction<ApiTypes extends CommonApiTypes> = <
+  K extends keyof ApiTypes,
+>(args: {
+  callKey: K;
+  params?: ApiTypes[K]["req"];
+  endpoint_params?: ApiTypes[K]["endpoint_params"] extends {
     [key: string]: string;
   }
-    ? Config["call_map"][K]["endpoint_params"]
-    : never,
-) > Promise<ApiTypes[K]["res"]>;
+    ? ApiTypes[K]["endpoint_params"]
+    : never;
+}) => Promise<ApiTypes[K]["res"]>;
 
 /**
  * AI 提供商接口
@@ -355,5 +356,5 @@ export interface AIProvider {
    */
   readonly api_config: ProviderAPIConfig<any>;
 
-  callApi: CallApiFunction<any, any>;
+  callApi: CallApiFunction<any>;
 }

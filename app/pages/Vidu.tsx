@@ -1,7 +1,6 @@
 // app/pages/Vidu.tsx
 
 import { api2Provider, useAppConfig } from "@/app/store";
-import { SunoUploadRequest } from "@/app/client/sunoProxy";
 import {
   ProCard,
   ProDescriptions,

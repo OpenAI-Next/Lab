@@ -297,7 +297,7 @@ export interface CommonApiTypes {
   [key: string]: {
     req: any;
     res: any;
-    endpoint_params?: {
+    endpoint_params: {
       [key: string]: string;
     };
   };
@@ -317,15 +317,19 @@ export interface ProviderAPIConfig<ApiTypes extends CommonApiTypes> {
 
 export type CallApiFunction<ApiTypes extends CommonApiTypes> = <
   K extends keyof ApiTypes,
->(args: {
-  callKey: K;
-  params?: ApiTypes[K]["req"];
-  endpoint_params?: ApiTypes[K]["endpoint_params"] extends {
-    [key: string]: string;
-  }
-    ? ApiTypes[K]["endpoint_params"]
-    : never;
-}) => Promise<ApiTypes[K]["res"]>;
+>(
+  // args: { callKey: K } & (ApiTypes[K]["req"] extends never
+  //   ? { params?: never }
+  //   : { params: ApiTypes[K]["req"] }) &
+  //   (ApiTypes[K]["endpoint_params"] extends undefined
+  //     ? { endpoint_params?: never }
+  //     : { endpoint_params: ApiTypes[K]["endpoint_params"] }),
+  args: {
+    callKey: K;
+    params: ApiTypes[K]["req"];
+    endpoint_params: ApiTypes[K]["endpoint_params"];
+  },
+) => Promise<ApiTypes[K]["res"]>;
 
 /**
  * AI 提供商接口

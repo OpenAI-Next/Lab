@@ -9,7 +9,11 @@ import {
   ProviderName,
   ProviderWebsite,
 } from "@/app/providers/interfaces";
-import { ApiRequestConfig, makeApiRequest } from "@/app/utils/fetch";
+import {
+  ApiRequestConfig,
+  makeApiRequest,
+  replaceEndpointParams,
+} from "@/app/utils/fetch";
 
 interface GenerateText2VideoTaskRequest {
   /**
@@ -122,6 +126,7 @@ export interface KelingApiTypes extends CommonApiTypes {
   generateText2VideoTask: {
     req: GenerateText2VideoTaskRequest;
     res: GenerateText2VideoTaskResponse;
+    endpoint_params: never;
   };
   queryTask: {
     req: never;
@@ -228,8 +233,18 @@ export class KelingAI implements AIProvider {
           },
         };
         return makeApiRequest(opt);
-      case "test":
-        return Promise.resolve(params as any);
+      case "queryTask":
+        const opt2: ApiRequestConfig = {
+          endpoint: replaceEndpointParams(
+            endpoint_params,
+            this.api_config.call_map[callKey].endpoint,
+          ),
+          options: {
+            method: this.api_config.call_map[callKey].method,
+            headers,
+          },
+        };
+        return makeApiRequest(opt2);
       default:
         throw new Error(`Unknown API call key: ${callKey}`);
     }

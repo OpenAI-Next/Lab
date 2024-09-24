@@ -17,3 +17,12 @@ export const makeApiRequest = async (config: ApiRequestConfig) => {
   console.log(`[Fetch Response] ${config.endpoint}`, data);
   return data;
 };
+
+export const replaceEndpointParams = (
+  params: Record<string, string>,
+  endpoint: string,
+): string => {
+  return Object.entries(params).reduce((acc, [key, value]) => {
+    return acc.replace(`:${key}`, value);
+  }, endpoint);
+};

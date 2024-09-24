@@ -1,3 +1,6 @@
+export const BASE_URL_A = "https://api.openai-next.com";
+export const BASE_URL_B = "https://draw.openai-next.com";
+
 /**
  * AI 模型类别
  */
@@ -81,67 +84,83 @@ export interface ModelSeries {
 /**
  * 模型信息
  */
-export interface ModelInfo {
-  /**
-   * 最大上下文长度
-   */
-  max_context: number | null;
-
-  /**
-   * 最大生成 token 数
-   */
-  max_tokens: number | null;
-
-  /**
-   * 温度范围
-   */
-  temperature_range: [number, number] | number[] | null;
-
-  /**
-   * 是否支持函数调用
-   */
-  function_call_support?: boolean;
-
-  /**
-   * 是否支持工具选择
-   */
-  tool_choice_support?: boolean;
-
-  /**
-   * 是否支持网络搜索
-   */
-  network_search_support?: boolean;
-
-  /**
-   * 图像处理能力
-   */
-  image_ability: {
-    /**
-     * 是否支持图像输入
-     */
-    input: boolean;
-
-    /**
-     * 是否支持图像输出
-     */
-    output: boolean;
-  };
-
-  /**
-   * 模型参数
-   */
-  parameters: any;
-
-  /**
-   * 训练截止时间（Unix 时间戳）
-   */
-  training_data: number | null;
-}
+// export interface ModelInfo {
+//   /**
+//    * 最大上下文长度
+//    */
+//   max_context?: number;
+//
+//   /**
+//    * 最大生成 token 数
+//    */
+//   max_tokens?: number;
+//
+//   /**
+//    * 温度范围
+//    */
+//   temperature_range?: [number, number];
+//
+//   /**
+//    * 是否支持函数调用
+//    */
+//   function_call_support?: boolean;
+//
+//   /**
+//    * 是否支持工具选择
+//    */
+//   tool_choice_support?: boolean;
+//
+//   /**
+//    * 是否支持网络搜索
+//    */
+//   network_search_support?: boolean;
+//
+//   /**
+//    * 图像处理能力
+//    */
+//   image_ability?: {
+//     /**
+//      * 是否支持图像输入
+//      */
+//     input: boolean;
+//
+//     /**
+//      * 是否支持图像输出
+//      */
+//     output: boolean;
+//   };
+//
+//   /**
+//    * 视频处理能力
+//    */
+//   video_ability?: {
+//     /**
+//      * 是否支持图像输入
+//      */
+//     input: boolean;
+//
+//     /**
+//      * 是否支持图像输出
+//      */
+//     output: boolean;
+//   };
+//
+//   /**
+//    * 模型参数
+//    */
+//   parameters?: string;
+//
+//   /**
+//    * 训练截止时间（Unix 时间戳）
+//    */
+//   training_data?: number;
+// }
 
 /**
  * 按 token 计费的价格结构
  */
 export interface ModelPriceToken {
+  type: "token";
   /**
    * 计价单位，默认为 1000000(1M)
    */
@@ -167,8 +186,10 @@ export interface ModelPriceToken {
  * 按请求次数计费的价格结构
  */
 export interface ModelPriceRequest {
+  type: "request";
   /**
    * 货币单位，默认为 CNY
+   * @default "CNY"
    */
   unit?: "CNY" | "USD";
 
@@ -184,42 +205,25 @@ export interface ModelPriceRequest {
  * 按时长计费的价格结构
  */
 export interface ModelPriceDuration {
-  /**
-   * 时间单位，默认为秒(s)
-   */
-  unit?: "s" | "m" | "h";
-
-  /**
-   * 不同时长的价格
-   */
+  type: "duration";
   price: {
-    [duration: string]: number;
+    /**
+     * 时长（秒）和价格的映射关系
+     * @example { 10: 1, 300: 5 } 表示 10秒 1 元，5 分钟 5 元
+     */
+    [second: number]: number;
   };
 }
 
 /**
- * 模型价格
+ * 其他价格结构
  */
-export interface ModelPrice {
+export interface ModelPriceOther {
+  type: "other";
   /**
-   * 价格类型
-   * - token: 按 token 计费
-   * - request: 按请求次数计费
-   * - duration: 按时长计费
+   * 价格描述，例如：免费、按需付费等
    */
-  type: "token" | "request" | "duration";
-
-  /**
-   * 具体价格结构
-   * 根据 type 的值确定具体的价格结构
-   */
-  price: ModelPrice["type"] extends "token"
-    ? ModelPriceToken
-    : ModelPrice["type"] extends "request"
-      ? ModelPriceRequest
-      : ModelPrice["type"] extends "duration"
-        ? ModelPriceDuration
-        : never;
+  description: string;
 }
 
 /**
@@ -232,30 +236,28 @@ export interface Model {
   name: string;
 
   /**
-   * 模型描述
+   * 模型描述，没有可为空字符串
    */
   description: string;
 
   /**
-   * 发布时间（Unix 时间戳）
-   */
-  release_time: number;
-
-  /**
    * 价格信息
    */
-  price: ModelPrice;
+  price:
+    | ModelPriceToken
+    | ModelPriceRequest
+    | ModelPriceDuration
+    | ModelPriceOther;
 
   /**
-   * 模型详细信息
+   * 发布时间（Unix 时间戳），undefined 表示未知
    */
-  info: ModelInfo;
+  release_time: number | undefined;
 
   /**
-   * 停用时间（Unix 时间戳）
-   * 如果为 null 则表示未停用
+   * 停用时间（Unix 时间戳），-1 表示目前仍在运行，undefined 表示已停用但未知停用时间
    */
-  shutdown_time: number | null;
+  shutdown_time: number | undefined;
 }
 
 export interface ProviderName {
@@ -280,6 +282,32 @@ export interface ProviderWebsite {
   api_pricing?: string;
 }
 
+export interface CommonApiTypes {
+  [key: string]: {
+    req: any;
+    res: any;
+  };
+}
+
+export interface ProviderAPIConfig<ApiTypes extends CommonApiTypes> {
+  base_url: string;
+  authorization: string | { [key: string]: string };
+  call_map: {
+    [K in keyof ApiTypes]: {
+      label: string;
+      method: RequestInit["method"];
+      endpoint: string;
+    };
+  };
+}
+
+export type CallApiFunction<ApiTypes extends CommonApiTypes> = <
+  K extends keyof ApiTypes,
+>(
+  callKey: K,
+  params: ApiTypes[K]["req"],
+) => Promise<ApiTypes[K]["res"]>;
+
 /**
  * AI 提供商接口
  */
@@ -302,5 +330,12 @@ export interface AIProvider {
   /**
    * 提供的模型系列列表
    */
-  readonly models: ModelSeries[];
+  readonly model_series: ModelSeries[];
+
+  /**
+   * API 调用信息
+   */
+  readonly api_config: ProviderAPIConfig<any>;
+
+  callApi: CallApiFunction<any>;
 }

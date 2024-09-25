@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   ProForm,
   ProFormInstance,
-  ProFormItem,
   ProFormRadio,
   ProFormSelect,
   ProFormSlider,
@@ -359,26 +358,19 @@ const KelingPage = () => {
           options={DURATION_OPTIONS}
         />
 
-        <ProFormItem
-          name="image"
-          label="Image"
-          rules={[{ required: true, message: "Please upload an image" }]}
-        >
-          <ProFormUploadButton
-            accept=".jpg,.jpeg,.png"
-            fieldProps={{
-              maxCount: 1,
-            }}
-          />
-        </ProFormItem>
-        <ProFormItem name="image_tail" label="Image Tail">
-          <ProFormUploadButton
-            accept=".jpg,.jpeg,.png"
-            fieldProps={{
-              maxCount: 1,
-            }}
-          />
-        </ProFormItem>
+        <ProFormUploadButton
+          accept=".jpg,.jpeg,.png"
+          fieldProps={{
+            maxCount: 1,
+          }}
+        />
+
+        <ProFormUploadButton
+          accept=".jpg,.jpeg,.png"
+          fieldProps={{
+            maxCount: 1,
+          }}
+        />
         <ProFormTextArea
           name="prompt"
           label="Prompt"

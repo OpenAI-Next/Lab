@@ -297,13 +297,13 @@ export interface CommonApiTypes {
   [key: string]: {
     req: any;
     res: any;
-    endpoint_params: {
-      [key: string]: string;
-    };
+    endpoint_params: Record<string, string>;
   };
 }
 
-export interface ProviderAPIConfig<ApiTypes extends CommonApiTypes> {
+export interface ProviderAPIConfig<
+  ApiTypes extends CommonApiTypes = CommonApiTypes,
+> {
   base_url: string;
   authorization: string | { [key: string]: string };
   call_map: {
@@ -315,21 +315,20 @@ export interface ProviderAPIConfig<ApiTypes extends CommonApiTypes> {
   };
 }
 
-export type CallApiFunction<ApiTypes extends CommonApiTypes> = <
-  K extends keyof ApiTypes,
->(
-  // args: { callKey: K } & (ApiTypes[K]["req"] extends never
-  //   ? { params?: never }
-  //   : { params: ApiTypes[K]["req"] }) &
-  //   (ApiTypes[K]["endpoint_params"] extends undefined
-  //     ? { endpoint_params?: never }
-  //     : { endpoint_params: ApiTypes[K]["endpoint_params"] }),
-  args: {
-    callKey: K;
-    params: ApiTypes[K]["req"];
-    endpoint_params: ApiTypes[K]["endpoint_params"];
-  },
-) => Promise<ApiTypes[K]["res"]>;
+export interface CallApiFunction<
+  ApiTypes extends CommonApiTypes = CommonApiTypes,
+> {
+  <K extends Extract<keyof ApiTypes, string>>(
+    args: {
+      callKey: K;
+    } & ([ApiTypes[K]["req"]] extends [never]
+      ? { params?: never }
+      : { params: ApiTypes[K]["req"] }) &
+      ([ApiTypes[K]["endpoint_params"]] extends [never]
+        ? { endpoint_params?: never }
+        : { endpoint_params: ApiTypes[K]["endpoint_params"] }),
+  ): Promise<ApiTypes[K]["res"]>;
+}
 
 /**
  * AI 提供商接口

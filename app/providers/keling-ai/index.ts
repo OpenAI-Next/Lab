@@ -236,7 +236,7 @@ export class KelingAI implements AIProvider {
       case "queryTask":
         const opt2: ApiRequestConfig = {
           endpoint: replaceEndpointParams(
-            endpoint_params,
+            endpoint_params!,
             this.api_config.call_map[callKey].endpoint,
           ),
           options: {

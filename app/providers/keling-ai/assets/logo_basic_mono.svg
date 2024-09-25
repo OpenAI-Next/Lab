@@ -1,7 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-    <image
-            width="100"
-            height="100"
-            href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAc6SURBVHgBpVdriJ1XFV37fK/7mumkSScZayGx5IGmTUdbCuoPC1IUEVHBIliohYKKGMUiVFtnpFqQgFa0KPhDsT9UWiriD/WXWlvUNNq0KW1Kk3RaQ2cmc+d1X9/77K5zbydMZibtzOTAycf3zT1nrb323uucAFcwjulM/Ue9qUd/OHd6CNscBlcwgu70Bz3b/MJwtXP8Z63/7MQ2xhURyKXzoIcZeJg9VPGyR7GNsW0C93efnihk4VY1s1CZhcXSxx/p/usebHFsi8BXesePxtKeTGQeCVpIZRk5ljiT+7DFsWUCn4ufnWih83BLFtCWLtomQ8fk6EqMFMm+B9vPfGQr+/mb/eGkTpp/JJ/5xaIu3RPJEjLpoZSCUQNVZUFKyWhyqGdv4Ke/b3bfTRG4vnfmusfj9E8ii0c8yl0heI2AiRjE3KKmggrhA1aCiB7GFsY7pmBf69xBq+XxOXSPzKCLOUnRFMvpoYkQ85wLEmCR7y0IYqvXrF5/tNu8ZdsE3tduftZTc6pXpHviMkNLSwIDF4yPOcY7JyGfgznP92Uq0vEozVvj690Xx1SWn/xm9+yXtkzgpmbrrjwtfx9nZZDnirIgchGiLCvo2AoBK1Qg4hw8F0hgidu11Z5Z2YPF+uVU5yqZLv78a8vPfWwjHNkQfLp7Swb7z67tRQl6SA0Lzks40/5UL4f1MoDPkIVYpzLDtKNhrbEgozuvrnh/8VNzf2Szo6EmpBdwjswGWXTo4R3jS6ux/PXgupdhPp7lWVTagCYTwXggKP/xfRh+oxwEL/mtIJGcbZix/guQNOqm+CqV+2UVWSUyMSqakZSPKszuINo5QYhvvK0C46/q75Jc70hLi/62Moja+hkBs3704lv45EMSSyQRF5KMZV6PCU3ZIVSEZGpcSxL9Z936VGmI73uQ26GxxxqHZzZU4P2n9cYkxh1JIigsy8OrwGPUwg2sU8MPIVrAF0UkJrGejGu5LFbqp2Ib1mOvhTaJdGlMVXZKnXvWGWNiLFJbYIjpqEjtbn5+aEMCWYF7EwaSxqw3mouh2hJQ9sDjdOAZXJFHXBWqPvDCjpEpt+7Q0vSklP4xtQIl8dwTLPM3PRFWEFuTv0lJuiD5hugnVhO4JAUHTui5bgv70gSw6sAVJhR4IcWIFGGFs1qiGunzJ6+NjlxcqCoHFy482dHOh3tmmRG3Ufhxv3BdoVZJergMMKLDuFqv6cxW67vOyP70EgUOnNRr8w72ZR1FxhQ4auILqCZY5GwwISFx0vf48ilcUkmi1QsX7rZm6Blb6FWWkbM6IZ7fr52Em5T8pNyDgI1diT/GXp1ySy/6AAs2KMmpiJn/Lp9dSsZ0uFlyako1nMUU+MHJMZnCmnFydPQVvwi+F9kGwqKBIB+CnzfgZ3WKwGooqnTJkN5gsLoPLzEiy9YuqVrpaqArfRIO3L3bjPnNcf75/fIQLjNe2rPjx2FZnQ6KOgICO3A/r/eJOBIeSWjJfNK8VsbFFBQJCsP2FkZqCVjygJFcYF3U2jdBlHXUP3BCg//eLPmGDCbVmDIpvcLSllxBenBeYti+4vEbU+L7PLbarjjWKHDmNjnvKeYMk2VSJsxF3h1Ml5Lc1UYXO9qKb19OgZu+iAeQhe82WZUR1+D1VXDpGMyQEQRl+NqLo6Mz6wi89fK0z3Bd4Qk5So9qOAIdtlGL/czkZT185+D/9Oa14Ede0gN5D9/Neob1Eg7A80EaPEfCpaWoIdDo5TWYq148/JHtjj6J1BFgGkhAGX2xDMQLik6TwXTwq93PaX1l3Xtf0DDN8We2sEnacEqxbugdabVPIiS4i76iVV5cwl9flgDr4w8hrzsB28+jEYjrVKaC9y0otS8WqUJT0V3Uw9Ul3LuyLotxX9zCe5IW09R2ig06yRUw0oDFV0Foqzy0wzfa840nVmOuOwsOPFZOdqbNRPs81y4TlDWhzvcj/rhKdYZpwzsFtVGeUxY38GSO/QBnM9c5TJ3FioM68+JVjWsqNaDG/7pUI/utE9d5x1bjrTsN37XLfP/1GJ8u2nqjpSdoZ3D40UX7/lySUFY6X6BPNfBvKlTE7JKS36x15kVggpvI2Y703dR1BEV9tVmYn67F2/A+cOi3ujfp4NnO/3UkabrCkz7AaiVMzT0JQqu2RqGGW/HvJiRgRRDw71GDUV9F6xvB67Tz204dlHNrsTa8EZ3+vExVhnBrY0xeq+3mhZPyhU5SHRQnXGEyPXaBonBadoi6b5lTiW1MRdz1ISLZqIJF36a3bwR+WQVWK1HEeCKex3gyTy9wLcnrmXUmQ+q8Z/Ql5gEBobl5jNoj2WCYed/BvI/gKdbBnafH11v3pgisjP2/Ke4qEm8ib2Nv7s6HbHBa9lNC9xISMK5AKXlAycMhvBLU8cjLH5KfvNPemyKwMqjI7XmBT9och5mN65nAsX4SA50zkZwzEZ7SCv569qPyt83u+SbAaHgSveSIIAAAAABJRU5ErkJggg=="
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        viewBox="0.00 0.00 50.00 51.00"
+        width="128"
+        height="128"
+>
+    <g stroke-width="2.00" fill="none" stroke-linecap="butt">
+        <path stroke="#07b3e8" vector-effect="non-scaling-stroke" d="   M 39.53 4.76   Q 29.32 5.80 22.95 12.09"/>
+        <path stroke="#4ff9a1" vector-effect="non-scaling-stroke" d="   M 17.73 15.79   Q 9.53 10.42 1.82 16.90"/>
+        <path stroke="#2eb5b6" vector-effect="non-scaling-stroke" d="   M 40.12 25.94   Q 39.52 26.78 38.47 26.68"/>
+        <path stroke="#49b6b3" vector-effect="non-scaling-stroke" d="   M 11.52 24.29   Q 10.47 24.33 9.57 24.76"/>
+        <path stroke="#07b1f1" vector-effect="non-scaling-stroke" d="   M 27.50 38.67   Q 20.63 45.28 10.25 46.12"/>
+        <path stroke="#34f7ac" vector-effect="non-scaling-stroke" d="   M 41.34 45.27   Q 37.88 39.07 31.60 35.78"/>
+    </g>
+    <path fill="#0df6d6"
+          d="   M 27.40 0.00   Q 34.08 0.74 39.53 4.76   Q 29.32 5.80 22.95 12.09   L 17.73 15.79   Q 9.53 10.42 1.82 16.90   Q 0.88 16.19 0.44 15.48   Q 0.18 15.05 0.45 14.61   Q 8.11 2.49 22.42 0.00   L 27.40 0.00   Z"/>
+    <path fill="#016ffa"
+          d="   M 40.12 25.94   Q 39.52 26.78 38.47 26.68   C 41.36 19.42 39.42 11.26 30.25 10.67   Q 27.85 10.52 22.95 12.09   Q 29.32 5.80 39.53 4.76   Q 45.95 7.97 44.65 15.18   Q 43.65 20.68 40.12 25.94   Z"/>
+    <path fill="#90fc6b"
+          d="   M 17.73 15.79   Q 13.74 19.32 11.52 24.29   Q 10.47 24.33 9.57 24.76   L 1.82 16.90   Q 9.53 10.42 17.73 15.79   Z"/>
+    <path fill="#016ffa"
+          d="   M 11.52 24.29   C 8.33 32.33 11.23 40.84 21.26 40.27   Q 23.17 40.16 27.50 38.67   Q 20.63 45.28 10.25 46.12   Q 3.10 42.21 5.87 33.40   Q 7.21 29.13 9.69 25.42   A 0.41 0.40 -42.4 0 0 9.71 25.01   L 9.57 24.76   Q 10.47 24.33 11.52 24.29   Z"/>
+    <path fill="#5afb71"
+          d="   M 40.12 25.94   L 50.00 35.84   Q 50.00 35.80 50.00 35.76   Q 46.55 41.49 41.34 45.27   Q 37.88 39.07 31.60 35.78   Q 36.20 31.91 38.47 26.68   Q 39.52 26.78 40.12 25.94   Z"/>
+    <path fill="#0df2e7"
+          d="   M 31.60 35.78   Q 37.88 39.07 41.34 45.27   Q 35.21 49.77 27.55 51.00   L 22.61 51.00   Q 15.84 50.23 10.25 46.12   Q 20.63 45.28 27.50 38.67   L 31.60 35.78   Z"/>
     />
 </svg>

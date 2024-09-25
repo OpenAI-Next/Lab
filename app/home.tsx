@@ -1,9 +1,10 @@
 "use client";
 
-import { App as AntdApp, ConfigProvider, Row, theme } from "antd";
+import { App as AntdApp, ConfigProvider, Row } from "antd";
 import React, { ReactNode, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { CENTER_STYLE, Path } from "@/constant";
+// https://theresanaiforthat.com/s/clockwork+machinery/ -- try to find logo here
 import SystemLogo from "@/app/icons/logo/logo.svg";
 import SunoIcon from "@/app/icons/suno.svg";
 import FluxIcon from "@/app/icons/flux.svg";
@@ -15,35 +16,22 @@ import DalleIcon from "@/app/icons/dalle.svg";
 import PikaIcon from "@/app/icons/pika.svg";
 import LumaIcon from "@/app/icons/luma.svg";
 import BiBiGPTIcon from "@/app/icons/bibi-gpt.svg";
-import {
-  HashRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import { Theme, useAppConfig } from "@/app/store";
-import {
-  ProConfigProvider,
-  ProLayout,
-  type ProTokenType,
-} from "@ant-design/pro-components";
+import KelingIcon from "./providers/keling-ai/assets/logo_basic_mono.svg";
+import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Theme } from "@/app/store";
+import { ProConfigProvider, ProLayout, type ProTokenType } from "@ant-design/pro-components";
 import Icon, {
   AudioFilled,
-  CalculatorFilled,
   DatabaseFilled,
   FolderOpenFilled,
   GithubFilled,
   HomeFilled,
   MessageFilled,
-  MoneyCollectFilled,
   MoonFilled,
   PictureFilled,
   ProductFilled,
-  SettingFilled,
   SoundFilled,
-  SunFilled,
-  VideoCameraFilled,
+  SunFilled
 } from "@ant-design/icons";
 import enUS from "antd/locale/en_US";
 
@@ -173,6 +161,13 @@ const EmbeddingsPage = dynamic(
 const Doc2XPage = dynamic(async () => (await import("./pages/Doc2X")).default, {
   loading: () => <Loading />,
 });
+
+const KelingPage = dynamic(
+  async () => (await import("./pages/Keling")).default,
+  {
+    loading: () => <Loading logo={<KelingIcon />} />,
+  },
+);
 
 const printCopyRight = () => console.log("@Kadxy 2024.");
 
@@ -320,6 +315,11 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
             icon: <FolderOpenFilled />,
           },
           {
+            path: Path.Keling,
+            name: "Keling",
+            icon: <Icon component={KelingIcon} >,
+          },
+          {
             path: Path.Pricing,
             name: "Pricing",
             icon: <MoneyCollectFilled />,
@@ -361,6 +361,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           <Route path={Path.Doc2X} element={<Doc2XPage />} />
           <Route path={Path.BiBiGPT} element={<BiBiGPTPage />} />
           <Route path={Path.GPTs} element={<GPTsPage />} />
+          <Route path={Path.Keling} element={<KelingPage />} />
           <Route path={Path.Pricing} element={<PricingPage />} />
           <Route path={Path.Tools} element={<ToolsPage />} />
           <Route path={Path.Settings} element={<Settings />} />

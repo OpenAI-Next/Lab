@@ -28,3 +28,10 @@ export const PRO_FORM_PROPS: any = {
     block: "center",
   },
 };
+
+export const SEGMENTED_PROPS = {
+  block: true,
+  style: {
+    marginBottom: 20,
+  },
+};

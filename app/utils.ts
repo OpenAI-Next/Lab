@@ -13,11 +13,15 @@ export function safeJsonParse(jsonString: any, defaultValue: object): object {
 export function safeJsonStringify(
   jsonObject: any,
   defaultValue: string,
+  alartOnError = false,
 ): string {
   try {
     return JSON.stringify(jsonObject, null, 2);
   } catch (e) {
     console.error("safeJsonStringifyError, original object:", jsonObject);
+    if (alartOnError) {
+      alert("Json.stringify Error, please check the console for details");
+    }
     return defaultValue;
   }
 }

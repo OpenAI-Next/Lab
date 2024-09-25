@@ -311,6 +311,9 @@ export interface ProviderAPIConfig<
       label: string;
       method: RequestInit["method"];
       endpoint: string;
+      req_example?: ApiTypes[K]["req"];
+      endpoint_params_example?: ApiTypes[K]["endpoint_params"];
+      res_example?: ApiTypes[K]["res"];
     };
   };
 }
@@ -321,12 +324,14 @@ export interface CallApiFunction<
   <K extends Extract<keyof ApiTypes, string>>(
     args: {
       callKey: K;
-    } & ([ApiTypes[K]["req"]] extends [never]
+    } & (ApiTypes[K]["req"] extends never
       ? { params?: never }
       : { params: ApiTypes[K]["req"] }) &
-      ([ApiTypes[K]["endpoint_params"]] extends [never]
+      (ApiTypes[K]["endpoint_params"] extends never
         ? { endpoint_params?: never }
-        : { endpoint_params: ApiTypes[K]["endpoint_params"] }),
+        : { endpoint_params: ApiTypes[K]["endpoint_params"] }) & {
+        signal?: AbortSignal;
+      },
   ): Promise<ApiTypes[K]["res"]>;
 }
 

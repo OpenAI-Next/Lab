@@ -1,4 +1,6 @@
-import { BASE_URL_B, CommonApiTypes } from "@/app/providers/interfaces";
+import { BASE_URL_B } from "@/app/providers/interfaces";
+import { safeJsonStringify } from "../utils";
+import { sign } from "node:crypto";
 
 export interface ApiRequestConfig {
   endpoint: string;
@@ -9,15 +11,21 @@ export interface ApiRequestConfig {
   returnType?: keyof Pick<Response, "json" | "text" | "blob" | "arrayBuffer">;
 }
 
-export const makeApiRequest = async (config: ApiRequestConfig) => {
+export const makeApiRequest = async (
+  config: ApiRequestConfig,
+  signal?: AbortSignal,
+) => {
   const res = await fetch([BASE_URL_B, config.endpoint].join("/"), {
-    ...config.options
+    ...config.options,
+    ...(config.options.body
+      ? { body: safeJsonStringify(config.options.body, "{}") }
+      : {}),
+    sign,
   });
   const data = await res[config.returnType || "json"]();
   console.log(`[Fetch Response] ${config.endpoint}`, data);
   return data;
 };
-
 
 /**
  * 替换 endpoint 中的参数, 例如 /api/v1/user/{id} => /api/v1/user/123
@@ -26,20 +34,16 @@ export const makeApiRequest = async (config: ApiRequestConfig) => {
  * @returns 替换后的 endpoint
  * @example replaceEndpointParams({ id: "123" }, "/api/v1/user/{id}") => "/api/v1/user/123"
  */
-export const replaceEndpointParams = <
-  T extends CommonApiTypes,
-  K extends keyof T
->(
-  params: T[K]["endpoint_params"] | undefined,
-  endpoint: string
+export const replaceEndpointParams = (
+  params: Record<string, string> | undefined,
+  endpoint: string,
 ): string => {
-  if (!params) return endpoint;
+  if (!params) {
+    console.warn("No params provided for endpoint", endpoint);
+    return endpoint;
+  }
   return Object.entries(params).reduce(
-    (acc, [key, value]) =>
-      acc.replace(
-        `{${key}}`,
-        typeof value === "string" ? value : String(value)
-      ),
-    endpoint
+    (acc, [key, value]) => acc.replace(`{${key}}`, value),
+    endpoint,
   );
 };

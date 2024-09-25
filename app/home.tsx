@@ -1,6 +1,6 @@
 "use client";
 
-import { App as AntdApp, ConfigProvider, Row } from "antd";
+import { App as AntdApp, ConfigProvider, Row, theme } from "antd";
 import React, { ReactNode, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { CENTER_STYLE, Path } from "@/constant";
@@ -18,7 +18,7 @@ import LumaIcon from "@/app/icons/luma.svg";
 import BiBiGPTIcon from "@/app/icons/bibi-gpt.svg";
 import KelingIcon from "./providers/keling-ai/assets/logo_basic_mono.svg";
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { Theme } from "@/app/store";
+import { Theme, useAppConfig } from "@/app/store";
 import { ProConfigProvider, ProLayout, type ProTokenType } from "@ant-design/pro-components";
 import Icon, {
   AudioFilled,
@@ -317,7 +317,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           {
             path: Path.Keling,
             name: "Keling",
-            icon: <Icon component={KelingIcon} >,
+            icon: <Icon component={KelingIcon} /,
           },
           {
             path: Path.Pricing,

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   ProForm,
   ProFormInstance,
+  ProFormItem,
   ProFormRadio,
   ProFormSelect,
   ProFormSlider,
@@ -14,7 +15,6 @@ import { useAppConfig } from "@/app/store";
 import { Alert, Col, Divider, message, Segmented } from "antd";
 import { KelingAI, KelingApiTypes } from "@/app/providers/keling-ai";
 import { RenderSubmitter } from "../render";
-import { ProFormItem } from "@ant-design/pro-form";
 
 // 提取公共的选项
 const MODE_OPTIONS = [

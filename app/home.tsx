@@ -22,14 +22,17 @@ import { Theme, useAppConfig } from "@/app/store";
 import { ProConfigProvider, ProLayout, type ProTokenType } from "@ant-design/pro-components";
 import Icon, {
   AudioFilled,
+  CalculatorFilled,
   DatabaseFilled,
   FolderOpenFilled,
   GithubFilled,
   HomeFilled,
   MessageFilled,
+  MoneyCollectFilled,
   MoonFilled,
   PictureFilled,
   ProductFilled,
+  SettingFilled,
   SoundFilled,
   SunFilled
 } from "@ant-design/icons";
@@ -317,7 +320,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           {
             path: Path.Keling,
             name: "Keling",
-            icon: <Icon component={KelingIcon} /,
+            icon: <Icon component={KelingIcon} />
           },
           {
             path: Path.Pricing,

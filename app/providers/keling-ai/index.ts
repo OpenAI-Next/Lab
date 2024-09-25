@@ -7,13 +7,9 @@ import {
   ModelSeries,
   ProviderAPIConfig,
   ProviderName,
-  ProviderWebsite,
+  ProviderWebsite
 } from "@/app/providers/interfaces";
-import {
-  ApiRequestConfig,
-  makeApiRequest,
-  replaceEndpointParams,
-} from "@/app/utils/fetch";
+import { ApiRequestConfig, makeApiRequest, replaceEndpointParams } from "@/app/utils/fetch";
 
 interface GenerateText2VideoTaskRequest {
   /**
@@ -142,18 +138,18 @@ export interface KelingApiTypes extends CommonApiTypes {
 export class KelingAI implements AIProvider {
   readonly name: ProviderName = {
     en: "Keling AI",
-    zh: "可灵 AI",
+    zh: "可灵 AI"
   };
 
   readonly logo: LogoConfig = {
     basic: {
-      monochrome: "./assets/logo_basic_mono.svg",
-    },
+      monochrome: "./assets/logo_basic_mono.svg"
+    }
   };
 
   readonly website: ProviderWebsite = {
     home: "https://klingai.com",
-    api_docs: "https://docs.qingque.cn/d/home/eZQDT9y_PeLL-HOb7fWz1POgu",
+    api_docs: "https://docs.qingque.cn/d/home/eZQDT9y_PeLL-HOb7fWz1POgu"
   };
 
   readonly model_series: ModelSeries[] = [
@@ -169,11 +165,11 @@ export class KelingAI implements AIProvider {
             type: "request",
             price: {
               "5s": 1,
-              "10s": 2,
-            },
+              "10s": 2
+            }
           },
           release_time: undefined,
-          shutdown_time: -1,
+          shutdown_time: -1
         },
         {
           name: "text2video-pro",
@@ -182,14 +178,14 @@ export class KelingAI implements AIProvider {
             type: "request",
             price: {
               "5s": 3.5,
-              "10s": 7,
-            },
+              "10s": 7
+            }
           },
           release_time: undefined,
-          shutdown_time: -1,
-        },
-      ],
-    },
+          shutdown_time: -1
+        }
+      ]
+    }
   ];
 
   readonly api_config: ProviderAPIConfig<KelingApiTypes> = {
@@ -199,14 +195,14 @@ export class KelingAI implements AIProvider {
       generateText2VideoTask: {
         label: "生成文生视频任务",
         method: "GET",
-        endpoint: "kling/v1/videos/text2video",
+        endpoint: "kling/v1/videos/text2video"
       },
       queryTask: {
         label: "查询任务",
         method: "GET",
-        endpoint: "kling/v1/{action}/{action2}/{task_id}",
-      },
-    },
+        endpoint: "kling/v1/{action}/{action2}/{task_id}"
+      }
+    }
   };
 
   constructor(apiKey: string) {
@@ -214,12 +210,12 @@ export class KelingAI implements AIProvider {
   }
 
   callApi: CallApiFunction<KelingApiTypes> = ({
-    callKey,
-    params,
-    endpoint_params,
-  }) => {
+                                                callKey,
+                                                params,
+                                                endpoint_params
+                                              }) => {
     const headers: HeadersInit = {
-      Authorization: `Bearer ${this.api_config.authorization}`,
+      Authorization: `Bearer ${this.api_config.authorization}`
     };
 
     switch (callKey) {
@@ -229,20 +225,20 @@ export class KelingAI implements AIProvider {
           options: {
             method: this.api_config.call_map[callKey].method,
             headers,
-            body: params,
-          },
+            body: params
+          }
         };
         return makeApiRequest(opt);
       case "queryTask":
         const opt2: ApiRequestConfig = {
-          endpoint: replaceEndpointParams(
-            endpoint_params!,
-            this.api_config.call_map[callKey].endpoint,
+          endpoint: replaceEndpointParams<KelingApiTypes, "queryTask">(
+            endpoint_params,
+            this.api_config.call_map[callKey].endpoint
           ),
           options: {
             method: this.api_config.call_map[callKey].method,
-            headers,
-          },
+            headers
+          }
         };
         return makeApiRequest(opt2);
       default:

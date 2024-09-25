@@ -204,7 +204,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
       pageTitleRender={false}
       token={props.dark ? token : { ...token, bgLayout: "#fff" }}
       location={location}
-      actionsRender={(antdProps) => {
+      actionsRender={(antdProps: any) => {
         if (antdProps.isMobile) return [];
         // if (!antdProps.collapsed) return [];
         if (typeof window === "undefined") return [];
@@ -339,7 +339,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           },
         ],
       }}
-      menuItemRender={(item, dom) => (
+      menuItemRender={(item: any, dom: any) => (
         <a onClick={() => navigate(item.path ?? Path.Home)}>{dom}</a>
       )}
     >

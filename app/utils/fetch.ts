@@ -1,6 +1,5 @@
 import { BASE_URL_B } from "@/app/providers/interfaces";
 import { safeJsonStringify } from "../utils";
-import { sign } from "node:crypto";
 
 export interface ApiRequestConfig {
   endpoint: string;
@@ -20,7 +19,7 @@ export const makeApiRequest = async (
     ...(config.options.body
       ? { body: safeJsonStringify(config.options.body, "{}") }
       : {}),
-    sign,
+      signal,
   });
   const data = await res[config.returnType || "json"]();
   console.log(`[Fetch Response] ${config.endpoint}`, data);

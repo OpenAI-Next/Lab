@@ -21,11 +21,7 @@ import { FileTextOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { Col, Divider, Empty, Image, Segmented, Spin } from "antd";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import { CodeModal, renderCode, RenderSubmitter } from "@/app/render";
-import {
-  CloseAllSound,
-  handelResponseError,
-  safeJsonStringify,
-} from "@/app/utils";
+import { handelResponseError, safeJsonStringify } from "@/app/utils";
 
 interface FluxTask {
   id: string;

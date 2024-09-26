@@ -17,9 +17,19 @@ import PikaIcon from "@/app/icons/pika.svg";
 import LumaIcon from "@/app/icons/luma.svg";
 import BiBiGPTIcon from "@/app/icons/bibi-gpt.svg";
 import KelingIcon from "./providers/keling-ai/assets/logo_basic_mono.svg";
-import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Theme, useAppConfig } from "@/app/store";
-import { ProConfigProvider, ProLayout, type ProTokenType } from "@ant-design/pro-components";
+import {
+  ProConfigProvider,
+  ProLayout,
+  type ProTokenType,
+} from "@ant-design/pro-components";
 import Icon, {
   AudioFilled,
   CalculatorFilled,
@@ -34,7 +44,7 @@ import Icon, {
   ProductFilled,
   SettingFilled,
   SoundFilled,
-  SunFilled
+  SunFilled,
 } from "@ant-design/icons";
 import enUS from "antd/locale/en_US";
 
@@ -320,7 +330,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           {
             path: Path.Keling,
             name: "Keling",
-            icon: <Icon component={KelingIcon} />
+            icon: <Icon component={KelingIcon} />,
           },
           {
             path: Path.Pricing,

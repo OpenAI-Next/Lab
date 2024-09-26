@@ -19,7 +19,7 @@ export const makeApiRequest = async (
     ...(config.options.body
       ? { body: safeJsonStringify(config.options.body, "{}") }
       : {}),
-      signal,
+    signal,
   });
   const data = await res[config.returnType || "json"]();
   console.log(`[Fetch Response] ${config.endpoint}`, data);

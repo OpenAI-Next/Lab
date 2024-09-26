@@ -12,11 +12,7 @@ import {
 import { EmbeddingsAPI, EmbeddingsRequest } from "@/app/client/embeddings";
 import React, { useState } from "react";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
-import {
-  arrayValidationRule,
-  handelResponseError,
-  safeJsonStringify,
-} from "@/app/utils";
+import { arrayValidationRule, handelResponseError, safeJsonStringify } from "@/app/utils";
 import { renderCode, RenderSubmitter } from "@/app/render";
 import { api2Provider, useAppConfig } from "@/app/store";
 import { Col, Divider } from "antd";
@@ -27,8 +23,7 @@ const EmbeddingsForm = (props: {
   updateResponse: (data: any) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const [inputType, setInputType] = useState<"string" | "array">("string");
@@ -38,9 +33,7 @@ const EmbeddingsForm = (props: {
       const copy = { ...value };
       try {
         const parsedInputs = JSON.parse(value.input as string);
-        copy.input = Array.isArray(parsedInputs)
-          ? parsedInputs
-          : ["The input is not a valid array"];
+        copy.input = Array.isArray(parsedInputs) ? parsedInputs : ["The input is not a valid array"];
       } catch (e) {
         copy.input = ["The input is not a valid array"];
       }
@@ -83,13 +76,7 @@ const EmbeddingsForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(
-                  getFormatedInput(props.form.getFieldsValue()),
-                  null,
-                  2,
-                ) || ""
-              }
+              getValues={() => JSON.stringify(getFormatedInput(props.form.getFieldsValue()), null, 2) || ""}
             />
           );
         },
@@ -107,9 +94,7 @@ const EmbeddingsForm = (props: {
       <ProFormRadio.Group
         label={"Inputs Type"}
         options={["string", "array"]}
-        tooltip={
-          "Not a parameter, only for the form to switch between string and array input."
-        }
+        tooltip={"Not a parameter, only for the form to switch between string and array input."}
         fieldProps={{
           value: inputType,
           onChange: (e) => setInputType(e.target.value),
@@ -145,9 +130,7 @@ const EmbeddingsForm = (props: {
         name={"encoding_format"}
         label={"Encoding Format"}
         options={["float", "base64"]}
-        tooltip={
-          "The format to return the embeddings in. Can be either float or base64. Default to float."
-        }
+        tooltip={"The format to return the embeddings in. Can be either float or base64. Default to float."}
         rules={[{ required: false }]}
       />
 
@@ -163,9 +146,7 @@ const EmbeddingsForm = (props: {
       <ProFormText
         name={"user"}
         label={"User"}
-        tooltip={
-          "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."
-        }
+        tooltip={"A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."}
         rules={[{ required: false }]}
       />
     </ProForm>
@@ -174,9 +155,7 @@ const EmbeddingsForm = (props: {
 
 const EmbeddingsPage = () => {
   const appConfig = useAppConfig();
-  const embeddingsApi = new EmbeddingsAPI(
-    appConfig.getFirstApiKey(api2Provider.Embeddings),
-  );
+  const embeddingsApi = new EmbeddingsAPI(appConfig.getFirstApiKey(api2Provider.Embeddings));
   const [embeddingsForm] = ProForm.useForm();
 
   const [data, setData] = useState<any>();

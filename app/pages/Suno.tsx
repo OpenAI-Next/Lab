@@ -10,18 +10,7 @@ import {
   ProFormTextArea,
   ProFormUploadButton,
 } from "@ant-design/pro-components";
-import {
-  App,
-  Avatar,
-  Button,
-  Col,
-  Divider,
-  Empty,
-  Image,
-  Segmented,
-  Spin,
-  Typography,
-} from "antd";
+import { App, Avatar, Button, Col, Divider, Empty, Image, Segmented, Spin, Typography } from "antd";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import {
   SunoAPI,
@@ -42,17 +31,8 @@ import {
   TagsOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
-import {
-  CloseAllSound,
-  handelResponseError,
-  safeJsonStringify,
-} from "@/app/utils";
-import {
-  CodeModal,
-  QuickFillStyleModal,
-  renderCode,
-  RenderSubmitter,
-} from "@/app/render";
+import { CloseAllSound, handelResponseError, safeJsonStringify } from "@/app/utils";
+import { CodeModal, QuickFillStyleModal, renderCode, RenderSubmitter } from "@/app/render";
 import { api2Provider, useAppConfig } from "@/app/store";
 
 const SunoGenerateForm = (props: {
@@ -62,14 +42,12 @@ const SunoGenerateForm = (props: {
   updateError: (error: any) => void;
 }) => {
   const [customMode, setCustomMode] = useState<boolean>(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const isMakeInstrumental = ProForm.useWatch("make_instrumental", props.form);
   const inputContinueClipId = ProForm.useWatch("continue_clip_id", props.form);
-  const isExtend =
-    inputContinueClipId !== undefined && inputContinueClipId !== "";
+  const isExtend = inputContinueClipId !== undefined && inputContinueClipId !== "";
   const promptContent = ProForm.useWatch("prompt", props.form);
 
   const [makingLyrics, setMakingLyrics] = useState(false);
@@ -118,9 +96,7 @@ const SunoGenerateForm = (props: {
                 abortController={abortController}
                 submitting={submitting}
                 submitterProps={submitterProps}
-                getValues={() =>
-                  JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-                }
+                getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               />
             );
           },
@@ -139,15 +115,8 @@ const SunoGenerateForm = (props: {
         <ProFormSelect
           name={"mv"}
           label={"Model Version"}
-          tooltip={
-            "If continuing to write user-uploaded music, please select model suffix with '-upload'."
-          }
-          options={[
-            "chirp-v3-5",
-            "chirp-v3-5-upload",
-            "chirp-v3-0",
-            "chirp-v2-xxl-alpha",
-          ]}
+          tooltip={"If continuing to write user-uploaded music, please select model suffix with '-upload'."}
+          options={["chirp-v3-5", "chirp-v3-5-upload", "chirp-v3-0", "chirp-v2-xxl-alpha"]}
           rules={[{ required: true }]}
           allowClear={false}
         />
@@ -179,9 +148,7 @@ const SunoGenerateForm = (props: {
                     onClick={async () => {
                       setMakingLyrics(true);
                       try {
-                        const text = await props.api.getLyricsText(
-                          promptContent || "",
-                        );
+                        const text = await props.api.getLyricsText(promptContent || "");
                         props.form.setFieldsValue({ prompt: text });
                       } catch (e) {
                         props.updateError(e);
@@ -190,13 +157,7 @@ const SunoGenerateForm = (props: {
                       }
                     }}
                     type={"dashed"}
-                    icon={
-                      promptContent ? (
-                        <HighlightOutlined />
-                      ) : (
-                        <ExperimentOutlined />
-                      )
-                    }
+                    icon={promptContent ? <HighlightOutlined /> : <ExperimentOutlined />}
                     loading={makingLyrics}
                     block
                   >
@@ -217,8 +178,7 @@ const SunoGenerateForm = (props: {
                 },
                 {
                   pattern: /^[^\u4e00-\u9fa5]+$/,
-                  message:
-                    "Style of Music should not contain Chinese characters",
+                  message: "Style of Music should not contain Chinese characters",
                 },
               ]}
               tooltip={
@@ -227,12 +187,7 @@ const SunoGenerateForm = (props: {
             />
 
             <ProForm.Item>
-              <Button
-                onClick={() => setShowQuickFillModal(true)}
-                type={"dashed"}
-                icon={<TagsOutlined />}
-                block
-              >
+              <Button onClick={() => setShowQuickFillModal(true)} type={"dashed"} icon={<TagsOutlined />} block>
                 Style Presets Helper
               </Button>
             </ProForm.Item>
@@ -241,24 +196,16 @@ const SunoGenerateForm = (props: {
               name={"title"}
               label={"Title"}
               rules={[{ required: true }]}
-              tooltip={
-                "Give your song a title for sharing, discovery and organization."
-              }
+              tooltip={"Give your song a title for sharing, discovery and organization."}
             />
 
             <Divider />
 
             <ProForm.Group
               title={"Extend"}
-              tooltip={
-                "If you want to extend the song, please fill in the information below."
-              }
+              tooltip={"If you want to extend the song, please fill in the information below."}
             >
-              <ProFormText
-                name={"continue_clip_id"}
-                label={"Clip ID"}
-                width={"md"}
-              />
+              <ProFormText name={"continue_clip_id"} label={"Clip ID"} width={"md"} />
               <ProFormDigit
                 name={"continue_at"}
                 label={"Extend from"}
@@ -279,9 +226,7 @@ const SunoGenerateForm = (props: {
             <ProFormTextArea
               name={"gpt_description_prompt"}
               label={"Song description"}
-              placeholder={
-                "an infectious anime song about wanting to be with you"
-              }
+              placeholder={"an infectious anime song about wanting to be with you"}
               tooltip={
                 "Describe the style of music and topic you want (e.g. acoustic pop about the holidays). Use genres and vibes instead of specific artists and songs."
               }
@@ -312,8 +257,7 @@ const SunoUploadForm = (props: {
   const { modal } = App.useApp();
   const { Text } = Typography;
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<SunoUploadRequest>
@@ -360,9 +304,7 @@ const SunoUploadForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -389,10 +331,7 @@ const SunoUploadForm = (props: {
               try {
                 const response = info.file.response;
                 if (response) {
-                  info.file.url = getValueByPosition(
-                    response,
-                    appConfig.getUploadConfig().position,
-                  );
+                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
                 }
               } catch (e) {
                 console.error(e);
@@ -412,8 +351,7 @@ const SunoQueryForm = (props: {
   updateError: (error: any) => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const formRef = useRef<ProFormInstance<SunoQueryRequest>>();
 
   return (
@@ -448,13 +386,7 @@ const SunoQueryForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(
-                  formRef.current?.getFieldFormatValue?.(),
-                  null,
-                  2,
-                ) || ""
-              }
+              getValues={() => JSON.stringify(formRef.current?.getFieldFormatValue?.(), null, 2) || ""}
             />
           );
         },
@@ -498,9 +430,7 @@ const SunoTaskInfo = (props: {
     [key: number]: boolean;
   }>({ 0: false, 1: false });
   const [showCodeModal, setShowCodeModal] = useState(false);
-  const [code, setCode] = useState<any>(
-    "Please select a clip to view the code.",
-  );
+  const [code, setCode] = useState<any>("Please select a clip to view the code.");
 
   if (!props.clips || props.clips.length === 0) return <Empty />;
 
@@ -526,11 +456,7 @@ const SunoTaskInfo = (props: {
   return (
     <>
       {props?.clips?.map((clip: SunoClip, index: number) => (
-        <Spin
-          spinning={loadingStates[index] || false}
-          key={index}
-          tip={"Refreshing..."}
-        >
+        <Spin spinning={loadingStates[index] || false} key={index} tip={"Refreshing..."}>
           <ProDescriptions
             title={"Clip " + (index + 1)}
             dataSource={clip}
@@ -586,13 +512,7 @@ const SunoTaskInfo = (props: {
                 title: "Avatar Image Preview",
                 dataIndex: "avatar_image_preview",
                 render: () => {
-                  return (
-                    <Avatar
-                      alt={clip.title}
-                      src={clip?.avatar_image_url || ""}
-                      size={50}
-                    />
-                  );
+                  return <Avatar alt={clip.title} src={clip?.avatar_image_url || ""} size={50} />;
                 },
               },
               {
@@ -607,15 +527,10 @@ const SunoTaskInfo = (props: {
                         clip?.video_url && !clip.is_video_pending
                           ? {
                               imageRender: () => (
-                                <video
-                                  controls
-                                  src={clip?.video_url || ""}
-                                  style={{ maxHeight: "90vh" }}
-                                />
+                                <video controls src={clip?.video_url || ""} style={{ maxHeight: "90vh" }} />
                               ),
                               toolbarRender: () => null,
-                              onVisibleChange: (visible: boolean) =>
-                                !visible && CloseAllSound(),
+                              onVisibleChange: (visible: boolean) => !visible && CloseAllSound(),
                             }
                           : false
                       }
@@ -628,13 +543,7 @@ const SunoTaskInfo = (props: {
                 title: "Audio Preview",
                 key: "audio_preview",
                 render: () =>
-                  clip?.audio_url !== "" && (
-                    <audio
-                      controls
-                      src={clip?.audio_url || ""}
-                      style={{ padding: 8 }}
-                    />
-                  ),
+                  clip?.audio_url !== "" && <audio controls src={clip?.audio_url || ""} style={{ padding: 8 }} />,
               },
               {
                 title: "Created At",
@@ -668,10 +577,7 @@ const SunoTaskInfo = (props: {
                 render: () => [
                   ...(props.api.finished(clip)
                     ? [
-                        <a
-                          key="continue"
-                          onClick={() => props.onContinue(clip)}
-                        >
+                        <a key="continue" onClick={() => props.onContinue(clip)}>
                           Continue
                         </a>,
                       ]
@@ -688,11 +594,7 @@ const SunoTaskInfo = (props: {
                   >
                     Detail
                   </a>,
-                  <a
-                    key="del"
-                    style={{ color: "red" }}
-                    onClick={() => props.onDeletion(clip.id)}
-                  >
+                  <a key="del" style={{ color: "red" }} onClick={() => props.onDeletion(clip.id)}>
                     Delete
                   </a>,
                 ],
@@ -726,17 +628,13 @@ export function SunoPage() {
     { label: "Query", value: "query", icon: <FileTextOutlined /> },
   ];
 
-  const [formType, setFormType] = useState<"generate" | "query" | "upload">(
-    "generate",
-  );
+  const [formType, setFormType] = useState<"generate" | "query" | "upload">("generate");
 
   const updateTaskData = (data: SunoClip[]) => {
     const updatedTaskData = taskData.slice(); // 创建 taskData 的副本
 
     data.forEach((clip: SunoClip) => {
-      const index = updatedTaskData.findIndex(
-        (c: SunoClip) => c.id === clip.id,
-      );
+      const index = updatedTaskData.findIndex((c: SunoClip) => c.id === clip.id);
       if (index === -1) {
         // 如果 id 不存在，添加新数据
         updatedTaskData.push(clip);
@@ -758,13 +656,7 @@ export function SunoPage() {
         updateError={(error: any) => setErrorData(error)}
       />
     ),
-    upload: (
-      <SunoUploadForm
-        form={uploadForm}
-        api={sunoApi}
-        updateError={(error: any) => setErrorData(error)}
-      />
-    ),
+    upload: <SunoUploadForm form={uploadForm} api={sunoApi} updateError={(error: any) => setErrorData(error)} />,
     query: (
       <SunoQueryForm
         form={queryForm}

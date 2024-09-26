@@ -22,12 +22,7 @@ import { Button, Col, Divider, Image, Row, Segmented } from "antd";
 import React, { useState } from "react";
 import { renderCode, RenderSubmitter } from "@/app/render";
 import { handelResponseError, safeJsonStringify } from "@/app/utils";
-import {
-  BulbOutlined,
-  EditOutlined,
-  NodeExpandOutlined,
-  UnorderedListOutlined,
-} from "@ant-design/icons";
+import { BulbOutlined, EditOutlined, NodeExpandOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
 const CreateForm = (props: {
   form: ProFormInstance;
@@ -35,19 +30,16 @@ const CreateForm = (props: {
   updateResponse: (data: DallEResponse | undefined) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const selectedModel = (ProForm.useWatch("model", props.form) ||
-    "dall-e-2") as AvailableDalleModels;
+  const selectedModel = (ProForm.useWatch("model", props.form) || "dall-e-2") as AvailableDalleModels;
 
   const differentModelsDetail: Record<AvailableDalleModels, any> = {
     "dall-e-2": {
       PromptMaxLength: 1000,
       NMax: 10,
-      NTooltip:
-        "The number of images to generate. Must be between 1 and 10. Default to 1.",
+      NTooltip: "The number of images to generate. Must be between 1 and 10. Default to 1.",
       SizeOptions: ["256x256", "512x512", "1024x1024"],
     },
     "dall-e-3": {
@@ -91,9 +83,7 @@ const CreateForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -128,10 +118,7 @@ const CreateForm = (props: {
           onClick={() => {
             const getUniqueRandomPrompt = () => {
               const currentPrompt = props.form.getFieldValue("prompt");
-              const randomPrompt =
-                DallePromptExamples[
-                  Math.floor(Math.random() * DallePromptExamples.length)
-                ];
+              const randomPrompt = DallePromptExamples[Math.floor(Math.random() * DallePromptExamples.length)];
 
               if (randomPrompt !== currentPrompt) {
                 props.form.setFieldsValue({ prompt: randomPrompt });
@@ -204,9 +191,7 @@ const CreateForm = (props: {
         name={"user"}
         label={"User"}
         rules={[{ required: false }]}
-        tooltip={
-          "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."
-        }
+        tooltip={"A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."}
       />
     </ProForm>
   );
@@ -218,8 +203,7 @@ const EditForm = (props: {
   updateResponse: (data: DallEResponse | undefined) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const [imageFile, setImageFile] = useState<Blob | null>(null);
@@ -236,10 +220,7 @@ const EditForm = (props: {
         setAbortController(controller);
         setSubmitting(true);
         try {
-          const res = await props.api.edit(
-            { ...values, image: imageFile, mask: maskFile },
-            controller.signal,
-          );
+          const res = await props.api.edit({ ...values, image: imageFile, mask: maskFile }, controller.signal);
           if (res.ok) {
             const resJson = await res.json();
             props.updateResponse(resJson);
@@ -261,9 +242,7 @@ const EditForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -288,9 +267,7 @@ const EditForm = (props: {
           multiple: false,
           beforeUpload: (file: Blob) => {
             if (file.size < 1 || file.size > 4 * 1024 * 1024) {
-              throw new Error(
-                "File uploads must not be empty and are currently limited to 4MB",
-              );
+              throw new Error("File uploads must not be empty and are currently limited to 4MB");
             }
             setImageFile(file);
             return false; // 阻止自动上传
@@ -319,9 +296,7 @@ const EditForm = (props: {
           multiple: false,
           beforeUpload: (file: Blob) => {
             if (file.size < 1 || file.size > 4 * 1024 * 1024) {
-              throw new Error(
-                "File uploads must not be empty and are currently limited to 4MB",
-              );
+              throw new Error("File uploads must not be empty and are currently limited to 4MB");
             }
             setMaskFile(file);
             return false; // 阻止自动上传
@@ -350,19 +325,14 @@ const EditForm = (props: {
         label={"Size"}
         options={["256x256", "512x512", "1024x1024"]}
         tooltip={"The size of the generated images. Default to 1024x1024."}
-        rules={[
-          { required: false },
-          { type: "enum", enum: ["256x256", "512x512", "1024x1024"] },
-        ]}
+        rules={[{ required: false }, { type: "enum", enum: ["256x256", "512x512", "1024x1024"] }]}
       />
 
       <ProFormText
         name={"user"}
         label={"User"}
         rules={[{ required: false }]}
-        tooltip={
-          "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."
-        }
+        tooltip={"A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."}
       />
     </ProForm>
   );
@@ -374,8 +344,7 @@ const VariationForm = (props: {
   updateResponse: (data: DallEResponse | undefined) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const [imageFile, setImageFile] = useState<any>(null);
@@ -391,10 +360,7 @@ const VariationForm = (props: {
         setAbortController(controller);
         setSubmitting(true);
         try {
-          const res = await props.api.variation(
-            { ...values, image: imageFile },
-            controller.signal,
-          );
+          const res = await props.api.variation({ ...values, image: imageFile }, controller.signal);
           if (res.ok) {
             const resJson = await res.json();
             props.updateResponse(resJson);
@@ -416,9 +382,7 @@ const VariationForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -443,9 +407,7 @@ const VariationForm = (props: {
           multiple: false,
           beforeUpload: (file: Blob) => {
             if (file.size < 1 || file.size > 4 * 1024 * 1024) {
-              throw new Error(
-                "Must be a valid PNG file, less than 4MB, and square.",
-              );
+              throw new Error("Must be a valid PNG file, less than 4MB, and square.");
             }
             setImageFile(file);
             return false; // 阻止自动上传
@@ -474,19 +436,14 @@ const VariationForm = (props: {
         label={"Size"}
         options={["256x256", "512x512", "1024x1024"]}
         tooltip={"The size of the generated images. Default to 1024x1024."}
-        rules={[
-          { required: false },
-          { type: "enum", enum: ["256x256", "512x512", "1024x1024"] },
-        ]}
+        rules={[{ required: false }, { type: "enum", enum: ["256x256", "512x512", "1024x1024"] }]}
       />
 
       <ProFormText
         name={"user"}
         label={"User"}
         rules={[{ required: false }]}
-        tooltip={
-          "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."
-        }
+        tooltip={"A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."}
       />
     </ProForm>
   );
@@ -522,9 +479,7 @@ const DallePage = () => {
     { label: "Variation", value: "variation", icon: <NodeExpandOutlined /> },
   ];
 
-  const [operateType, setOperateType] = useState<
-    "create" | "edit" | "variation"
-  >("create");
+  const [operateType, setOperateType] = useState<"create" | "edit" | "variation">("create");
 
   const renderForm = () => {
     switch (operateType) {
@@ -533,9 +488,7 @@ const DallePage = () => {
           <CreateForm
             form={createForm}
             api={dallEApi}
-            updateResponse={(data: DallEResponse | undefined) =>
-              setTaskData(data)
-            }
+            updateResponse={(data: DallEResponse | undefined) => setTaskData(data)}
             updateError={(error: any) => setErrorData(error)}
           />
         );
@@ -544,9 +497,7 @@ const DallePage = () => {
           <EditForm
             form={editForm}
             api={dallEApi}
-            updateResponse={(data: DallEResponse | undefined) =>
-              setTaskData(data)
-            }
+            updateResponse={(data: DallEResponse | undefined) => setTaskData(data)}
             updateError={(error: any) => setErrorData(error)}
           />
         );
@@ -555,9 +506,7 @@ const DallePage = () => {
           <VariationForm
             form={variationForm}
             api={dallEApi}
-            updateResponse={(data: DallEResponse | undefined) =>
-              setTaskData(data)
-            }
+            updateResponse={(data: DallEResponse | undefined) => setTaskData(data)}
             updateError={(error: any) => setErrorData(error)}
           />
         );
@@ -571,9 +520,7 @@ const DallePage = () => {
           style={{ marginBottom: 20 }}
           options={operate_type_options}
           block
-          onChange={(value) =>
-            setOperateType(value as "create" | "edit" | "variation")
-          }
+          onChange={(value) => setOperateType(value as "create" | "edit" | "variation")}
           value={operateType}
         />
         {renderForm()}

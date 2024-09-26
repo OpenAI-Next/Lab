@@ -7,16 +7,8 @@ import { handelResponseError, safeJsonStringify } from "@/app/utils";
 import React, { useState } from "react";
 import { FileSearchOutlined } from "@ant-design/icons";
 import { api2Provider, useAppConfig } from "@/app/store";
-import {
-  ProForm,
-  ProFormInstance,
-  ProFormText,
-} from "@ant-design/pro-components";
-import {
-  GPTsAPI,
-  GptsSearchRequest,
-  GptsSearchResponse,
-} from "@/app/client/Gpts";
+import { ProForm, ProFormInstance, ProFormText } from "@ant-design/pro-components";
+import { GPTsAPI, GptsSearchRequest, GptsSearchResponse } from "@/app/client/Gpts";
 
 const GPTsSearchForm = (props: {
   form: ProFormInstance;
@@ -25,8 +17,7 @@ const GPTsSearchForm = (props: {
   updateError: (e: any) => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<GptsSearchRequest>
@@ -59,19 +50,13 @@ const GPTsSearchForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
       }}
     >
-      <ProFormText
-        name="keywords"
-        label="Keywords"
-        rules={[{ required: true, message: "Please enter keywords" }]}
-      />
+      <ProFormText name="keywords" label="Keywords" rules={[{ required: true, message: "Please enter keywords" }]} />
     </ProForm>
   );
 };
@@ -81,9 +66,7 @@ const GPTsPage = () => {
   const gptsApi = new GPTsAPI(appConfig.getFirstApiKey(api2Provider.GPTs));
   const [searchForm] = ProForm.useForm();
 
-  const type_options = [
-    { label: "Search", value: "search", icon: <FileSearchOutlined /> },
-  ];
+  const type_options = [{ label: "Search", value: "search", icon: <FileSearchOutlined /> }];
 
   const [formType, setFormType] = React.useState<"search">("search");
   const [errorData, setErrorData] = React.useState<any>();
@@ -119,9 +102,7 @@ const GPTsPage = () => {
       </Col>
       <Col flex="auto" style={COL_SCROLL_STYLE}>
         <h1>Response</h1>
-        {response && (
-          <>{renderCode(safeJsonStringify(response, response.toString()))}</>
-        )}
+        {response && <>{renderCode(safeJsonStringify(response, response.toString()))}</>}
         {errorData && (
           <>
             <h1>Error</h1>

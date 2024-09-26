@@ -81,16 +81,10 @@ export class EmbeddingsAPI {
   }
 
   path(): string {
-    return [api2ProviderBaseUrl.Embeddings, OpenaiPath.EmbeddingsPath].join(
-      "/",
-    );
+    return [api2ProviderBaseUrl.Embeddings, OpenaiPath.EmbeddingsPath].join("/");
   }
 
-  async request(
-    options: EmbeddingsRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async request(options: EmbeddingsRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);

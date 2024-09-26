@@ -4,13 +4,7 @@ import { deepClone } from "./clone";
 
 type Updater<T> = (updater: (value: T) => void) => void;
 
-type SecondParam<T> = T extends (
-  _f: infer _F,
-  _s: infer S,
-  ...args: infer _U
-) => any
-  ? S
-  : never;
+type SecondParam<T> = T extends (_f: infer _F, _s: infer S, ...args: infer _U) => any ? S : never;
 
 type MakeUpdater<T> = {
   lastUpdateTime: number;
@@ -26,10 +20,7 @@ type SetStoreState<T> = (
 
 export function createPersistStore<T extends object, M>(
   state: T,
-  methods: (
-    set: SetStoreState<T & MakeUpdater<T>>,
-    get: () => T & MakeUpdater<T>,
-  ) => M,
+  methods: (set: SetStoreState<T & MakeUpdater<T>>, get: () => T & MakeUpdater<T>) => M,
   persistOptions: SecondParam<typeof persist<T & M & MakeUpdater<T>>>,
 ) {
   return create(
@@ -44,9 +35,7 @@ export function createPersistStore<T extends object, M>(
             ...methods(set, get as any),
 
             markUpdate() {
-              set({ lastUpdateTime: Date.now() } as Partial<
-                T & M & MakeUpdater<T>
-              >);
+              set({ lastUpdateTime: Date.now() } as Partial<T & M & MakeUpdater<T>>);
             },
             update(updater) {
               const state = deepClone(get());

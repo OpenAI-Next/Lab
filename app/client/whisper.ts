@@ -23,15 +23,15 @@ export interface WhisperRequest {
   temperature?: number;
 }
 
-export const WHISPER_MODEL_OPTIONS: WhisperRequest["model"][] = [
-  "whisper-1",
-  "whisper-pro",
-];
+export const WHISPER_MODEL_OPTIONS: WhisperRequest["model"][] = ["whisper-1", "whisper-pro"];
 
-export const WHISPER_RESPONSE_FORMAT_OPTIONS: Exclude<
-  WhisperRequest["response_format"],
-  undefined
->[] = ["json", "text", "srt", "verbose_json", "vtt"];
+export const WHISPER_RESPONSE_FORMAT_OPTIONS: Exclude<WhisperRequest["response_format"], undefined>[] = [
+  "json",
+  "text",
+  "srt",
+  "verbose_json",
+  "vtt",
+];
 
 export class OpenAIWhisperAPI {
   private readonly apiKey: string;
@@ -41,16 +41,10 @@ export class OpenAIWhisperAPI {
   }
 
   path(): string {
-    return [api2ProviderBaseUrl.Whisper, OpenaiPath.TranscriptionPath].join(
-      "/",
-    );
+    return [api2ProviderBaseUrl.Whisper, OpenaiPath.TranscriptionPath].join("/");
   }
 
-  async request(
-    request: WhisperRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async request(request: WhisperRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -89,10 +83,8 @@ export class OpenAIWhisperAPI {
     formData.append("model", options.model);
     formData.append("file", convertedFile);
     options.prompt && formData.append("prompt", options.prompt);
-    options.response_format &&
-      formData.append("response_format", options.response_format);
-    options.temperature &&
-      formData.append("temperature", options.temperature.toString());
+    options.response_format && formData.append("response_format", options.response_format);
+    options.temperature && formData.append("temperature", options.temperature.toString());
 
     return {
       method: "POST",

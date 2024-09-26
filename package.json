@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "cross-env BUILD_MODE=standalone next build",
     "start": "next start -p 3019",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
+    "lint:fix": "eslint --fix .",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "export": "cross-env BUILD_MODE=export BUILD_APP=1 next build",
@@ -67,8 +66,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --fix"
     ]
   }
 }

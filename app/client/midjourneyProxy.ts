@@ -1,8 +1,5 @@
 import { MidjourneyEndpoint, REQUEST_TIMEOUT_MS } from "@/constant";
-import {
-  MidjourneyBlendTaskConfigType,
-  MidjourneyImagineTaskConfigType,
-} from "@/app/pages/Midjourney";
+import { MidjourneyBlendTaskConfigType, MidjourneyImagineTaskConfigType } from "@/app/pages/Midjourney";
 import { getRequestOptions } from "@/app/client/helper";
 import { api2ProviderBaseUrl } from "@/app/store";
 
@@ -73,14 +70,7 @@ export interface MidjourneyRefreshTaskResponseType {
   };
   startTime: number; // 开始时间
   state: string; // 状态
-  status:
-    | "NOT_START"
-    | "SUBMITTED"
-    | "MODAL"
-    | "IN_PROGRESS"
-    | "FAILURE"
-    | "SUCCESS"
-    | "CANCEL"; // 状态
+  status: "NOT_START" | "SUBMITTED" | "MODAL" | "IN_PROGRESS" | "FAILURE" | "SUCCESS" | "CANCEL"; // 状态
   submitTime: number; // 提交时间
 }
 
@@ -170,9 +160,7 @@ export class DrawAPI {
     return [api2ProviderBaseUrl.Midjourney, action].join("/");
   }
 
-  getImagineTaskPayload(
-    config: MidjourneyImagineTaskConfigType,
-  ): MidjourneyImagineTaskRequestPayload {
+  getImagineTaskPayload(config: MidjourneyImagineTaskConfigType): MidjourneyImagineTaskRequestPayload {
     let payload: MidjourneyImagineTaskRequestPayload = {
       botType: config.botType,
       prompt: "",
@@ -189,9 +177,7 @@ export class DrawAPI {
     // 1.1 add presetDescription if not empty
     if (config?.presetDescription) {
       for (const key in config.presetDescription) {
-        if (
-          config.presetDescription[key as keyof typeof config.presetDescription]
-        ) {
+        if (config.presetDescription[key as keyof typeof config.presetDescription]) {
           fullPrompt.TextPrompts += `${config.presetDescription[key as keyof typeof config.presetDescription]}, `;
         }
       }
@@ -203,9 +189,7 @@ export class DrawAPI {
     // 2. base64Array
     // 2.1 sref(Style Reference)
     if (config.sref && config.sref.length) {
-      payload.base64Array = payload.base64Array.concat(
-        config.sref.map((item) => item.thumbUrl),
-      );
+      payload.base64Array = payload.base64Array.concat(config.sref.map((item) => item.thumbUrl));
     }
 
     // 3. Parameters
@@ -244,11 +228,7 @@ export class DrawAPI {
       }
     }
 
-    payload.prompt = [
-      fullPrompt.ImagePrompts,
-      fullPrompt.TextPrompts,
-      fullPrompt.Parameters,
-    ]
+    payload.prompt = [fullPrompt.ImagePrompts, fullPrompt.TextPrompts, fullPrompt.Parameters]
       .filter((item) => item !== "")
       .join(" ");
 
@@ -307,10 +287,7 @@ export class DrawAPI {
       if (e instanceof Error && e.name === "AbortError") {
         console.warn("[Request] Midjourney ImagineTask request aborted");
       } else {
-        console.error(
-          "[Request] Failed to make a Midjourney ImagineTask request",
-          e,
-        );
+        console.error("[Request] Failed to make a Midjourney ImagineTask request", e);
       }
       throw e;
     }
@@ -335,9 +312,7 @@ export class DrawAPI {
       };
 
       if (config.images && config.images.length) {
-        data.base64Array = data.base64Array.concat(
-          config.images.map((item) => item.thumbUrl),
-        );
+        data.base64Array = data.base64Array.concat(config.images.map((item) => item.thumbUrl));
       }
 
       const res = await fetch(this.path(MidjourneyEndpoint.BLEND), {
@@ -378,10 +353,7 @@ export class DrawAPI {
       if (e instanceof Error && e.name === "AbortError") {
         console.warn("[Request] Midjourney ImagineTask request aborted");
       } else {
-        console.error(
-          "[Request] Failed to make a Midjourney ImagineTask request",
-          e,
-        );
+        console.error("[Request] Failed to make a Midjourney ImagineTask request", e);
       }
       throw e;
     }
@@ -411,10 +383,7 @@ export class DrawAPI {
       if (e instanceof Error && e.name === "AbortError") {
         console.warn("[Request] Midjourney ImagineTask request aborted");
       } else {
-        console.error(
-          "[Request] Failed to make a Midjourney ImagineTask request",
-          e,
-        );
+        console.error("[Request] Failed to make a Midjourney ImagineTask request", e);
       }
       throw e;
     }
@@ -444,10 +413,7 @@ export class DrawAPI {
       if (e instanceof Error && e.name === "AbortError") {
         console.warn("[Request] Midjourney ImagineTask request aborted");
       } else {
-        console.error(
-          "[Request] Failed to make a Midjourney ImagineTask request",
-          e,
-        );
+        console.error("[Request] Failed to make a Midjourney ImagineTask request", e);
       }
       throw e;
     }
@@ -465,13 +431,10 @@ export class DrawAPI {
 
       signal && signal.addEventListener("abort", () => controller.abort());
 
-      const res = await fetch(
-        this.path(MidjourneyEndpoint.FETCH).replace("{id}", config.taskId),
-        {
-          ...getRequestOptions(this.apiKey, "GET"),
-          signal: abortSignal,
-        },
-      );
+      const res = await fetch(this.path(MidjourneyEndpoint.FETCH).replace("{id}", config.taskId), {
+        ...getRequestOptions(this.apiKey, "GET"),
+        signal: abortSignal,
+      });
 
       clearTimeout(timeoutId);
 
@@ -480,10 +443,7 @@ export class DrawAPI {
       if (e instanceof Error && e.name === "AbortError") {
         console.warn("[Request] Midjourney FetchTask request aborted");
       } else {
-        console.error(
-          "[Request] Failed to make a Midjourney FetchTask request",
-          e,
-        );
+        console.error("[Request] Failed to make a Midjourney FetchTask request", e);
       }
       throw e;
     }
@@ -501,13 +461,10 @@ export class DrawAPI {
 
       signal && signal.addEventListener("abort", () => controller.abort());
 
-      const res = await fetch(
-        this.path(MidjourneyEndpoint.SEED).replace("{id}", config.taskId),
-        {
-          ...getRequestOptions(this.apiKey, "GET"),
-          signal: abortSignal,
-        },
-      );
+      const res = await fetch(this.path(MidjourneyEndpoint.SEED).replace("{id}", config.taskId), {
+        ...getRequestOptions(this.apiKey, "GET"),
+        signal: abortSignal,
+      });
 
       clearTimeout(timeoutId);
 
@@ -516,10 +473,7 @@ export class DrawAPI {
       if (e instanceof Error && e.name === "AbortError") {
         console.warn("[Request] Midjourney GetTaskSeed request aborted");
       } else {
-        console.error(
-          "[Request] Failed to make a Midjourney GetTaskSeed request",
-          e,
-        );
+        console.error("[Request] Failed to make a Midjourney GetTaskSeed request", e);
       }
       throw e;
     }

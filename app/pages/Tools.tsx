@@ -1,27 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  App,
-  Button,
-  Card,
-  Col,
-  Divider,
-  Input,
-  InputNumber,
-  Row,
-  Segmented,
-  Select,
-  Space,
-  Statistic,
-} from "antd";
+import { App, Button, Card, Col, Divider, Input, InputNumber, Row, Segmented, Select, Space, Statistic } from "antd";
 import { getEncoding } from "js-tiktoken";
 import { copyText } from "@/app/utils";
 import { CENTER_STYLE } from "@/constant";
-import {
-  ProForm,
-  ProFormDigit,
-  ProFormRadio,
-  ProFormSwitch,
-} from "@ant-design/pro-components";
+import { ProForm, ProFormDigit, ProFormRadio, ProFormSwitch } from "@ant-design/pro-components";
 import { DollarTwoTone } from "@ant-design/icons";
 
 // import {debounce} from "lodash";
@@ -33,9 +15,7 @@ export function ToolsPage() {
     { label: "Ratio Calculation", value: "ratio_calculation" },
   ];
 
-  const [mode, setMode] = useState<(typeof mode_options)[number]["value"]>(
-    mode_options[0].value,
-  );
+  const [mode, setMode] = useState<(typeof mode_options)[number]["value"]>(mode_options[0].value);
 
   const renderContent = () => {
     switch (mode) {
@@ -69,9 +49,7 @@ export function ToolsPage() {
               maxHeight: "75vh",
             }}
           >
-            <div style={{ padding: 8, height: "70vh", alignContent: "center" }}>
-              {renderContent()}
-            </div>
+            <div style={{ padding: 8, height: "70vh", alignContent: "center" }}>{renderContent()}</div>
           </Card>
         </Col>
       </Row>
@@ -84,14 +62,7 @@ const TokenizerComponent = () => {
   const [input, setInput] = useState("Welcome to OpenAI Next Lab.");
   const [encodingType, setEncodingType] = useState("cl100k_base");
   const [tokenLength, setTokenLength] = useState(0);
-  const ENCODING_TYPES = [
-    "gpt2",
-    "r50k_base",
-    "p50k_base",
-    "p50k_edit",
-    "cl100k_base",
-    "o200k_base",
-  ];
+  const ENCODING_TYPES = ["gpt2", "r50k_base", "p50k_base", "p50k_edit", "cl100k_base", "o200k_base"];
 
   const calculateTokenLength = () => {
     try {
@@ -166,14 +137,8 @@ const PriceCalculationComponent = () => {
 
   const [finalPrice, setFinalPrice] = useState(0.0);
 
-  const priceMode = ProForm.useWatch("price_mode", priceCalculationForm) as
-    | "per_k_tokens"
-    | "per_m_tokens"
-    | "ratio";
-  const isSamePrice = ProForm.useWatch(
-    "same_price",
-    priceCalculationForm,
-  ) as boolean;
+  const priceMode = ProForm.useWatch("price_mode", priceCalculationForm) as "per_k_tokens" | "per_m_tokens" | "ratio";
+  const isSamePrice = ProForm.useWatch("same_price", priceCalculationForm) as boolean;
   const isRatio = priceMode === "ratio";
 
   const price_mode_options = [
@@ -198,14 +163,7 @@ const PriceCalculationComponent = () => {
         completion_tokens: 0,
       }}
       onValuesChange={(_, values) => {
-        let {
-          price_mode,
-          same_price,
-          input_price,
-          output_price,
-          prompt_tokens,
-          completion_tokens,
-        } = values;
+        let { price_mode, same_price, input_price, output_price, prompt_tokens, completion_tokens } = values;
         let multiplier = 0;
         switch (price_mode) {
           case "per_k_tokens":
@@ -220,18 +178,13 @@ const PriceCalculationComponent = () => {
             break;
         }
         if (same_price) {
-          setFinalPrice(
-            (input_price * (prompt_tokens + completion_tokens)) / multiplier,
-          );
+          setFinalPrice((input_price * (prompt_tokens + completion_tokens)) / multiplier);
         } else {
           if (price_mode === "ratio") {
             // 补全价格 = 输入价格 * 补全倍率
             output_price = input_price * output_price;
           }
-          setFinalPrice(
-            (input_price * prompt_tokens + output_price * completion_tokens) /
-              multiplier,
-          );
+          setFinalPrice((input_price * prompt_tokens + output_price * completion_tokens) / multiplier);
         }
       }}
     >
@@ -241,31 +194,15 @@ const PriceCalculationComponent = () => {
         options={price_mode_options}
         rules={[{ required: true }]}
       />
-      <ProFormSwitch
-        name={"same_price"}
-        label={"Same Price"}
-        rules={[{ required: true }]}
-      />
+      <ProFormSwitch name={"same_price"} label={"Same Price"} rules={[{ required: true }]} />
       <ProFormDigit
         name={"input_price"}
-        label={
-          isSamePrice
-            ? isRatio
-              ? "Model Ratio"
-              : "Price"
-            : isRatio
-              ? "Model Ratio"
-              : "Input Price"
-        }
+        label={isSamePrice ? (isRatio ? "Model Ratio" : "Price") : isRatio ? "Model Ratio" : "Input Price"}
         min={0}
         rules={[{ required: true }]}
         fieldProps={{
           prefix: !isRatio ? "$" : "",
-          suffix: !isRatio
-            ? "/ " +
-              price_mode_options.find((option) => option.value === priceMode)
-                ?.label
-            : "",
+          suffix: !isRatio ? "/ " + price_mode_options.find((option) => option.value === priceMode)?.label : "",
           controls: false,
         }}
       />
@@ -277,11 +214,7 @@ const PriceCalculationComponent = () => {
         rules={[{ required: true }]}
         fieldProps={{
           prefix: !isRatio ? "$" : "",
-          suffix: !isRatio
-            ? "/ " +
-              price_mode_options.find((option) => option.value === priceMode)
-                ?.label
-            : "",
+          suffix: !isRatio ? "/ " + price_mode_options.find((option) => option.value === priceMode)?.label : "",
           controls: false,
         }}
       />
@@ -322,9 +255,7 @@ const PriceCalculationComponent = () => {
 
 const RatioCalculationComponent = () => {
   const [ratioCalculationForm] = ProForm.useForm();
-  const priceMode = ProForm.useWatch("price_mode", ratioCalculationForm) as
-    | "per_k_tokens"
-    | "per_m_tokens";
+  const priceMode = ProForm.useWatch("price_mode", ratioCalculationForm) as "per_k_tokens" | "per_m_tokens";
   const price_mode_options = [
     { label: "1K Tokens", value: "per_k_tokens" },
     { label: "1M Tokens", value: "per_m_tokens" },
@@ -372,11 +303,7 @@ const RatioCalculationComponent = () => {
         options={price_mode_options}
         rules={[{ required: true }]}
       />
-      <ProFormSwitch
-        name={"same_price"}
-        label={"Same Price"}
-        rules={[{ required: true }]}
-      />
+      <ProFormSwitch name={"same_price"} label={"Same Price"} rules={[{ required: true }]} />
       <ProFormDigit
         name={"input_price"}
         label={"Input Price"}
@@ -384,10 +311,7 @@ const RatioCalculationComponent = () => {
         rules={[{ required: true }]}
         fieldProps={{
           prefix: "$",
-          suffix:
-            "/ " +
-            price_mode_options.find((option) => option.value === priceMode)
-              ?.label,
+          suffix: "/ " + price_mode_options.find((option) => option.value === priceMode)?.label,
           controls: false,
         }}
       />
@@ -398,19 +322,13 @@ const RatioCalculationComponent = () => {
         rules={[{ required: true }]}
         fieldProps={{
           prefix: "$",
-          suffix:
-            "/ " +
-            price_mode_options.find((option) => option.value === priceMode)
-              ?.label,
+          suffix: "/ " + price_mode_options.find((option) => option.value === priceMode)?.label,
           controls: false,
         }}
       />
 
       <Divider />
-      <Space
-        size={100}
-        style={{ width: "100%", justifyContent: "center", marginBottom: 16 }}
-      >
+      <Space size={100} style={{ width: "100%", justifyContent: "center", marginBottom: 16 }}>
         <Statistic
           title="Model Ratio"
           value={finalRatios.model_ratio.toFixed(6).replace(/\.?0+$/, "")}

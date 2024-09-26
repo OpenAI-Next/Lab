@@ -10,11 +10,7 @@ export function safeJsonParse(jsonString: any, defaultValue: object): object {
   }
 }
 
-export function safeJsonStringify(
-  jsonObject: any,
-  defaultValue: string,
-  alartOnError = false,
-): string {
+export function safeJsonStringify(jsonObject: any, defaultValue: string, alartOnError = false): string {
   try {
     return JSON.stringify(jsonObject, null, 2);
   } catch (e) {
@@ -26,9 +22,7 @@ export function safeJsonStringify(
   }
 }
 
-export function validateApiKey(
-  apiKey: string,
-): "error" | "warning" | undefined {
+export function validateApiKey(apiKey: string): "error" | "warning" | undefined {
   if (apiKey.startsWith("sk-")) {
     return apiKey.length === 51 ? undefined : "error";
   }
@@ -79,9 +73,7 @@ export const arrayValidationRule = {
       }
       return Promise.reject(new Error("Input content is not a valid array"));
     } catch (e) {
-      return Promise.reject(
-        new Error("Input content is not a valid JSON string"),
-      );
+      return Promise.reject(new Error("Input content is not a valid JSON string"));
     }
   },
 };
@@ -113,9 +105,7 @@ export const jsonSchemaValidationRule = {
 
     const ajv = new Ajv();
     const valid = ajv.validateSchema(parsedValue);
-    return valid
-      ? Promise.resolve()
-      : Promise.reject(new Error("输入内容可能不符合 JSON Schema 规则"));
+    return valid ? Promise.resolve() : Promise.reject(new Error("输入内容可能不符合 JSON Schema 规则"));
   },
 };
 
@@ -140,10 +130,7 @@ export function transformObject(obj: any, paths: string | any[]) {
     }
 
     const lastKey = keys[keys.length - 1];
-    if (
-      nestedObj.hasOwnProperty(lastKey) &&
-      typeof nestedObj[lastKey] === "string"
-    ) {
+    if (nestedObj.hasOwnProperty(lastKey) && typeof nestedObj[lastKey] === "string") {
       try {
         nestedObj[lastKey] = JSON.parse(nestedObj[lastKey]);
       } catch (error) {
@@ -167,10 +154,7 @@ export function getErrorObject(res: Response): {
   };
 }
 
-export const handelResponseError = async (
-  res: Response,
-  updateError: (error: any) => void,
-) => {
+export const handelResponseError = async (res: Response, updateError: (error: any) => void) => {
   const resClone = res.clone();
   try {
     const resJson = await resClone.json();
@@ -189,9 +173,7 @@ export function CloseAllSound(audio?: any): void {
   // 关闭所有可能存在的音乐播放
   document.querySelectorAll("audio").forEach((audio) => audio.pause());
   // 关闭可能存在的弹窗
-  document
-    .querySelectorAll("div[style*='z-index: 8998']")
-    .forEach((element) => document.body.removeChild(element));
+  document.querySelectorAll("div[style*='z-index: 8998']").forEach((element) => document.body.removeChild(element));
   // 关闭可能存在的视频播放
   document.querySelectorAll("video").forEach((video) => video.pause());
   // 关闭可能存在的音频播放

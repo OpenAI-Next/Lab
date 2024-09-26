@@ -43,11 +43,7 @@ export class ShellApi {
     return [this.server_base_url, endpoint].join("/");
   }
 
-  public async getTokens(
-    data: ShellApiLoginRequest,
-    p: number = 0,
-    pageSize: number = 50,
-  ): Promise<ShellApiToken[]> {
+  public async getTokens(data: ShellApiLoginRequest, p: number = 0, pageSize: number = 50): Promise<ShellApiToken[]> {
     try {
       const jwtToken = await this.getJwtToken(data);
       return await this.getUserTokenList(jwtToken, p, pageSize);
@@ -57,10 +53,7 @@ export class ShellApi {
   }
 
   private async getJwtToken(data: ShellApiLoginRequest): Promise<string> {
-    const res = await fetch(
-      this.path(Endpoints.LOGIN),
-      getRequestOptions("", data),
-    );
+    const res = await fetch(this.path(Endpoints.LOGIN), getRequestOptions("", data));
     const resJson = await res.json();
     if (resJson.success) {
       return resJson.token;
@@ -69,11 +62,7 @@ export class ShellApi {
     }
   }
 
-  private async getUserTokenList(
-    jwtToken: string,
-    p: number = 0,
-    pageSize: number = 50,
-  ): Promise<ShellApiToken[]> {
+  private async getUserTokenList(jwtToken: string, p: number = 0, pageSize: number = 50): Promise<ShellApiToken[]> {
     if (!jwtToken) throw new Error("jwtToken is empty");
 
     const reqOptions: RequestInit = {
@@ -86,18 +75,14 @@ export class ShellApi {
     };
 
     const res = await fetch(
-      this.path(Endpoints.Tokens)
-        .replace("{{p}}", p.toString())
-        .replace("{{pageSize}}", pageSize.toString()),
+      this.path(Endpoints.Tokens).replace("{{p}}", p.toString()).replace("{{pageSize}}", pageSize.toString()),
       reqOptions,
     );
     const resJson = await res.json();
     if (resJson.success) {
       return resJson.data as ShellApiToken[];
     } else {
-      throw new Error(
-        resJson.message ?? resJson.error ?? "Get user token list failed",
-      );
+      throw new Error(resJson.message ?? resJson.error ?? "Get user token list failed");
     }
   }
 }

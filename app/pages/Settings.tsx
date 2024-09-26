@@ -1,26 +1,10 @@
 import React, { lazy, useState } from "react";
-import {
-  Provider,
-  PROVIDER_NAME,
-  ProviderRealBaseUrlMap,
-  useAppConfig,
-} from "../store";
+import { Provider, PROVIDER_NAME, ProviderRealBaseUrlMap, useAppConfig } from "../store";
 
 import { SCROLL_STYLE, SITE_TITLE } from "@/constant";
 import { Button, Col, message, Row, Space } from "antd";
-import {
-  ProCard,
-  ProCardProps,
-  ProForm,
-  ProFormList,
-  ProFormSelect,
-  ProFormText,
-} from "@ant-design/pro-components";
-import {
-  DeleteOutlined,
-  DownloadOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { ProCard, ProCardProps, ProForm, ProFormList, ProFormSelect, ProFormText } from "@ant-design/pro-components";
+import { DeleteOutlined, DownloadOutlined, UploadOutlined } from "@ant-design/icons";
 import { ShellApiToken } from "@/app/client/shell-api";
 
 const ShellApiApiKey = lazy(() => import("@/app/components/ShellApiApiKey"));
@@ -51,12 +35,7 @@ export function Settings() {
   };
 
   const onImport = () => {
-    if (
-      !window.confirm(
-        "Importing data will overwrite current data. Are you sure you want to continue?",
-      )
-    )
-      return;
+    if (!window.confirm("Importing data will overwrite current data. Are you sure you want to continue?")) return;
     const input = document.createElement("input");
     input.type = "file";
     input.accept = ".json";
@@ -82,9 +61,7 @@ export function Settings() {
     onExport();
     localStorage.clear();
     document.cookie.split(";").forEach(function (c) {
-      document.cookie = c
-        .replace(/^ +/, "")
-        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
     });
     location.reload();
   };
@@ -172,20 +149,11 @@ export function Settings() {
                               <a
                                 style={{ marginLeft: 2 }}
                                 onClick={() => {
-                                  setShellApiBaseUrl(
-                                    ProviderRealBaseUrlMap[
-                                      config?.apiKeys[index]?.provider
-                                    ],
-                                  );
+                                  setShellApiBaseUrl(ProviderRealBaseUrlMap[config?.apiKeys[index]?.provider]);
                                   setShowShellApiApiKeyModal(true);
                                 }}
                               >
-                                Load from{" "}
-                                {
-                                  PROVIDER_NAME[
-                                    config?.apiKeys[index]?.provider
-                                  ]
-                                }
+                                Load from {PROVIDER_NAME[config?.apiKeys[index]?.provider]}
                               </a>
                             )
                           }
@@ -208,10 +176,7 @@ export function Settings() {
                   ]}
                   fieldProps={{
                     value: config.uploadServerProvider,
-                    onChange: (v) =>
-                      updateConfig(
-                        (config) => (config.uploadServerProvider = v),
-                      ),
+                    onChange: (v) => updateConfig((config) => (config.uploadServerProvider = v)),
                   }}
                   allowClear={false}
                 />

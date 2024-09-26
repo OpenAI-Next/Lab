@@ -16,7 +16,6 @@ import { Alert, Col, Divider, message, Segmented } from "antd";
 import { KelingAI, KelingApiTypes } from "@/app/providers/keling-ai";
 import { RenderSubmitter } from "../render";
 
-// 提取公共的选项
 const MODE_OPTIONS = [
   { label: "Std-标准模式（高性能）", value: "std" },
   { label: "Pro-专家模式（高表现）", value: "pro" },
@@ -31,13 +30,9 @@ const MODEL_OPTIONS = [{ label: "kling-v1", value: "kling-v1" }];
 
 const KelingPage = () => {
   const appConfig = useAppConfig();
-  const api = new KelingAI(
-    "sk-sFplfAcnWY3sFCCs02Ac93Ce9cEf4984A7EdF93e70969c18",
-  );
+  const api = new KelingAI("sk-sFplfAcnWY3sFCCs02Ac93Ce9cEf4984A7EdF93e70969c18");
 
-  const [taskType, setTaskType] = useState<
-    "text2video" | "image2video" | "queryTask"
-  >("text2video");
+  const [taskType, setTaskType] = useState<"text2video" | "image2video" | "queryTask">("text2video");
   const [klingText2VideoForm] = ProForm.useForm();
   const [klingImage2VideoForm] = ProForm.useForm();
   const [klingQueryTaskForm] = ProForm.useForm();
@@ -53,16 +48,9 @@ const KelingPage = () => {
   }) => {
     const selectedDuration = ProForm.useWatch("duration", props.form);
     const selectedMode = ProForm.useWatch("mode", props.form);
-    const selectedCameraControlType = ProForm.useWatch(
-      ["camera_control", "type"],
-      props.form,
-    );
-    const selectedCameraControlConfig = ProForm.useWatch(
-      ["camera_control", "config"],
-      props.form,
-    );
-    const [abortController, setAbortController] =
-      useState<AbortController | null>(null);
+    const selectedCameraControlType = ProForm.useWatch(["camera_control", "type"], props.form);
+    const selectedCameraControlConfig = ProForm.useWatch(["camera_control", "config"], props.form);
+    const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
     return (
       <ProForm<KelingApiTypes["generateText2VideoTask"]["req"]>
@@ -93,9 +81,7 @@ const KelingPage = () => {
                 abortController={abortController}
                 submitting={submitting}
                 submitterProps={submitterProps}
-                getValues={() =>
-                  JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-                }
+                getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               />
             );
           },
@@ -104,11 +90,7 @@ const KelingPage = () => {
         <ProFormSelect name={"model"} label={"Model"} options={MODEL_OPTIONS} />
 
         <ProFormSelect name={"mode"} label={"Mode"} options={MODE_OPTIONS} />
-        <ProFormRadio.Group
-          name={"duration"}
-          label={"Duration"}
-          options={DURATION_OPTIONS}
-        />
+        <ProFormRadio.Group name={"duration"} label={"Duration"} options={DURATION_OPTIONS} />
         <ProFormRadio.Group
           name={"aspect_ratio"}
           label={"Aspect Ratio"}
@@ -136,9 +118,7 @@ const KelingPage = () => {
           max={1}
           step={0.01}
           marks={{ 0: "0", 0.25: "0.25", 0.5: "0.5", 0.75: "0.75", 1: "1" }}
-          tooltip={
-            "生成视频的自由度，值越大，模型自由度越小，与用户输入的提示词相关性越强"
-          }
+          tooltip={"生成视频的自由度，值越大，模型自由度越小，与用户输入的提示词相关性越强"}
         />
 
         {selectedDuration === "5" && selectedMode === "std" && (
@@ -173,8 +153,8 @@ const KelingPage = () => {
                     >
                       <li>
                         Simple: 简单运镜，可在<code>config</code>
-                        中六选一（即只能有一个参数不为0，其余参数为0
-                        ）进行运镜，其他类型下<code>config</code>参数无需填写
+                        中六选一（即只能有一个参数不为0，其余参数为0 ）进行运镜，其他类型下<code>config</code>
+                        参数无需填写
                       </li>
                       <li> Down Back:镜头下压后退➡️下移拉远</li>
                       <li>Forward Up: 镜头前进上仰➡️推进上移</li>
@@ -187,15 +167,9 @@ const KelingPage = () => {
               />
               {selectedCameraControlType === "simple" && (
                 <>
-                  {Object.values(selectedCameraControlConfig || {}).filter(
-                    (value) => value !== 0,
-                  ).length !== 1 && (
+                  {Object.values(selectedCameraControlConfig || {}).filter((value) => value !== 0).length !== 1 && (
                     <ProFormItem>
-                      <Alert
-                        type="warning"
-                        showIcon
-                        message="简单运镜只能有一个参数不为 0"
-                      />
+                      <Alert type="warning" showIcon message="简单运镜只能有一个参数不为 0" />
                     </ProFormItem>
                   )}
                   <ProFormSlider
@@ -206,9 +180,7 @@ const KelingPage = () => {
                     step={0.1}
                     marks={{ [-10]: "-10", 0: "0", 10: "10" }}
                     initialValue={0}
-                    tooltip={
-                      "水平运镜，控制摄像机在水平方向上的移动量（沿x轴平移）"
-                    }
+                    tooltip={"水平运镜，控制摄像机在水平方向上的移动量（沿x轴平移）"}
                   />
                   <ProFormSlider
                     name={["camera_control", "config", "vertical"]}
@@ -218,9 +190,7 @@ const KelingPage = () => {
                     step={0.1}
                     marks={{ [-10]: "-10", 0: "0", 10: "10" }}
                     initialValue={0}
-                    tooltip={
-                      "垂直运镜，控制摄像机在垂直方向上的移动量（沿y轴平移）"
-                    }
+                    tooltip={"垂直运镜，控制摄像机在垂直方向上的移动量（沿y轴平移）"}
                   />
 
                   <ProFormSlider
@@ -231,9 +201,7 @@ const KelingPage = () => {
                     step={0.1}
                     marks={{ [-10]: "-10", 0: "0", 10: "10" }}
                     initialValue={0}
-                    tooltip={
-                      "水平摇镜，控制摄像机在水平方向上的旋转量（沿x轴旋转）"
-                    }
+                    tooltip={"水平摇镜，控制摄像机在水平方向上的旋转量（沿x轴旋转）"}
                   />
                   <ProFormSlider
                     name={["camera_control", "config", "tilt"]}
@@ -243,9 +211,7 @@ const KelingPage = () => {
                     step={0.1}
                     marks={{ [-10]: "-10", 0: "0", 10: "10" }}
                     initialValue={0}
-                    tooltip={
-                      "垂直摇镜，控制摄像机在垂直方向上的旋转量（沿y轴旋转）"
-                    }
+                    tooltip={"垂直摇镜，控制摄像机在垂直方向上的旋转量（沿y轴旋转）"}
                   />
                   <ProFormSlider
                     name={["camera_control", "config", "roll"]}
@@ -289,13 +255,11 @@ const KelingPage = () => {
     updateTask: (data: any[]) => void;
     updateError: (error: any) => void;
   }) => {
-    const [abortController, setAbortController] =
-      useState<AbortController | null>(null);
+    const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
 
     const handleImageUpload = async (file: File, fieldName: string) => {
-      const isJpgOrPng =
-        file.type === "image/jpeg" || file.type === "image/png";
+      const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
       if (!isJpgOrPng) {
         message.error("只能上传 JPG/PNG 文件!");
         return false;
@@ -342,9 +306,7 @@ const KelingPage = () => {
                 abortController={abortController}
                 submitting={submitting}
                 submitterProps={submitterProps}
-                getValues={() =>
-                  JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-                }
+                getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               />
             );
           },
@@ -352,11 +314,7 @@ const KelingPage = () => {
       >
         <ProFormSelect name="model" label="Model" options={MODEL_OPTIONS} />
         <ProFormSelect name="mode" label="Mode" options={MODE_OPTIONS} />
-        <ProFormRadio.Group
-          name="duration"
-          label="Duration"
-          options={DURATION_OPTIONS}
-        />
+        <ProFormRadio.Group name="duration" label="Duration" options={DURATION_OPTIONS} />
 
         <ProFormUploadButton
           accept=".jpg,.jpeg,.png"
@@ -391,11 +349,7 @@ const KelingPage = () => {
           step={0.01}
           marks={{ 0: "0", 0.25: "0.25", 0.5: "0.5", 0.75: "0.75", 1: "1" }}
         />
-        <ProFormText
-          name="callback_url"
-          label="Callback URL"
-          rules={[{ type: "url", warningOnly: true }]}
-        />
+        <ProFormText name="callback_url" label="Callback URL" rules={[{ type: "url", warningOnly: true }]} />
       </ProForm>
     );
   };
@@ -406,8 +360,7 @@ const KelingPage = () => {
     updateTask: (data: any[]) => void;
     updateError: (error: any) => void;
   }) => {
-    const [abortController, setAbortController] =
-      useState<AbortController | null>(null);
+    const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
     return (
       <ProForm<KelingApiTypes["queryTask"]["endpoint_params"]>
@@ -438,9 +391,7 @@ const KelingPage = () => {
                 abortController={abortController}
                 submitting={submitting}
                 submitterProps={submitterProps}
-                getValues={() =>
-                  JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-                }
+                getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               />
             );
           },
@@ -465,11 +416,7 @@ const KelingPage = () => {
             "image2video",
           ]}
         />
-        <ProFormText
-          name={"task_id"}
-          label={"任务ID"}
-          rules={[{ required: true }, { type: "string" }]}
-        />
+        <ProFormText name={"task_id"} label={"任务ID"} rules={[{ required: true }, { type: "string" }]} />
       </ProForm>
     );
   };
@@ -488,28 +435,13 @@ const KelingPage = () => {
           onChange={setTaskType}
         />
         {taskType === "text2video" && (
-          <Text2VideoForm
-            form={klingText2VideoForm}
-            api={api}
-            updateTask={setTaskData}
-            updateError={setErrorData}
-          />
+          <Text2VideoForm form={klingText2VideoForm} api={api} updateTask={setTaskData} updateError={setErrorData} />
         )}
         {taskType === "image2video" && (
-          <Image2VideoForm
-            form={klingImage2VideoForm}
-            api={api}
-            updateTask={setTaskData}
-            updateError={setErrorData}
-          />
+          <Image2VideoForm form={klingImage2VideoForm} api={api} updateTask={setTaskData} updateError={setErrorData} />
         )}
         {taskType === "queryTask" && (
-          <QueryTaskForm
-            form={klingQueryTaskForm}
-            api={api}
-            updateTask={setTaskData}
-            updateError={setErrorData}
-          />
+          <QueryTaskForm form={klingQueryTaskForm} api={api} updateTask={setTaskData} updateError={setErrorData} />
         )}
         <Divider />
       </Col>

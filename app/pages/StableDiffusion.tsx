@@ -1,13 +1,5 @@
 // app/pages/StableDiffusion.tsx
-import {
-  Col,
-  Divider,
-  Empty,
-  FloatButton,
-  Image,
-  Segmented,
-  Typography,
-} from "antd";
+import { Col, Divider, Empty, FloatButton, Image, Segmented, Typography } from "antd";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import { renderCode, RenderSubmitter } from "@/app/render";
 import { handelResponseError, safeJsonStringify } from "@/app/utils";
@@ -54,19 +46,12 @@ const StableDiffusionForm = (props: {
     { label: "Image Core", value: "imageCore" },
     { label: "Diffusion 3", value: "sd3" },
   ];
-  const [sdType, setSdType] = useState<"imageUltra" | "imageCore" | "sd3">(
-    "imageUltra",
-  );
+  const [sdType, setSdType] = useState<"imageUltra" | "imageCore" | "sd3">("imageUltra");
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
-  const selectedMode = (ProForm.useWatch("mode", props.form) ||
-    "text-to-image") as "image-to-image" | "text-to-image";
-  const selectedModel = ProForm.useWatch("model", props.form) as
-    | "sd3-medium"
-    | "sd3-large"
-    | "sd3-large-turbo";
+  const selectedMode = (ProForm.useWatch("mode", props.form) || "text-to-image") as "image-to-image" | "text-to-image";
+  const selectedModel = ProForm.useWatch("model", props.form) as "sd3-medium" | "sd3-large" | "sd3-large-turbo";
 
   return (
     <>
@@ -81,11 +66,7 @@ const StableDiffusionForm = (props: {
         }}
       />
 
-      <ProForm<
-        | StableDiffusionImageUltraRequest
-        | StableDiffusionImageCoreRequest
-        | StableDiffusion3Request
-      >
+      <ProForm<StableDiffusionImageUltraRequest | StableDiffusionImageCoreRequest | StableDiffusion3Request>
         {...PRO_FORM_PROPS}
         form={props.form}
         onFinish={async (values) => {
@@ -94,11 +75,7 @@ const StableDiffusionForm = (props: {
           setAbortController(controller);
           setSubmitting(true);
           try {
-            const res = await props.api.submit(
-              sdType,
-              values,
-              controller.signal,
-            );
+            const res = await props.api.submit(sdType, values, controller.signal);
             if (res.ok) {
               const resJson = (await res.json()) as StableDiffusionResponse;
               props.updateResponse({
@@ -123,9 +100,7 @@ const StableDiffusionForm = (props: {
                 abortController={abortController}
                 submitting={submitting}
                 submitterProps={submitterProps}
-                getValues={() =>
-                  JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-                }
+                getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               />
             );
           },
@@ -146,8 +121,7 @@ const StableDiffusionForm = (props: {
                     SD3 Large - the 8 billion parameter model
                   </Typography.Paragraph>
                   <Typography.Paragraph style={{ color: "white" }}>
-                    SD3 Large Turbo - the 8 billion parameter model with a
-                    faster inference time
+                    SD3 Large Turbo - the 8 billion parameter model with a faster inference time
                   </Typography.Paragraph>
                 </>
               }
@@ -230,17 +204,7 @@ const StableDiffusionForm = (props: {
             name="aspect_ratio"
             label="Aspect Ratio"
             placeholder="Width : Height"
-            options={[
-              "1:1",
-              "16:9",
-              "21:9",
-              "2:3",
-              "3:2",
-              "4:5",
-              "5:4",
-              "9:16",
-              "9:21",
-            ]}
+            options={["1:1", "16:9", "21:9", "2:3", "3:2", "4:5", "5:4", "9:16", "9:21"]}
             tooltip="Controls the aspect ratio of the generated image. Defaults to 1:1."
             width="sm"
           />
@@ -333,11 +297,7 @@ const StableDiffusionDataRenderer = (props: {
                 return (
                   <a
                     onClick={() => {
-                      const url =
-                        "data:image/" +
-                        record.output_format +
-                        ";base64," +
-                        record.image;
+                      const url = "data:image/" + record.output_format + ";base64," + record.image;
                       const a = document.createElement("a");
                       a.href = url;
                       a.download = `${record.prompt}.` + record.output_format;
@@ -356,12 +316,7 @@ const StableDiffusionDataRenderer = (props: {
                 if (record?.image) {
                   return (
                     <Image
-                      src={
-                        "data:image/" +
-                        record.output_format +
-                        ";base64," +
-                        record.image
-                      }
+                      src={"data:image/" + record.output_format + ";base64," + record.image}
                       alt={record.image}
                       style={{ maxWidth: 240 }}
                     />
@@ -394,9 +349,7 @@ const StableDiffusionDataRenderer = (props: {
 
 export const StableDiffusionPage = () => {
   const appConfig = useAppConfig();
-  const stableDiffusionApi = new StableDiffusionAPI(
-    appConfig.getFirstApiKey(api2Provider.StableDiffusion),
-  );
+  const stableDiffusionApi = new StableDiffusionAPI(appConfig.getFirstApiKey(api2Provider.StableDiffusion));
   const [sdForm] = ProForm.useForm();
 
   const [data, setData] = useState<StableDiffusionData[]>([]);
@@ -427,11 +380,7 @@ export const StableDiffusionPage = () => {
       </Col>
       <Col flex="auto" style={COL_SCROLL_STYLE}>
         <h1>Response</h1>
-        <StableDiffusionDataRenderer
-          data={data}
-          api={stableDiffusionApi}
-          onDelData={onDelData}
-        />
+        <StableDiffusionDataRenderer data={data} api={stableDiffusionApi} onDelData={onDelData} />
         {errorData && (
           <>
             <h1>Error</h1>
@@ -471,11 +420,7 @@ export const StableDiffusionPage = () => {
                       "buttons",
                     ];
                     for (const item of data) {
-                      if (
-                        !requiredProperties.every((prop) =>
-                          item.hasOwnProperty(prop),
-                        )
-                      ) {
+                      if (!requiredProperties.every((prop) => item.hasOwnProperty(prop))) {
                         ok = false;
                         break;
                       }
@@ -499,9 +444,7 @@ export const StableDiffusionPage = () => {
           icon={<CloudDownloadOutlined />}
           onClick={() => {
             // download taskData
-            const dataStr =
-              "data:text/json;charset=utf-8," +
-              encodeURIComponent(JSON.stringify(data, null, 2));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
             const downloadAnchorNode = document.createElement("a");
             downloadAnchorNode.setAttribute("href", dataStr);
             downloadAnchorNode.setAttribute("download", "taskData.json");

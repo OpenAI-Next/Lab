@@ -1,16 +1,5 @@
 import React, { useState } from "react";
-import {
-  Affix,
-  Badge,
-  Button,
-  Col,
-  Descriptions,
-  message,
-  Modal,
-  Row,
-  Select,
-  Space,
-} from "antd";
+import { Affix, Badge, Button, Col, Descriptions, message, Modal, Row, Select, Space } from "antd";
 import { CopyFilled, LoadingOutlined } from "@ant-design/icons";
 import { copyText } from "@/app/utils";
 import { ProForm, SubmitterProps } from "@ant-design/pro-components";
@@ -19,29 +8,16 @@ import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useNavigate } from "react-router-dom";
 import { Path } from "@/constant";
 
-export const CodeModal = (prop: {
-  open: boolean;
-  code: string;
-  onClose: () => void;
-}) => {
+export const CodeModal = (prop: { open: boolean; code: string; onClose: () => void }) => {
   return (
-    <Modal
-      open={prop.open}
-      onCancel={prop.onClose}
-      footer={null}
-      closeIcon={false}
-      centered
-      width={800}
-    >
+    <Modal open={prop.open} onCancel={prop.onClose} footer={null} closeIcon={false} centered width={800}>
       <>
         {renderCode(prop.code)}
         <Button
           icon={<CopyFilled />}
           block
           onClick={async () =>
-            (await copyText(prop.code))
-              ? message.success("Copied")
-              : message.error("Failed to copy")
+            (await copyText(prop.code)) ? message.success("Copied") : message.error("Failed to copy")
           }
         >
           复制代码
@@ -51,11 +27,7 @@ export const CodeModal = (prop: {
   );
 };
 
-export const renderCode = (
-  code: string,
-  maxHeight = "70vh",
-  wrap: boolean = false,
-) => {
+export const renderCode = (code: string, maxHeight = "70vh", wrap: boolean = false) => {
   return (
     <SyntaxHighlighter
       language="json"
@@ -85,37 +57,21 @@ export const timestamp2String = (timestamp: number, type = "time") => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
 
-export const renderRequestTimeDuration = (
-  start: number,
-  end: number,
-  stream = false,
-) => {
+export const renderRequestTimeDuration = (start: number, end: number, stream = false) => {
   // not started
   if (start === 0) return null;
 
   return (
     <Descriptions column={3} bordered={true} size={"small"}>
-      <Descriptions.Item label="Start">
-        {timestamp2String(start)}
-      </Descriptions.Item>
+      <Descriptions.Item label="Start">{timestamp2String(start)}</Descriptions.Item>
       <Descriptions.Item label="Finish">
-        {end > 0 ? (
-          timestamp2String(end)
-        ) : (
-          <Badge status="processing" text="Processing" />
-        )}
+        {end > 0 ? timestamp2String(end) : <Badge status="processing" text="Processing" />}
       </Descriptions.Item>
       {stream ? (
-        <Descriptions.Item label="Duration">
-          {(end > 0 ? end : new Date().getTime()) - start} ms
-        </Descriptions.Item>
+        <Descriptions.Item label="Duration">{(end > 0 ? end : new Date().getTime()) - start} ms</Descriptions.Item>
       ) : (
         <Descriptions.Item label="Duration">
-          {end > 0 ? (
-            end - start + " ms"
-          ) : (
-            <Badge status="processing" text="Processing" />
-          )}
+          {end > 0 ? end - start + " ms" : <Badge status="processing" text="Processing" />}
         </Descriptions.Item>
       )}
     </Descriptions>
@@ -155,11 +111,7 @@ export const RenderSubmitter = (props: {
                     : props.submitterProps.submit()
               }
             >
-              {props.noApiKeys
-                ? "Set API Keys"
-                : props.submitting
-                  ? "Cancel"
-                  : "Send"}
+              {props.noApiKeys ? "Set API Keys" : props.submitting ? "Cancel" : "Send"}
             </Button>
             <Row gutter={8}>
               {props.getValues !== false && (
@@ -170,11 +122,7 @@ export const RenderSubmitter = (props: {
                 </Col>
               )}
               <Col span={props.getValues !== false ? 12 : 24}>
-                <Button
-                  block
-                  danger
-                  onClick={() => props.submitterProps.reset()}
-                >
+                <Button block danger onClick={() => props.submitterProps.reset()}>
                   Reset
                 </Button>
               </Col>
@@ -183,11 +131,7 @@ export const RenderSubmitter = (props: {
         </Affix>
       </ProForm.Item>
       {props.getValues !== false && (
-        <CodeModal
-          open={showCodeModal}
-          code={props.getValues()}
-          onClose={() => setShowCodeModal(false)}
-        />
+        <CodeModal open={showCodeModal} code={props.getValues()} onClose={() => setShowCodeModal(false)} />
       )}
     </>
   );
@@ -196,11 +140,7 @@ export const RenderSubmitter = (props: {
 /**
  * 快速填充Suno歌曲风格模态框
  */
-export const QuickFillStyleModal = (props: {
-  open: boolean;
-  onClose: () => void;
-  onFill: (style: string) => void;
-}) => {
+export const QuickFillStyleModal = (props: { open: boolean; onClose: () => void; onFill: (style: string) => void }) => {
   const [selectedValue, setSelectedValue] = useState<{ s: string; l: string }>({
     s: "",
     l: "",
@@ -287,32 +227,21 @@ export const QuickFillStyleModal = (props: {
   ];
 
   function generateRandomPrompt(): { s: string; l: string } {
-    const randomS: { cn: string; en: string } =
-      s[Math.floor(Math.random() * s.length)];
-    const randomL: { cn: string; en: string } =
-      l[Math.floor(Math.random() * l.length)];
+    const randomS: { cn: string; en: string } = s[Math.floor(Math.random() * s.length)];
+    const randomL: { cn: string; en: string } = l[Math.floor(Math.random() * l.length)];
 
     return { s: randomS.en, l: randomL.en };
   }
 
   return (
-    <Modal
-      title={"Quick Fill Style"}
-      open={props.open}
-      onCancel={props.onClose}
-      centered
-      footer={null}
-      width={520}
-    >
+    <Modal title={"Quick Fill Style"} open={props.open} onCancel={props.onClose} centered footer={null} width={520}>
       <Space direction={"vertical"}>
         <Space.Compact>
           <Select
             size={"large"}
             value={selectedValue.s}
             style={{ width: 240 }}
-            onChange={(value) =>
-              setSelectedValue({ ...selectedValue, s: value })
-            }
+            onChange={(value) => setSelectedValue({ ...selectedValue, s: value })}
             options={s.map((item) => ({
               label: `${item.en}（${item.cn}）`,
               value: item.en,
@@ -324,9 +253,7 @@ export const QuickFillStyleModal = (props: {
             size={"large"}
             value={selectedValue.l}
             style={{ width: 240 }}
-            onChange={(value) =>
-              setSelectedValue({ ...selectedValue, l: value })
-            }
+            onChange={(value) => setSelectedValue({ ...selectedValue, l: value })}
             options={l.map((item) => ({
               label: `${item.en}（${item.cn}）`,
               value: item.en,
@@ -335,11 +262,7 @@ export const QuickFillStyleModal = (props: {
           />
         </Space.Compact>
 
-        <Button
-          block
-          onClick={() => setSelectedValue(generateRandomPrompt())}
-          type={"dashed"}
-        >
+        <Button block onClick={() => setSelectedValue(generateRandomPrompt())} type={"dashed"}>
           Random
         </Button>
 

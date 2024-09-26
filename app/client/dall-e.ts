@@ -1,8 +1,5 @@
 import { OpenaiPath, REQUEST_TIMEOUT_MS } from "@/constant";
-import {
-  getAuthHeaderWithApiKey,
-  getRequestOptions,
-} from "@/app/client/helper";
+import { getAuthHeaderWithApiKey, getRequestOptions } from "@/app/client/helper";
 import { api2ProviderBaseUrl } from "@/app/store";
 
 export type AvailableDalleModels = "dall-e-2" | "dall-e-3";
@@ -75,9 +72,7 @@ interface DallE3CreateImageRequest extends CommonDallERequest {
   style?: "vivid" | "natural";
 }
 
-export type DallECreateImageRequest =
-  | DallE2CreateImageRequest
-  | DallE3CreateImageRequest;
+export type DallECreateImageRequest = DallE2CreateImageRequest | DallE3CreateImageRequest;
 
 export interface DallEEditImageRequest extends CommonDallERequest {
   /**
@@ -161,11 +156,7 @@ export class DallEAPI {
     this.apiKey = apiKey;
   }
 
-  async create(
-    options: DallECreateImageRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async create(options: DallECreateImageRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -191,11 +182,7 @@ export class DallEAPI {
     }
   }
 
-  async edit(
-    options: DallEEditImageRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async edit(options: DallEEditImageRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -221,11 +208,7 @@ export class DallEAPI {
     }
   }
 
-  async variation(
-    options: DallEVariationRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async variation(options: DallEVariationRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -255,9 +238,7 @@ export class DallEAPI {
     return [api2ProviderBaseUrl.DallE, endpoint].join("/");
   }
 
-  private getRequestOptions(
-    options: DallEEditImageRequest | DallEVariationRequest,
-  ): RequestInit {
+  private getRequestOptions(options: DallEEditImageRequest | DallEVariationRequest): RequestInit {
     const formData = new FormData();
 
     // 处理 DallEEditImageRequest 和 DallEVariationRequest 共有的参数
@@ -270,8 +251,7 @@ export class DallEAPI {
     options.prompt && formData.append("prompt", options.prompt);
     options.n && formData.append("n", options.n.toString());
     options.size && formData.append("size", options.size);
-    options.response_format &&
-      formData.append("response_format", options.response_format);
+    options.response_format && formData.append("response_format", options.response_format);
     options.user && formData.append("user", options.user);
 
     // 处理 DallEEditImageRequest 特有的参数

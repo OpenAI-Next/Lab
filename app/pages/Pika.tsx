@@ -3,12 +3,7 @@
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import { Col, Divider, Empty, Image, Segmented, Spin } from "antd";
 import React, { useState } from "react";
-import {
-  ProDescriptions,
-  ProForm,
-  ProFormSelect,
-  ProFormTextArea,
-} from "@ant-design/pro-components";
+import { ProDescriptions, ProForm, ProFormSelect, ProFormTextArea } from "@ant-design/pro-components";
 import { api2Provider, useAppConfig } from "@/app/store";
 import {
   CreatePikaTaskRequest,
@@ -90,8 +85,7 @@ const PikaCreateForm = (props: {
   updateError: (error: any) => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<CreatePikaTaskRequest>
@@ -109,14 +103,10 @@ const PikaCreateForm = (props: {
             const resJson = await res.json();
             const task = { ...NEW_PIKA_TASK };
             task.preId = (resJson as CreatePikaTaskResponse).id.split("|")[0];
+            task.url.data && task.url.data.results[0] && (task.url.data.results[0].promptText = values.prompt);
             task.url.data &&
               task.url.data.results[0] &&
-              (task.url.data.results[0].promptText = values.prompt);
-            task.url.data &&
-              task.url.data.results[0] &&
-              (task.url.data.results[0].id = (
-                resJson as CreatePikaTaskResponse
-              ).id);
+              (task.url.data.results[0].id = (resJson as CreatePikaTaskResponse).id);
             props.updateTask(task);
             props.form.resetFields();
           } else {
@@ -140,26 +130,15 @@ const PikaCreateForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
       }}
     >
-      <ProFormSelect
-        name={"model"}
-        label={"Model"}
-        options={["pika-video"]}
-        rules={[{ required: true }]}
-      />
+      <ProFormSelect name={"model"} label={"Model"} options={["pika-video"]} rules={[{ required: true }]} />
 
-      <ProFormTextArea
-        name={"prompt"}
-        label={"Prompt"}
-        rules={[{ required: true }]}
-      />
+      <ProFormTextArea name={"prompt"} label={"Prompt"} rules={[{ required: true }]} />
     </ProForm>
   );
 };
@@ -171,8 +150,7 @@ const PikaQueryForm = (props: {
   updateError: (error: any) => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<QueryPikaTaskRequest>
@@ -208,20 +186,13 @@ const PikaQueryForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
       }}
     >
-      <ProFormSelect
-        name={"model"}
-        label={"Model"}
-        options={["pika-video"]}
-        rules={[{ required: true }]}
-      />
+      <ProFormSelect name={"model"} label={"Model"} options={["pika-video"]} rules={[{ required: true }]} />
       <ProFormTextArea
         name={"id"}
         label={"ID"}
@@ -259,9 +230,7 @@ const PikaTaskRenderer = (props: {
       const data: QueryPikaTaskRequest = {
         // FIXME：这里的模型名称暂时写死了，如果未来有新增模型，需要修改这里
         model: "pika-video",
-        id: [props.task?.preId, props.task?.url?.data?.results?.[0]?.id].join(
-          "|",
-        ),
+        id: [props.task?.preId, props.task?.url?.data?.results?.[0]?.id].join("|"),
       };
       const res = await props.api.queryPikaTask(data);
 
@@ -335,13 +304,7 @@ const PikaTaskRenderer = (props: {
               key: "video_render",
               render: (_dom, record) => {
                 if (record?.videos?.[0]?.resultUrl) {
-                  return (
-                    <video
-                      src={record.videos[0].resultUrl}
-                      controls
-                      style={{ maxWidth: 240 }}
-                    />
-                  );
+                  return <video src={record.videos[0].resultUrl} controls style={{ maxWidth: 240 }} />;
                 }
               },
             },
@@ -355,13 +318,7 @@ const PikaTaskRenderer = (props: {
               key: "image_render",
               render: (_dom, record) => {
                 if (record?.videos?.[0]?.videoPoster) {
-                  return (
-                    <Image
-                      src={record.videos[0].videoPoster}
-                      alt={record.id}
-                      style={{ maxWidth: 240 }}
-                    />
-                  );
+                  return <Image src={record.videos[0].videoPoster} alt={record.id} style={{ maxWidth: 240 }} />;
                 }
               },
             },
@@ -413,27 +370,11 @@ const PikaPage = () => {
     { label: "Query", value: "query", icon: <FileTextOutlined /> },
   ];
 
-  const [formType, setFormType] = useState<(typeof type_options)[0]["value"]>(
-    type_options[0]["value"],
-  );
+  const [formType, setFormType] = useState<(typeof type_options)[0]["value"]>(type_options[0]["value"]);
 
   const renderForms = {
-    create: (
-      <PikaCreateForm
-        form={pikaCreateForm}
-        api={pikaApi}
-        updateTask={updateTask}
-        updateError={updateError}
-      />
-    ),
-    query: (
-      <PikaQueryForm
-        form={pikaQueryForm}
-        api={pikaApi}
-        updateTask={updateTask}
-        updateError={updateError}
-      />
-    ),
+    create: <PikaCreateForm form={pikaCreateForm} api={pikaApi} updateTask={updateTask} updateError={updateError} />,
+    query: <PikaQueryForm form={pikaQueryForm} api={pikaApi} updateTask={updateTask} updateError={updateError} />,
   };
 
   return (
@@ -452,12 +393,7 @@ const PikaPage = () => {
       </Col>
       <Col flex="auto" style={COL_SCROLL_STYLE}>
         <h1>Task Data</h1>
-        <PikaTaskRenderer
-          task={taskData}
-          api={pikaApi}
-          updateTask={updateTask}
-          updateError={updateError}
-        />
+        <PikaTaskRenderer task={taskData} api={pikaApi} updateTask={updateTask} updateError={updateError} />
         {errorData && (
           <>
             <h1>Error</h1>

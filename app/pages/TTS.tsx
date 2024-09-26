@@ -1,13 +1,7 @@
 import { Col, Divider } from "antd";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import React, { useState } from "react";
-import {
-  ProForm,
-  ProFormInstance,
-  ProFormSelect,
-  ProFormSlider,
-  ProFormTextArea,
-} from "@ant-design/pro-components";
+import { ProForm, ProFormInstance, ProFormSelect, ProFormSlider, ProFormTextArea } from "@ant-design/pro-components";
 import {
   OpenAITTSAPI,
   TTS_MODEL_OPTIONS,
@@ -16,25 +10,15 @@ import {
   TtsRequest,
 } from "@/app/client/tts";
 import { api2Provider, useAppConfig } from "@/app/store";
-import {
-  renderCode,
-  renderRequestTimeDuration,
-  RenderSubmitter,
-} from "@/app/render";
+import { renderCode, renderRequestTimeDuration, RenderSubmitter } from "@/app/render";
 
 const TtsForm = (props: {
   form: ProFormInstance;
   api: OpenAITTSAPI;
-  updateData: (
-    startTimestamp?: number,
-    endTimestamp?: number,
-    task?: any,
-    audioUrl?: string,
-  ) => void;
+  updateData: (startTimestamp?: number, endTimestamp?: number, task?: any, audioUrl?: string) => void;
 }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<TtsRequest>
@@ -73,9 +57,7 @@ const TtsForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -91,9 +73,7 @@ const TtsForm = (props: {
       <ProFormTextArea
         name={"input"}
         label={"Input"}
-        tooltip={
-          "The text to generate audio for. The maximum length is 4096 characters."
-        }
+        tooltip={"The text to generate audio for. The maximum length is 4096 characters."}
         fieldProps={{ autoSize: { minRows: 3, maxRows: 8 } }}
         rules={[{ required: true }, { type: "string", max: 4096 * 3 }]}
       />
@@ -138,12 +118,7 @@ export function TTSPage() {
   const [task, setTask] = useState<any>(null);
   const [audioUrl, setAudioUrl] = useState<string>("");
 
-  const updateData = (
-    startTimestamp?: number,
-    endTimestamp?: number,
-    task?: any,
-    audioUrl?: string,
-  ) => {
+  const updateData = (startTimestamp?: number, endTimestamp?: number, task?: any, audioUrl?: string) => {
     if (startTimestamp !== undefined) setStartTimestamp(startTimestamp);
     if (endTimestamp !== undefined) setEndTimestamp(endTimestamp);
     if (task !== undefined) setTask(task);
@@ -165,11 +140,7 @@ export function TTSPage() {
         {task && renderCode(JSON.stringify(task, null, 2))}
 
         {audioUrl && (
-          <audio
-            controls
-            src={audioUrl}
-            style={{ width: "360px", marginTop: "20px" }}
-          >
+          <audio controls src={audioUrl} style={{ width: "360px", marginTop: "20px" }}>
             Your browser does not support the audio element.
           </audio>
         )}

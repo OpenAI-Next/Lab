@@ -15,29 +15,11 @@ import {
   ProFormTextArea,
 } from "@ant-design/pro-components";
 import React, { ReactNode, useState } from "react";
-import {
-  ExpandAltOutlined,
-  ExperimentOutlined,
-  FileTextOutlined,
-  UnorderedListOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Col,
-  Divider,
-  Empty,
-  Image,
-  Segmented,
-  Spin,
-  Typography,
-} from "antd";
+import { ExpandAltOutlined, ExperimentOutlined, FileTextOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { Button, Col, Divider, Empty, Image, Segmented, Spin, Typography } from "antd";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import { CodeModal, renderCode, RenderSubmitter } from "@/app/render";
-import {
-  CloseAllSound,
-  handelResponseError,
-  safeJsonStringify,
-} from "@/app/utils";
+import { CloseAllSound, handelResponseError, safeJsonStringify } from "@/app/utils";
 import {
   ViduAPI,
   ViduTaskGenerationRequest,
@@ -51,8 +33,7 @@ const GenerationForm = (props: {
   updateResponse: (data: ViduTaskGenerationResponse) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const UserPrompt = ProForm.useWatch(["input", "prompts"], props.form);
@@ -67,10 +48,7 @@ const GenerationForm = (props: {
         setAbortController(controller);
         setSubmitting(true);
         try {
-          const res = await props.api.generateViduTask(
-            values,
-            controller.signal,
-          );
+          const res = await props.api.generateViduTask(values, controller.signal);
           if (res.ok) {
             const resJson = (await res.json()) as ViduTaskGenerationResponse;
             props.updateResponse(resJson);
@@ -99,9 +77,7 @@ const GenerationForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               noApiKeys={props.api.noKey()}
             />
           );
@@ -111,9 +87,7 @@ const GenerationForm = (props: {
       <ProFormList
         name={["input", "prompts"]}
         label={"Prompts"}
-        tooltip={
-          "Just input text or add an image as a reference, and you are all set to start creating your video!"
-        }
+        tooltip={"Just input text or add an image as a reference, and you are all set to start creating your video!"}
         required
         itemRender={({ listDom, action }, { index }) => (
           <ProCard
@@ -131,8 +105,7 @@ const GenerationForm = (props: {
           {
             required: true,
             validator: async (_rule, value) => {
-              if (!value || value.length < 1)
-                throw new Error("Prompts is required");
+              if (!value || value.length < 1) throw new Error("Prompts is required");
               if (value.length === 2 && value[0].type === value[1].type)
                 throw new Error("Only one prompt of each type is allowed");
               return Promise.resolve();
@@ -196,10 +169,7 @@ const GenerationForm = (props: {
                     type={"dashed"}
                     icon={<ExperimentOutlined />}
                     onClick={() => {
-                      props.form.setFieldValue(
-                        ["input", "prompts", index, "content"],
-                        props.api.randomTextPrompt(),
-                      );
+                      props.form.setFieldValue(["input", "prompts", index, "content"], props.api.randomTextPrompt());
                     }}
                     block
                   >
@@ -242,9 +212,7 @@ const GenerationForm = (props: {
           { label: "8s", value: 8 },
         ]}
         rules={[{ required: true }]}
-        tooltip={
-          "Supports 4s/8s video creation. Longer durations will take more time."
-        }
+        tooltip={"Supports 4s/8s video creation. Longer durations will take more time."}
       />
 
       <ProFormSelect
@@ -263,8 +231,7 @@ const UpscaleForm = (props: {
   updateResponse: (data: ViduTaskGenerationResponse) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -277,10 +244,7 @@ const UpscaleForm = (props: {
         setAbortController(controller);
         setSubmitting(true);
         try {
-          const res = await props.api.submitUpscaleTask(
-            values,
-            controller.signal,
-          );
+          const res = await props.api.submitUpscaleTask(values, controller.signal);
           if (res.ok) {
             const resJson = (await res.json()) as ViduTaskGenerationResponse;
             props.updateResponse(resJson);
@@ -309,20 +273,14 @@ const UpscaleForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               noApiKeys={props.api.noKey()}
             />
           );
         },
       }}
     >
-      <ProFormText
-        name={["input", "creation_id"]}
-        label={"Creation ID"}
-        rules={[{ required: true }]}
-      />
+      <ProFormText name={["input", "creation_id"]} label={"Creation ID"} rules={[{ required: true }]} />
 
       <ProFormSelect
         name={["type"]}
@@ -346,9 +304,7 @@ const UpscaleForm = (props: {
           { label: "8s", value: 8 },
         ]}
         rules={[{ required: true }]}
-        tooltip={
-          "Supports 4s/8s video creation. Longer durations will take more time."
-        }
+        tooltip={"Supports 4s/8s video creation. Longer durations will take more time."}
       />
     </ProForm>
   );
@@ -360,8 +316,7 @@ const QueryForm = (props: {
   updateResponse: (data: ViduTaskGenerationResponse) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -396,9 +351,7 @@ const QueryForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               noApiKeys={props.api.noKey()}
             />
           );
@@ -493,11 +446,7 @@ const ViduTaskRenderer = (props: {
                 title: "Creation ID",
                 render: (_, record) => {
                   if (!record?.creations?.[0]?.id) return null;
-                  return (
-                    <Typography.Text copyable>
-                      {record?.creations?.[0]?.id}
-                    </Typography.Text>
-                  );
+                  return <Typography.Text copyable>{record?.creations?.[0]?.id}</Typography.Text>;
                 },
               },
               {
@@ -510,19 +459,13 @@ const ViduTaskRenderer = (props: {
                       alt={record?.id}
                       src={record?.creations?.[0]?.cover_uri}
                       preview={
-                        record?.creations?.[0]?.uri &&
-                        record?.state === "success"
+                        record?.creations?.[0]?.uri && record?.state === "success"
                           ? {
                               imageRender: () => (
-                                <video
-                                  controls
-                                  src={record?.creations?.[0]?.uri || ""}
-                                  style={{ maxHeight: "80vh" }}
-                                />
+                                <video controls src={record?.creations?.[0]?.uri || ""} style={{ maxHeight: "80vh" }} />
                               ),
                               toolbarRender: () => null,
-                              onVisibleChange: (visible: boolean) =>
-                                !visible && CloseAllSound(),
+                              onVisibleChange: (visible: boolean) => !visible && CloseAllSound(),
                             }
                           : false
                       }
@@ -590,16 +533,12 @@ export function ViduPage() {
     { label: "Query", value: "query", icon: <FileTextOutlined /> },
   ];
 
-  const [formType, setFormType] = useState<"generate" | "query" | "upscale">(
-    "generate",
-  );
+  const [formType, setFormType] = useState<"generate" | "query" | "upscale">("generate");
 
   const updateTaskData = (data: ViduTaskGenerationResponse) => {
     const updatedTaskData = taskData.slice(); // 创建 taskData 的副本
 
-    const index = updatedTaskData.findIndex(
-      (c: ViduTaskGenerationResponse) => c.id === data.id,
-    );
+    const index = updatedTaskData.findIndex((c: ViduTaskGenerationResponse) => c.id === data.id);
 
     if (index === -1) {
       // 如果 id 不存在，添加新数据
@@ -614,29 +553,12 @@ export function ViduPage() {
 
   const RenderViduForms: { [key in typeof formType]: ReactNode } = {
     generate: (
-      <GenerationForm
-        form={generationForm}
-        api={viduApi}
-        updateResponse={updateTaskData}
-        updateError={setErrorData}
-      />
+      <GenerationForm form={generationForm} api={viduApi} updateResponse={updateTaskData} updateError={setErrorData} />
     ),
     upscale: (
-      <UpscaleForm
-        form={upscaleForm}
-        api={viduApi}
-        updateResponse={updateTaskData}
-        updateError={setErrorData}
-      />
+      <UpscaleForm form={upscaleForm} api={viduApi} updateResponse={updateTaskData} updateError={setErrorData} />
     ),
-    query: (
-      <QueryForm
-        form={queryForm}
-        api={viduApi}
-        updateResponse={updateTaskData}
-        updateError={setErrorData}
-      />
-    ),
+    query: <QueryForm form={queryForm} api={viduApi} updateResponse={updateTaskData} updateError={setErrorData} />,
   };
 
   return (
@@ -656,12 +578,7 @@ export function ViduPage() {
       </Col>
       <Col flex="auto" style={COL_SCROLL_STYLE}>
         <h1>Tasks Info</h1>
-        <ViduTaskRenderer
-          task={taskData}
-          api={viduApi}
-          updateTask={updateTaskData}
-          updateError={setErrorData}
-        />
+        <ViduTaskRenderer task={taskData} api={viduApi} updateTask={updateTaskData} updateError={setErrorData} />
 
         {errorData && (
           <>

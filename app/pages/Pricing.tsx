@@ -27,11 +27,7 @@ export function PricingPage() {
                       <>
                         <Image
                           alt={provider.provider}
-                          src={
-                            provider.logo.icon?.black_white ||
-                            provider.logo.icon?.color ||
-                            ""
-                          }
+                          src={provider.logo.icon?.black_white || provider.logo.icon?.color || ""}
                           height={32}
                           preview={false}
                           style={{ verticalAlign: "middle" }}
@@ -77,8 +73,7 @@ export function PricingPage() {
                         width: "11%",
                         render: (_, record) => {
                           try {
-                            const timestamp =
-                              Number(record.release_time) * 1000;
+                            const timestamp = Number(record.release_time) * 1000;
                             if (isNaN(timestamp) || timestamp < 0) {
                               return <Text type={"secondary"}>-</Text>;
                             } else {
@@ -89,8 +84,7 @@ export function PricingPage() {
                               };
                               return (
                                 <Text>
-                                  {date.year}-
-                                  {date.month.toString().padStart(2, "0")}-
+                                  {date.year}-{date.month.toString().padStart(2, "0")}-
                                   {date.day.toString().padStart(2, "0")}
                                 </Text>
                               );
@@ -147,14 +141,8 @@ export function PricingPage() {
               );
             })}
             <Text type={"secondary"} style={{ marginTop: 6 }}>
-              You can view the update records of model information, submit
-              feedback or suggestions in our{" "}
-              <Typography.Link
-                href={"https://github.com/OpenAI-Next/ai-model-hub"}
-              >
-                GitHub Repository
-              </Typography.Link>
-              .
+              You can view the update records of model information, submit feedback or suggestions in our{" "}
+              <Typography.Link href={"https://github.com/OpenAI-Next/ai-model-hub"}>GitHub Repository</Typography.Link>.
             </Text>
           </>
         </Row>

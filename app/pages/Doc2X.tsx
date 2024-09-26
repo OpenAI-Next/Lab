@@ -2,13 +2,7 @@
 
 import { api2Provider, useAppConfig } from "@/app/store";
 import { Doc2XAPI } from "@/app/client/doc2X";
-import {
-  ProForm,
-  ProFormInstance,
-  ProFormRadio,
-  ProFormSwitch,
-  ProFormUploadButton,
-} from "@ant-design/pro-components";
+import { ProForm, ProFormInstance, ProFormRadio, ProFormSwitch, ProFormUploadButton } from "@ant-design/pro-components";
 import React, { useState } from "react";
 import { Col, Divider } from "antd";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
@@ -29,8 +23,7 @@ const Doc2XForm = (props: {
   updateError: (error: any) => void;
 }) => {
   const appConfig = useAppConfig();
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   // const selectedResponseFormat = (ProForm.useWatch("response_format", props.form) || "text") as "text" | "json";
@@ -73,13 +66,7 @@ const Doc2XForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(
-                  props.api.payload(props.form.getFieldsValue()),
-                  null,
-                  2,
-                )
-              }
+              getValues={() => JSON.stringify(props.api.payload(props.form.getFieldsValue()), null, 2)}
             />
           );
         },
@@ -125,10 +112,7 @@ const Doc2XForm = (props: {
               try {
                 const response = info.file.response;
                 if (response) {
-                  info.file.url = getValueByPosition(
-                    response,
-                    appConfig.getUploadConfig().position,
-                  );
+                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
                 }
               } catch (e) {
                 console.error(e);
@@ -168,18 +152,12 @@ const Doc2XPage = () => {
         <h1>Response</h1>
         {response && (
           <>
-            {renderCode(
-              safeJsonStringify(response, "failed to stringify response data"),
-            )}
+            {renderCode(safeJsonStringify(response, "failed to stringify response data"))}
             {response?.choices?.[0]?.message?.content &&
               typeof response?.choices?.[0]?.message?.content === "string" && (
                 <>
                   <h2>Content</h2>
-                  {renderCode(
-                    response.choices[0].message.content.replace(/\\n/g, "\n"),
-                    "36vh",
-                    true,
-                  )}
+                  {renderCode(response.choices[0].message.content.replace(/\\n/g, "\n"), "36vh", true)}
                 </>
               )}
           </>

@@ -9,11 +9,7 @@ import {
   ProviderName,
   ProviderWebsite,
 } from "@/app/providers/interfaces";
-import {
-  ApiRequestConfig,
-  makeApiRequest,
-  replaceEndpointParams,
-} from "@/app/utils/fetch";
+import { ApiRequestConfig, makeApiRequest, replaceEndpointParams } from "@/app/utils/fetch";
 
 interface GenerateText2VideoTaskRequest {
   /**
@@ -400,12 +396,7 @@ export class KelingAI implements AIProvider {
     this.api_config.authorization = apiKey;
   }
 
-  callApi: CallApiFunction<KelingApiTypes> = ({
-    callKey,
-    params,
-    endpoint_params,
-    signal,
-  }) => {
+  callApi: CallApiFunction<KelingApiTypes> = ({ callKey, params, endpoint_params, signal }) => {
     console.log(`KelingAI callApi triggered for ${callKey}`, {
       params,
       endpoint_params,
@@ -429,10 +420,7 @@ export class KelingAI implements AIProvider {
         return makeApiRequest(opt);
       case "queryTask":
         const opt2: ApiRequestConfig = {
-          endpoint: replaceEndpointParams(
-            endpoint_params,
-            this.api_config.call_map[callKey].endpoint,
-          ),
+          endpoint: replaceEndpointParams(endpoint_params, this.api_config.call_map[callKey].endpoint),
           options: {
             method: this.api_config.call_map[callKey].method,
             headers,

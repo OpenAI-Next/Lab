@@ -1,7 +1,4 @@
-export function getHeadersWithApiKey(
-  apiKey: string,
-  method: "GET" | "POST" = "POST",
-): HeadersInit {
+export function getHeadersWithApiKey(apiKey: string, method: "GET" | "POST" = "POST"): HeadersInit {
   const headers: HeadersInit = {
     Authorization: `Bearer ${apiKey}`,
   };
@@ -21,10 +18,7 @@ export function getAuthHeaderWithApiKey(ApiKey: string) {
 
 export function getRequestOptions(apiKey: string, method: "GET"): RequestInit;
 export function getRequestOptions(apiKey: string, data: any): RequestInit;
-export function getRequestOptions(
-  apiKey: string,
-  methodOrData: "GET" | any,
-): RequestInit {
+export function getRequestOptions(apiKey: string, methodOrData: "GET" | any): RequestInit {
   const headers: HeadersInit = new Headers();
   headers.append("Authorization", `Bearer ${apiKey}`);
 

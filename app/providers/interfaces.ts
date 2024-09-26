@@ -243,11 +243,7 @@ export interface Model {
   /**
    * 价格信息
    */
-  price:
-    | ModelPriceToken
-    | ModelPriceRequest
-    | ModelPriceDuration
-    | ModelPriceOther;
+  price: ModelPriceToken | ModelPriceRequest | ModelPriceDuration | ModelPriceOther;
 
   /**
    * 发布时间（Unix 时间戳），undefined 表示未知
@@ -301,9 +297,7 @@ export interface CommonApiTypes {
   };
 }
 
-export interface ProviderAPIConfig<
-  ApiTypes extends CommonApiTypes = CommonApiTypes,
-> {
+export interface ProviderAPIConfig<ApiTypes extends CommonApiTypes = CommonApiTypes> {
   base_url: string;
   authorization: string | { [key: string]: string };
   call_map: {
@@ -318,15 +312,11 @@ export interface ProviderAPIConfig<
   };
 }
 
-export interface CallApiFunction<
-  ApiTypes extends CommonApiTypes = CommonApiTypes,
-> {
+export interface CallApiFunction<ApiTypes extends CommonApiTypes = CommonApiTypes> {
   <K extends Extract<keyof ApiTypes, string>>(
     args: {
       callKey: K;
-    } & (ApiTypes[K]["req"] extends never
-      ? { params?: never }
-      : { params: ApiTypes[K]["req"] }) &
+    } & (ApiTypes[K]["req"] extends never ? { params?: never } : { params: ApiTypes[K]["req"] }) &
       (ApiTypes[K]["endpoint_params"] extends never
         ? { endpoint_params?: never }
         : { endpoint_params: ApiTypes[K]["endpoint_params"] }) & {

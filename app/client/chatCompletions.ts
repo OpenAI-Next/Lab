@@ -213,9 +213,7 @@ interface SystemMessage {
 
 interface UserMessage {
   role: "user";
-  content:
-    | (UserMessageContentTextContent | UserMessageContentImageUrlContent)[]
-    | string;
+  content: (UserMessageContentTextContent | UserMessageContentImageUrlContent)[] | string;
   name?: string;
 }
 
@@ -261,9 +259,7 @@ export class ChatCompletionAPI {
   }
 
   path(): string {
-    return [[api2ProviderBaseUrl.Chat], OpenaiPath.ChatCompletionsPath].join(
-      "/",
-    );
+    return [[api2ProviderBaseUrl.Chat], OpenaiPath.ChatCompletionsPath].join("/");
   }
 
   async request(
@@ -292,9 +288,7 @@ export class ChatCompletionAPI {
             const text = msg.data;
             try {
               // const json = JSON.parse(text) as { choices: { delta: { content: string } }[] };
-              const json = JSON.parse(
-                text,
-              ) as ChatCompletionStreamingChunkResponse;
+              const json = JSON.parse(text) as ChatCompletionStreamingChunkResponse;
               const delta = isBatch
                 ? json.choices[0].index === 0
                   ? json.choices[0]?.delta?.content

@@ -16,17 +16,8 @@ import { handelResponseError, safeJsonStringify } from "@/app/utils";
 import { CodeModal, renderCode, RenderSubmitter } from "@/app/render";
 import { api2Provider, useAppConfig } from "@/app/store";
 import { Col, Divider, Empty, Image, Segmented, Spin } from "antd";
-import {
-  AccountType,
-  LumaApi,
-  LumaExtendTaskRequest,
-  LumaGenerationTaskRequest,
-} from "@/app/client/Luma";
-import {
-  ExpandAltOutlined,
-  FileTextOutlined,
-  UnorderedListOutlined,
-} from "@ant-design/icons";
+import { AccountType, LumaApi, LumaExtendTaskRequest, LumaGenerationTaskRequest } from "@/app/client/Luma";
+import { ExpandAltOutlined, FileTextOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
 // const luma_generations_response_example = {
 //     "id": "66bcb5f6-7c32-449d-9742-d5b6a3fc69d2",
@@ -102,8 +93,7 @@ const LumaGenerateForm = (props: {
   const appConfig = useAppConfig();
 
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<LumaGenerationTaskRequest>
@@ -115,11 +105,7 @@ const LumaGenerateForm = (props: {
         setAbortController(controller);
         setSubmitting(true);
         try {
-          const res = await props.api.generateLumaTask(
-            values,
-            props.accountType,
-            controller.signal,
-          );
+          const res = await props.api.generateLumaTask(values, props.accountType, controller.signal);
           if (res.ok) {
             const resJson = (await res.json()) as LumaGenerationTaskResponse;
             props.updateTask(resJson);
@@ -145,9 +131,7 @@ const LumaGenerateForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -157,22 +141,14 @@ const LumaGenerateForm = (props: {
         expand_prompt: true,
       }}
     >
-      <ProFormTextArea
-        name={"user_prompt"}
-        label={"User Prompt"}
-        rules={[{ required: true }]}
-      />
+      <ProFormTextArea name={"user_prompt"} label={"User Prompt"} rules={[{ required: true }]} />
       <ProFormRadio.Group
         name={"aspect_ratio"}
         label={"Aspect Ratio"}
         options={["16:9"]}
         rules={[{ required: true }]}
       />
-      <ProFormSwitch
-        name={"expand_prompt"}
-        label={"Expand Prompt"}
-        rules={[{ required: true }]}
-      />
+      <ProFormSwitch name={"expand_prompt"} label={"Expand Prompt"} rules={[{ required: true }]} />
 
       <ProFormUploadButton
         name={"image_url"}
@@ -195,10 +171,7 @@ const LumaGenerateForm = (props: {
               try {
                 const response = info.file.response;
                 if (response) {
-                  info.file.url = getValueByPosition(
-                    response,
-                    appConfig.getUploadConfig().position,
-                  );
+                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
                 }
               } catch (e) {
                 console.error(e);
@@ -229,10 +202,7 @@ const LumaGenerateForm = (props: {
               try {
                 const response = info.file.response;
                 if (response) {
-                  info.file.url = getValueByPosition(
-                    response,
-                    appConfig.getUploadConfig().position,
-                  );
+                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
                 }
               } catch (e) {
                 console.error(e);
@@ -255,8 +225,7 @@ const LumaExtendForm = (props: {
   const appConfig = useAppConfig();
 
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<LumaExtendTaskRequest>
@@ -268,11 +237,7 @@ const LumaExtendForm = (props: {
         setAbortController(controller);
         setSubmitting(true);
         try {
-          const res = await props.api.lumaExtendTask(
-            values,
-            props.accountType,
-            controller.signal,
-          );
+          const res = await props.api.lumaExtendTask(values, props.accountType, controller.signal);
           if (res.ok) {
             const resJson = await res.json();
             props.updateTask(resJson);
@@ -298,9 +263,7 @@ const LumaExtendForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -310,22 +273,14 @@ const LumaExtendForm = (props: {
         expand_prompt: true,
       }}
     >
-      <ProFormTextArea
-        name={"user_prompt"}
-        label={"User Prompt"}
-        rules={[{ required: true }]}
-      />
+      <ProFormTextArea name={"user_prompt"} label={"User Prompt"} rules={[{ required: true }]} />
       <ProFormRadio.Group
         name={"aspect_ratio"}
         label={"Aspect Ratio"}
         options={["16:9"]}
         rules={[{ required: true }]}
       />
-      <ProFormSwitch
-        name={"expand_prompt"}
-        label={"Expand Prompt"}
-        rules={[{ required: true }]}
-      />
+      <ProFormSwitch name={"expand_prompt"} label={"Expand Prompt"} rules={[{ required: true }]} />
       <ProFormUploadButton
         name={"image_end_url"}
         label={"Image End URL"}
@@ -346,10 +301,7 @@ const LumaExtendForm = (props: {
               try {
                 const response = info.file.response;
                 if (response) {
-                  info.file.url = getValueByPosition(
-                    response,
-                    appConfig.getUploadConfig().position,
-                  );
+                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
                 }
               } catch (e) {
                 console.error(e);
@@ -378,10 +330,7 @@ const LumaExtendForm = (props: {
               try {
                 const response = info.file.response;
                 if (response) {
-                  info.file.url = getValueByPosition(
-                    response,
-                    appConfig.getUploadConfig().position,
-                  );
+                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
                 }
               } catch (e) {
                 console.error(e);
@@ -403,8 +352,7 @@ const LumaQueryForm = (props: {
   updateError: (error: any) => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm<{ id: string }>
@@ -417,11 +365,7 @@ const LumaQueryForm = (props: {
         setAbortController(controller);
         setSubmitting(true);
         try {
-          const res = await props.api.queryLumaTask(
-            values,
-            props.accountType,
-            controller.signal,
-          );
+          const res = await props.api.queryLumaTask(values, props.accountType, controller.signal);
           if (res.ok) {
             const resJson = await res.json();
             props.updateTask(resJson);
@@ -447,9 +391,7 @@ const LumaQueryForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -478,10 +420,7 @@ const LumaTaskRenderer = (props: {
     setLoadingStates((prevStates) => ({ ...prevStates, [index]: true }));
 
     try {
-      const res = await props.api.queryLumaTask(
-        { id: props.task[index].id },
-        props.accountType,
-      );
+      const res = await props.api.queryLumaTask({ id: props.task[index].id }, props.accountType);
       if (res.ok) {
         const resJson = (await res.json()) as LumaQueryTaskResponse;
         props.updateTask(resJson);
@@ -541,13 +480,7 @@ const LumaTaskRenderer = (props: {
                 key: "video_render",
                 render: (_dom, record) => {
                   if (record?.video?.url) {
-                    return (
-                      <video
-                        src={record.video.url}
-                        controls
-                        style={{ maxWidth: 240 }}
-                      />
-                    );
+                    return <video src={record.video.url} controls style={{ maxWidth: 240 }} />;
                   }
                 },
               },
@@ -561,13 +494,7 @@ const LumaTaskRenderer = (props: {
                 key: "thumbnail_render",
                 render: (_dom, record) => {
                   if (record?.thumbnail?.url) {
-                    return (
-                      <Image
-                        src={record.thumbnail.url}
-                        alt={record.id}
-                        style={{ maxWidth: 240 }}
-                      />
-                    );
+                    return <Image src={record.thumbnail.url} alt={record.id} style={{ maxWidth: 240 }} />;
                   }
                   return null;
                 },
@@ -581,13 +508,7 @@ const LumaTaskRenderer = (props: {
                 key: "last_frame_render",
                 render: (_dom, record) => {
                   if (record?.last_frame?.url) {
-                    return (
-                      <Image
-                        src={record.last_frame.url}
-                        alt={record.id}
-                        style={{ maxWidth: 240 }}
-                      />
-                    );
+                    return <Image src={record.last_frame.url} alt={record.id} style={{ maxWidth: 240 }} />;
                   }
                   return null;
                 },
@@ -628,9 +549,7 @@ const LumaPage = () => {
     { label: "Query", value: "query", icon: <FileTextOutlined /> },
   ];
 
-  const [operateType, setOperateType] = useState<"create" | "extend" | "query">(
-    "create",
-  );
+  const [operateType, setOperateType] = useState<"create" | "extend" | "query">("create");
 
   const [lumaCreateForm] = ProForm.useForm();
   const [lumaExtendForm] = ProForm.useForm();

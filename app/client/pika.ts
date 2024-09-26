@@ -113,12 +113,9 @@ const QUERY_PIKA_RESPONSE_EXAMPLE: QueryPikaTaskResponse = {
               id: "553d1e1b-a901-4f4c-8cc3-113c29c95c4d",
               status: "finished",
               seed: 110324451202706,
-              resultUrl:
-                "https://cdn.pika.art/v1/553d1e1b-a901-4f4c-8cc3-113c29c95c4d/cats_seed110324451202706.mp4",
-              videoPoster:
-                "https://cdn.pika.art/v1/553d1e1b-a901-4f4c-8cc3-113c29c95c4d/poster.jpg",
-              imageThumb:
-                "https://cdn.pika.art/v1/553d1e1b-a901-4f4c-8cc3-113c29c95c4d/thumbnail.jpg",
+              resultUrl: "https://cdn.pika.art/v1/553d1e1b-a901-4f4c-8cc3-113c29c95c4d/cats_seed110324451202706.mp4",
+              videoPoster: "https://cdn.pika.art/v1/553d1e1b-a901-4f4c-8cc3-113c29c95c4d/poster.jpg",
+              imageThumb: "https://cdn.pika.art/v1/553d1e1b-a901-4f4c-8cc3-113c29c95c4d/thumbnail.jpg",
               duration: 3,
               feedback: 0,
               favorited: false,
@@ -198,11 +195,7 @@ export class PikaAPI {
     return [api2ProviderBaseUrl.Pika, endpoint].join("/");
   }
 
-  async createPikaTask(
-    request: CreatePikaTaskRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async createPikaTask(request: CreatePikaTaskRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     const abortSignal = signal || controller.signal;
@@ -219,19 +212,12 @@ export class PikaAPI {
 
       return res;
     } catch (e) {
-      console.error(
-        "[PikaProxy] failed to make a pika generate-task request",
-        e,
-      );
+      console.error("[PikaProxy] failed to make a pika generate-task request", e);
       throw e;
     }
   }
 
-  async queryPikaTask(
-    request: QueryPikaTaskRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async queryPikaTask(request: QueryPikaTaskRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     const abortSignal = signal || controller.signal;
@@ -240,9 +226,7 @@ export class PikaAPI {
 
     try {
       const res = await fetch(
-        this.path(PikaEndpoint.PIKA_QUERY)
-          .replace("{{model}}", request.model)
-          .replace("{{id}}", request.id),
+        this.path(PikaEndpoint.PIKA_QUERY).replace("{{model}}", request.model).replace("{{id}}", request.id),
         {
           ...getRequestOptions(this.apiKey, "GET"),
           signal: abortSignal,

@@ -227,14 +227,10 @@ const suno_query_response_example = {
   clips: [
     {
       id: "7b2f99b9-d50c-4863-a536-5d10ff3ff7aa",
-      video_url:
-        "https://cdn1.suno.ai/7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.mp4",
-      audio_url:
-        "https://cdn1.suno.ai/7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.mp3",
-      image_url:
-        "https://cdn2.suno.ai/image_7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.jpeg",
-      image_large_url:
-        "https://cdn2.suno.ai/image_large_7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.jpeg",
+      video_url: "https://cdn1.suno.ai/7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.mp4",
+      audio_url: "https://cdn1.suno.ai/7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.mp3",
+      image_url: "https://cdn2.suno.ai/image_7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.jpeg",
+      image_large_url: "https://cdn2.suno.ai/image_large_7b2f99b9-d50c-4863-a536-5d10ff3ff7aa.jpeg",
       is_video_pending: false,
       major_model_version: "v3.5",
       model_name: "chirp-v3",
@@ -274,14 +270,10 @@ const suno_query_response_example = {
     },
     {
       id: "ae9ca24e-1da0-4f0e-83c3-f21a22e95929",
-      video_url:
-        "https://cdn1.suno.ai/ae9ca24e-1da0-4f0e-83c3-f21a22e95929.mp4",
-      audio_url:
-        "https://cdn1.suno.ai/ae9ca24e-1da0-4f0e-83c3-f21a22e95929.mp3",
-      image_url:
-        "https://cdn2.suno.ai/image_ae9ca24e-1da0-4f0e-83c3-f21a22e95929.jpeg",
-      image_large_url:
-        "https://cdn2.suno.ai/image_large_ae9ca24e-1da0-4f0e-83c3-f21a22e95929.jpeg",
+      video_url: "https://cdn1.suno.ai/ae9ca24e-1da0-4f0e-83c3-f21a22e95929.mp4",
+      audio_url: "https://cdn1.suno.ai/ae9ca24e-1da0-4f0e-83c3-f21a22e95929.mp3",
+      image_url: "https://cdn2.suno.ai/image_ae9ca24e-1da0-4f0e-83c3-f21a22e95929.jpeg",
+      image_large_url: "https://cdn2.suno.ai/image_large_ae9ca24e-1da0-4f0e-83c3-f21a22e95929.jpeg",
       is_video_pending: false,
       major_model_version: "v3.5",
       model_name: "chirp-v3",
@@ -372,11 +364,7 @@ export class SunoAPI {
     return [api2ProviderBaseUrl.Suno, endpoint].join("/");
   }
 
-  async generate(
-    request: SunoGenerateRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async generate(request: SunoGenerateRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     const abortSignal = signal || controller.signal;
@@ -393,29 +381,19 @@ export class SunoAPI {
 
       return res;
     } catch (e) {
-      console.error(
-        "[SunoProxy] failed to make a suno generate-task request",
-        e,
-      );
+      console.error("[SunoProxy] failed to make a suno generate-task request", e);
       throw e;
     }
   }
 
-  async query(
-    request: SunoQueryRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async query(request: SunoQueryRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     const abortSignal = signal || controller.signal;
 
     signal && signal.addEventListener("abort", () => controller.abort());
 
-    const path = this.path(SunoEndpoint.SUNO_QUERY).replace(
-      "{{ids}}",
-      request.ids,
-    );
+    const path = this.path(SunoEndpoint.SUNO_QUERY).replace("{{ids}}", request.ids);
 
     try {
       const res = await fetch(path, {
@@ -432,11 +410,7 @@ export class SunoAPI {
     }
   }
 
-  async upload(
-    request: SunoUploadRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async upload(request: SunoUploadRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const actualRequest = {
       url: request.url[0].url,
     };
@@ -483,30 +457,20 @@ export class SunoAPI {
 
       return res;
     } catch (e) {
-      console.error(
-        "[SunoProxy] failed to make a suno lyrics-generate request",
-        e,
-      );
+      console.error("[SunoProxy] failed to make a suno lyrics-generate request", e);
       throw e;
     }
   }
 
   // 查询歌词生成任务
-  async _lyricsFeed(
-    request: SunoLyricsFeedRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async _lyricsFeed(request: SunoLyricsFeedRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     const abortSignal = signal || controller.signal;
 
     signal && signal.addEventListener("abort", () => controller.abort());
 
-    const path = this.path(SunoEndpoint.SUNO_LYRICS_FEED).replace(
-      "{{id}}",
-      request.id,
-    );
+    const path = this.path(SunoEndpoint.SUNO_LYRICS_FEED).replace("{{id}}", request.id);
 
     try {
       const res = await fetch(path, {
@@ -524,22 +488,13 @@ export class SunoAPI {
   }
 
   // 获取歌词，内部调用_lyricsGenerate和轮询_lyricsFeed
-  async getLyricsText(
-    prompt: string,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ): Promise<string> {
+  async getLyricsText(prompt: string, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS): Promise<string> {
     const request: SunoLyricsGenerateRequest = {
       prompt: prompt,
     };
     // 提交歌词生成任务
-    const generateResponse = await this._lyricsGenerate(
-      request,
-      signal,
-      timeoutMs,
-    );
-    const generateData: SunoLyricsGenerateResponse =
-      await generateResponse.json();
+    const generateResponse = await this._lyricsGenerate(request, signal, timeoutMs);
+    const generateData: SunoLyricsGenerateResponse = await generateResponse.json();
 
     if (generateData.code !== 200) {
       throw new Error(`Failed to generate lyrics: ${generateData.message}`);
@@ -552,11 +507,7 @@ export class SunoAPI {
     const pollingInterval = 1000; // 轮询间隔（毫秒）
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const feedResponse = await this._lyricsFeed(
-        { id: taskId },
-        signal,
-        timeoutMs,
-      );
+      const feedResponse = await this._lyricsFeed({ id: taskId }, signal, timeoutMs);
       const feedData: SunoLyricsFeedResponse = await feedResponse.json();
 
       // if (feedData.code !== 200) {

@@ -20,18 +20,15 @@ export interface TtsRequest {
 }
 
 export const TTS_MODEL_OPTIONS: TtsRequest["model"][] = ["tts-1", "tts-1-hd"];
-export const TTS_VOICE_OPTIONS: TtsRequest["voice"][] = [
-  "alloy",
-  "echo",
-  "fable",
-  "onyx",
-  "nova",
-  "shimmer",
+export const TTS_VOICE_OPTIONS: TtsRequest["voice"][] = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"];
+export const TTS_RESPONSE_FORMAT_OPTIONS: Exclude<TtsRequest["response_format"], undefined>[] = [
+  "mp3",
+  "opus",
+  "aac",
+  "flac",
+  "wav",
+  "pcm",
 ];
-export const TTS_RESPONSE_FORMAT_OPTIONS: Exclude<
-  TtsRequest["response_format"],
-  undefined
->[] = ["mp3", "opus", "aac", "flac", "wav", "pcm"];
 
 export class OpenAITTSAPI {
   private readonly apiKey: string;
@@ -44,11 +41,7 @@ export class OpenAITTSAPI {
     return [api2ProviderBaseUrl.TTS, path].join("/");
   }
 
-  async request(
-    request: TtsRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async request(request: TtsRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);

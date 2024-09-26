@@ -10,15 +10,10 @@ export interface ApiRequestConfig {
   returnType?: keyof Pick<Response, "json" | "text" | "blob" | "arrayBuffer">;
 }
 
-export const makeApiRequest = async (
-  config: ApiRequestConfig,
-  signal?: AbortSignal,
-) => {
+export const makeApiRequest = async (config: ApiRequestConfig, signal?: AbortSignal) => {
   const res = await fetch([BASE_URL_B, config.endpoint].join("/"), {
     ...config.options,
-    ...(config.options.body
-      ? { body: safeJsonStringify(config.options.body, "{}") }
-      : {}),
+    ...(config.options.body ? { body: safeJsonStringify(config.options.body, "{}") } : {}),
     signal,
   });
   const data = await res[config.returnType || "json"]();
@@ -33,16 +28,10 @@ export const makeApiRequest = async (
  * @returns 替换后的 endpoint
  * @example replaceEndpointParams({ id: "123" }, "/api/v1/user/{id}") => "/api/v1/user/123"
  */
-export const replaceEndpointParams = (
-  params: Record<string, string> | undefined,
-  endpoint: string,
-): string => {
+export const replaceEndpointParams = (params: Record<string, string> | undefined, endpoint: string): string => {
   if (!params) {
     console.warn("No params provided for endpoint", endpoint);
     return endpoint;
   }
-  return Object.entries(params).reduce(
-    (acc, [key, value]) => acc.replace(`{${key}}`, value),
-    endpoint,
-  );
+  return Object.entries(params).reduce((acc, [key, value]) => acc.replace(`{${key}}`, value), endpoint);
 };

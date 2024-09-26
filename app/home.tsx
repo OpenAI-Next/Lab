@@ -17,19 +17,9 @@ import PikaIcon from "@/app/icons/pika.svg";
 import LumaIcon from "@/app/icons/luma.svg";
 import BiBiGPTIcon from "@/app/icons/bibi-gpt.svg";
 import KelingIcon from "./providers/keling-ai/assets/logo_basic_mono.svg";
-import {
-  HashRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Theme, useAppConfig } from "@/app/store";
-import {
-  ProConfigProvider,
-  ProLayout,
-  type ProTokenType,
-} from "@ant-design/pro-components";
+import { ProConfigProvider, ProLayout, type ProTokenType } from "@ant-design/pro-components";
 import Icon, {
   AudioFilled,
   CalculatorFilled,
@@ -72,26 +62,17 @@ export function Loading(props: { logo?: ReactNode | boolean }): ReactNode {
   return <div style={CENTER_STYLE}>{logo ?? <SystemLogo />}</div>;
 }
 
-const Settings = dynamic(
-  async () => (await import("./pages/Settings")).Settings,
-  {
-    loading: () => <Loading />,
-  },
-);
+const Settings = dynamic(async () => (await import("./pages/Settings")).Settings, {
+  loading: () => <Loading />,
+});
 
-const MidjourneyPage = dynamic(
-  async () => (await import("./pages/Midjourney")).MidjourneyPage,
-  {
-    loading: () => <Loading logo={<MidjourneyIcon />} />,
-  },
-);
+const MidjourneyPage = dynamic(async () => (await import("./pages/Midjourney")).MidjourneyPage, {
+  loading: () => <Loading logo={<MidjourneyIcon />} />,
+});
 
-const StableDiffusionPage = dynamic(
-  async () => (await import("./pages/StableDiffusion")).StableDiffusionPage,
-  {
-    loading: () => <Loading logo={<StableDiffusionIcon />} />,
-  },
-);
+const StableDiffusionPage = dynamic(async () => (await import("./pages/StableDiffusion")).StableDiffusionPage, {
+  loading: () => <Loading logo={<StableDiffusionIcon />} />,
+});
 
 const SunoPage = dynamic(async () => (await import("./pages/Suno")).SunoPage, {
   loading: () => <Loading logo={<SunoIcon />} />,
@@ -101,37 +82,25 @@ const ViduPage = dynamic(async () => (await import("./pages/Vidu")).ViduPage, {
   loading: () => <Loading logo={<ViduIcon />} />,
 });
 
-const PricingPage = dynamic(
-  async () => (await import("./pages/Pricing")).PricingPage,
-  {
-    loading: () => <Loading />,
-  },
-);
+const PricingPage = dynamic(async () => (await import("./pages/Pricing")).PricingPage, {
+  loading: () => <Loading />,
+});
 
 const TTSPage = dynamic(async () => (await import("./pages/TTS")).TTSPage, {
   loading: () => <Loading />,
 });
 
-const WhisperPage = dynamic(
-  async () => (await import("./pages/Whisper")).WhisperPage,
-  {
-    loading: () => <Loading />,
-  },
-);
+const WhisperPage = dynamic(async () => (await import("./pages/Whisper")).WhisperPage, {
+  loading: () => <Loading />,
+});
 
-const ToolsPage = dynamic(
-  async () => (await import("./pages/Tools")).ToolsPage,
-  {
-    loading: () => <Loading />,
-  },
-);
+const ToolsPage = dynamic(async () => (await import("./pages/Tools")).ToolsPage, {
+  loading: () => <Loading />,
+});
 
-const ChatCompletionsPage = dynamic(
-  async () => (await import("./pages/ChatCompletions")).ChatCompletionsPage,
-  {
-    loading: () => <Loading />,
-  },
-);
+const ChatCompletionsPage = dynamic(async () => (await import("./pages/ChatCompletions")).ChatCompletionsPage, {
+  loading: () => <Loading />,
+});
 
 const DallePage = dynamic(async () => (await import("./pages/Dalle")).default, {
   loading: () => <Loading logo={<DalleIcon />} />,
@@ -149,12 +118,9 @@ const LumaPage = dynamic(async () => (await import("./pages/Luma")).default, {
   loading: () => <Loading logo={<LumaIcon />} />,
 });
 
-const BiBiGPTPage = dynamic(
-  async () => (await import("./pages/BibiGpt")).default,
-  {
-    loading: () => <Loading logo={<BiBiGPTIcon />} />,
-  },
-);
+const BiBiGPTPage = dynamic(async () => (await import("./pages/BibiGpt")).default, {
+  loading: () => <Loading logo={<BiBiGPTIcon />} />,
+});
 
 const GPTsPage = dynamic(async () => (await import("./pages/GPTs")).default, {
   loading: () => <Loading />,
@@ -164,23 +130,17 @@ const Welcome = dynamic(async () => (await import("./pages/Welcome")).default, {
   loading: () => <Loading />,
 });
 
-const EmbeddingsPage = dynamic(
-  async () => (await import("./pages/Embeddings")).default,
-  {
-    loading: () => <Loading />,
-  },
-);
+const EmbeddingsPage = dynamic(async () => (await import("./pages/Embeddings")).default, {
+  loading: () => <Loading />,
+});
 
 const Doc2XPage = dynamic(async () => (await import("./pages/Doc2X")).default, {
   loading: () => <Loading />,
 });
 
-const KelingPage = dynamic(
-  async () => (await import("./pages/Keling")).default,
-  {
-    loading: () => <Loading logo={<KelingIcon />} />,
-  },
-);
+const KelingPage = dynamic(async () => (await import("./pages/Keling")).default, {
+  loading: () => <Loading logo={<KelingIcon />} />,
+});
 
 const printCopyRight = () => console.log("@Kadxy 2024.");
 
@@ -222,26 +182,14 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           <span
             key="Theme"
             onClick={() => {
-              props.updateConfig(
-                (config: { theme: Theme }) =>
-                  (config.theme = props.dark ? Theme.Light : Theme.Dark),
-              );
+              props.updateConfig((config: { theme: Theme }) => (config.theme = props.dark ? Theme.Light : Theme.Dark));
             }}
             style={{ cursor: "pointer" }}
           >
-            {props.dark ? (
-              <SunFilled style={{ color: "#FF6D00" }} />
-            ) : (
-              <MoonFilled style={{ color: "#AB47BC" }} />
-            )}
+            {props.dark ? <SunFilled style={{ color: "#FF6D00" }} /> : <MoonFilled style={{ color: "#AB47BC" }} />}
           </span>,
-          <span
-            key="Github"
-            onClick={() => window.open("https://github.com/OpenAI-Next/Lab")}
-          >
-            <GithubFilled
-              style={{ color: props.dark ? "#757575" : "#323232" }}
-            />
+          <span key="Github" onClick={() => window.open("https://github.com/OpenAI-Next/Lab")}>
+            <GithubFilled style={{ color: props.dark ? "#757575" : "#323232" }} />
           </span>,
         ];
       }}
@@ -349,9 +297,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           },
         ],
       }}
-      menuItemRender={(item: any, dom: any) => (
-        <a onClick={() => navigate(item.path ?? Path.Home)}>{dom}</a>
-      )}
+      menuItemRender={(item: any, dom: any) => <a onClick={() => navigate(item.path ?? Path.Home)}>{dom}</a>}
     >
       <Row wrap={false} style={{ height: "100%" }}>
         <Routes location={location}>
@@ -363,10 +309,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           <Route path={Path.TTS} element={<TTSPage />} />
           <Route path={Path.ASR} element={<WhisperPage />} />
           <Route path={Path.Midjourney} element={<MidjourneyPage />} />
-          <Route
-            path={Path.StableDiffusion}
-            element={<StableDiffusionPage />}
-          />
+          <Route path={Path.StableDiffusion} element={<StableDiffusionPage />} />
           <Route path={Path.Suno} element={<SunoPage />} />
           <Route path={Path.Vidu} element={<ViduPage />} />
           <Route path={Path.Pika} element={<PikaPage />} />
@@ -395,10 +338,7 @@ export function Home() {
   if (!useHasHydrated()) return <Loading logo={false} />;
 
   return (
-    <ConfigProvider
-      theme={{ algorithm: isDark ? darkAlgorithm : undefined }}
-      locale={enUS}
-    >
+    <ConfigProvider theme={{ algorithm: isDark ? darkAlgorithm : undefined }} locale={enUS}>
       <ProConfigProvider dark={isDark}>
         <AntdApp>
           <Router>

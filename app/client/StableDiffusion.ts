@@ -21,16 +21,7 @@ export interface StableDiffusionImageUltraRequest {
    * Important: This parameter is only valid for text-to-image requests.
    * @default "1:1"
    */
-  aspect_ratio?:
-    | "1:1"
-    | "16:9"
-    | "21:9"
-    | "2:3"
-    | "3:2"
-    | "4:5"
-    | "5:4"
-    | "9:16"
-    | "9:21";
+  aspect_ratio?: "1:1" | "16:9" | "21:9" | "2:3" | "3:2" | "4:5" | "5:4" | "9:16" | "9:21";
   /**
    * A blurb of text describing what you **do not** wish to see in the output image.
    * This is an advanced feature.
@@ -48,8 +39,7 @@ export interface StableDiffusionImageUltraRequest {
   seed?: number;
 }
 
-export interface StableDiffusionImageCoreRequest
-  extends StableDiffusionImageUltraRequest {
+export interface StableDiffusionImageCoreRequest extends StableDiffusionImageUltraRequest {
   /**
    * Guides the image model towards a particular style.
    */
@@ -73,8 +63,7 @@ export interface StableDiffusionImageCoreRequest
     | "tile-texture";
 }
 
-export interface StableDiffusion3Request
-  extends StableDiffusionImageUltraRequest {
+export interface StableDiffusion3Request extends StableDiffusionImageUltraRequest {
   /**
    * Controls whether this is a text-to-image or image-to-image generation, which affects which parameters are required:
    * text-to-image requires only the prompt parameter
@@ -136,10 +125,7 @@ export class StableDiffusionAPI {
 
   async submit(
     sdType: "imageUltra" | "imageCore" | "sd3",
-    request:
-      | StableDiffusionImageUltraRequest
-      | StableDiffusionImageCoreRequest
-      | StableDiffusion3Request,
+    request: StableDiffusionImageUltraRequest | StableDiffusionImageCoreRequest | StableDiffusion3Request,
     signal?: AbortSignal,
     timeoutMs: number = REQUEST_TIMEOUT_MS,
   ) {
@@ -159,19 +145,13 @@ export class StableDiffusionAPI {
 
       return res;
     } catch (e) {
-      console.error(
-        "[StableDiffusionProxy] failed to make a stable diffusion submit request",
-        e,
-      );
+      console.error("[StableDiffusionProxy] failed to make a stable diffusion submit request", e);
       throw e;
     }
   }
 
   private getRequestOptions(
-    request:
-      | StableDiffusionImageUltraRequest
-      | StableDiffusionImageCoreRequest
-      | StableDiffusion3Request,
+    request: StableDiffusionImageUltraRequest | StableDiffusionImageCoreRequest | StableDiffusion3Request,
   ): RequestInit {
     const formData = new FormData();
 
@@ -185,11 +165,7 @@ export class StableDiffusionAPI {
             // console.log("File name:", fileData.name);
             // console.log("File type:", fileData.originFileObj.type);
             // console.log("File size:", fileData.originFileObj.size);
-            const blob = fileData.originFileObj.slice(
-              0,
-              fileData.originFileObj.size,
-              fileData.originFileObj.type,
-            );
+            const blob = fileData.originFileObj.slice(0, fileData.originFileObj.size, fileData.originFileObj.type);
             formData.append("image", blob, fileData.name);
           } else {
             console.error("The image is not a valid File object.");

@@ -1,13 +1,7 @@
 // /app/pages/Flux.tsx
 
 import { api2Provider, useAppConfig } from "@/app/store";
-import {
-  FluxAPI,
-  FluxGetRequest,
-  FluxGetResponse,
-  FluxImageRequest,
-  FluxImageResponse,
-} from "@/app/client/FluxProxy";
+import { FluxAPI, FluxGetRequest, FluxGetResponse, FluxImageRequest, FluxImageResponse } from "@/app/client/FluxProxy";
 import {
   ProDescriptions,
   ProForm,
@@ -35,8 +29,7 @@ const GenerationForm = (props: {
   updateResponse: (data: FluxTask) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   // const inputPrompt = ProForm.useWatch("prompt", props.form);
@@ -79,9 +72,7 @@ const GenerationForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               noApiKeys={props.api.noKey()}
             />
           );
@@ -138,18 +129,8 @@ const GenerationForm = (props: {
       <Divider />
 
       <ProForm.Group>
-        <ProFormDigit
-          name="width"
-          label="Width"
-          rules={[{ required: true }]}
-          width={134}
-        />
-        <ProFormDigit
-          name="height"
-          label="Height"
-          rules={[{ required: true }]}
-          width={134}
-        />
+        <ProFormDigit name="width" label="Width" rules={[{ required: true }]} width={134} />
+        <ProFormDigit name="height" label="Height" rules={[{ required: true }]} width={134} />
       </ProForm.Group>
     </ProForm>
   );
@@ -161,8 +142,7 @@ const QueryForm = (props: {
   updateResponse: (data: FluxTask) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -197,20 +177,14 @@ const QueryForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               noApiKeys={props.api.noKey()}
             />
           );
         },
       }}
     >
-      <ProFormText
-        name="request_id"
-        label="Request ID"
-        rules={[{ required: true }]}
-      />
+      <ProFormText name="request_id" label="Request ID" rules={[{ required: true }]} />
     </ProForm>
   );
 };
@@ -235,10 +209,7 @@ const FluxTaskRender = (props: {
     setLoadingStates((prevStates) => ({ ...prevStates, [index]: true }));
 
     try {
-      const res = await props.api.getImage(
-        { request_id: props.task[index].id },
-        new AbortController().signal,
-      );
+      const res = await props.api.getImage({ request_id: props.task[index].id }, new AbortController().signal);
       if (res.ok) {
         const resJson = (await res.json()) as unknown as any;
         props.updateResponse(resJson);
@@ -291,9 +262,7 @@ const FluxTaskRender = (props: {
                 key: "preview",
                 render: (_, record) => {
                   if (!record?.result) return null;
-                  return (
-                    <Image alt={record?.id} src={record?.result} width={160} />
-                  );
+                  return <Image alt={record?.id} src={record?.result} width={160} />;
                 },
               },
               {
@@ -312,11 +281,7 @@ const FluxTaskRender = (props: {
                   >
                     Detail
                   </a>,
-                  <a
-                    key="del"
-                    style={{ color: "red" }}
-                    onClick={() => props.onDeletion(task.id)}
-                  >
+                  <a key="del" style={{ color: "red" }} onClick={() => props.onDeletion(task.id)}>
                     Delete
                   </a>,
                 ],

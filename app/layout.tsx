@@ -22,19 +22,12 @@ const htmlStyle: CSSProperties = {
   // fontFamily: "Noto Sans",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" style={htmlStyle}>
       <head>
         <title>{SITE_TITLE}</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
       <body style={bodyStyle}>
         <AntdRegistry>{children}</AntdRegistry>

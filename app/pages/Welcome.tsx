@@ -14,16 +14,14 @@ const Welcome = () => {
 
         <Title level={2}>Introduction</Title>
         <Paragraph>
-          {SITE_TITLE} is an open-source project based on React and Ant Design,
-          aiming to provide a simple interface for calling and testing the API
-          interfaces provided by OpenAI-Next.
+          {SITE_TITLE} is an open-source project based on React and Ant Design, aiming to provide a simple interface for
+          calling and testing the API interfaces provided by OpenAI-Next.
         </Paragraph>
 
         <Title level={2}>Getting Started</Title>
         <Paragraph>
           <Text strong>
-            Visit <Link to={Path.Settings}>Settings</Link> page to configure
-            your API keys.
+            Visit <Link to={Path.Settings}>Settings</Link> page to configure your API keys.
           </Text>
         </Paragraph>
         <Paragraph>

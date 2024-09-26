@@ -22,8 +22,7 @@ const BibiGptOpenForm = (props: {
   updateError: (error: any) => void;
 }) => {
   const [submitting, setSubmitting] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   return (
     <ProForm
@@ -62,9 +61,7 @@ const BibiGptOpenForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -76,44 +73,18 @@ const BibiGptOpenForm = (props: {
       <Divider />
 
       <ProForm.Group title={"Limitation"}>
-        <ProFormDigit
-          name={["limitation", "maxDuration"]}
-          label={"Max Duration"}
-          fieldProps={{ suffix: "s" }}
-        />
+        <ProFormDigit name={["limitation", "maxDuration"]} label={"Max Duration"} fieldProps={{ suffix: "s" }} />
       </ProForm.Group>
 
       <Divider />
 
       <ProForm.Group title={"Prompt Config"}>
-        <ProFormSwitch
-          name={["promptConfig", "showEmoji"]}
-          label={"Show Emoji"}
-        />
-        <ProFormSwitch
-          name={["promptConfig", "showTimestamp"]}
-          label={"Show Timestamp"}
-        />
-        <ProFormDigit
-          name={["promptConfig", "outlineLevel"]}
-          label={"Outline Level"}
-          width={"xs"}
-        />
-        <ProFormDigit
-          name={["promptConfig", "sentenceNumber"]}
-          label={"Sentence Number"}
-          width={"xs"}
-        />
-        <ProFormDigit
-          name={["promptConfig", "detailLevel"]}
-          label={"Detail Level"}
-          width={"xs"}
-        />
-        <ProFormText
-          name={["promptConfig", "outputLanguage"]}
-          label={"Output Language"}
-          width={"xs"}
-        />
+        <ProFormSwitch name={["promptConfig", "showEmoji"]} label={"Show Emoji"} />
+        <ProFormSwitch name={["promptConfig", "showTimestamp"]} label={"Show Timestamp"} />
+        <ProFormDigit name={["promptConfig", "outlineLevel"]} label={"Outline Level"} width={"xs"} />
+        <ProFormDigit name={["promptConfig", "sentenceNumber"]} label={"Sentence Number"} width={"xs"} />
+        <ProFormDigit name={["promptConfig", "detailLevel"]} label={"Detail Level"} width={"xs"} />
+        <ProFormText name={["promptConfig", "outputLanguage"]} label={"Output Language"} width={"xs"} />
       </ProForm.Group>
 
       <Divider />
@@ -125,9 +96,7 @@ const BibiGptOpenForm = (props: {
 
 const BibiGptPage = () => {
   const appConfig = useAppConfig();
-  const bibiGptAPI = new BibiGPTAPI(
-    appConfig.getFirstApiKey(api2Provider.BibiGPT),
-  );
+  const bibiGptAPI = new BibiGPTAPI(appConfig.getFirstApiKey(api2Provider.BibiGPT));
   const [bibiGptOpenForm] = ProForm.useForm();
   const [bibiGptChatForm] = ProForm.useForm();
   const [bibiGptSubtitleForm] = ProForm.useForm();
@@ -137,12 +106,7 @@ const BibiGptPage = () => {
   return (
     <>
       <Col flex="340px" style={COL_SCROLL_STYLE}>
-        <BibiGptOpenForm
-          form={bibiGptOpenForm}
-          api={bibiGptAPI}
-          updateTask={setTask}
-          updateError={setError}
-        />
+        <BibiGptOpenForm form={bibiGptOpenForm} api={bibiGptAPI} updateTask={setTask} updateError={setError} />
       </Col>
       <Col flex={"none"}>
         <Divider type={"vertical"} style={{ height: "100%" }} />

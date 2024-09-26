@@ -37,11 +37,7 @@ export class GPTsAPI {
     };
   }
 
-  async search(
-    request: GptsSearchRequest,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async search(request: GptsSearchRequest, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -49,13 +45,10 @@ export class GPTsAPI {
 
       signal && signal.addEventListener("abort", () => controller.abort());
 
-      const res = await fetch(
-        this.path().replace("{{keywords}}", request.keywords),
-        {
-          ...this.requestOptions(),
-          signal: abortSignal,
-        },
-      );
+      const res = await fetch(this.path().replace("{{keywords}}", request.keywords), {
+        ...this.requestOptions(),
+        signal: abortSignal,
+      });
 
       clearTimeout(timeoutId);
 

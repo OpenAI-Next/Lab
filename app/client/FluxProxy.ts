@@ -49,11 +49,7 @@ export class FluxAPI {
     return [api2ProviderBaseUrl.Flux, endpoint].join("/");
   }
 
-  async onImage(
-    request: FluxImageRequest,
-    signal: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async onImage(request: FluxImageRequest, signal: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     const abortSignal = signal || controller.signal;
@@ -72,11 +68,7 @@ export class FluxAPI {
     }
   }
 
-  async getImage(
-    request: FluxGetRequest,
-    signal: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async getImage(request: FluxGetRequest, signal: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
     const abortSignal = signal || controller.signal;
@@ -84,15 +76,10 @@ export class FluxAPI {
     signal && signal.addEventListener("abort", () => controller.abort());
 
     try {
-      const res = await fetch(
-        this.path(
-          FluxEndpoint.GET.replace("{{request_id}}", request.request_id),
-        ),
-        {
-          ...getRequestOptions(this.apiKey, "GET"),
-          signal: abortSignal,
-        },
-      );
+      const res = await fetch(this.path(FluxEndpoint.GET.replace("{{request_id}}", request.request_id)), {
+        ...getRequestOptions(this.apiKey, "GET"),
+        signal: abortSignal,
+      });
       clearTimeout(timeoutId);
       return res;
     } catch (e) {

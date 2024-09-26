@@ -2,13 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Modal, Segmented, Slider, Spin } from "antd";
-import {
-  GatewayOutlined,
-  HighlightOutlined,
-  RedoOutlined,
-  ZoomInOutlined,
-  ZoomOutOutlined,
-} from "@ant-design/icons";
+import { GatewayOutlined, HighlightOutlined, RedoOutlined, ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 
 type BrushType = "free" | "rectangle";
 
@@ -31,9 +25,7 @@ const ImageMaskModal = (props: {
   const [scale, setScale] = useState(1);
   const [originalSize, setOriginalSize] = useState({ width: 0, height: 0 });
   const [brushType, setBrushType] = useState<BrushType>("free");
-  const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(
-    null,
-  );
+  const [startPoint, setStartPoint] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (props.open) {
@@ -47,12 +39,7 @@ const ImageMaskModal = (props: {
       img.onload = () => {
         // setDebugInfo(prev => `${prev}\nImage loaded successfully. Size: ${img.width}x${img.height}`);
         setOriginalSize({ width: img.width, height: img.height });
-        if (
-          canvasRef.current &&
-          maskCanvasRef.current &&
-          tempCanvasRef.current &&
-          containerRef.current
-        ) {
+        if (canvasRef.current && maskCanvasRef.current && tempCanvasRef.current && containerRef.current) {
           const canvas = canvasRef.current;
           const maskCanvas = maskCanvasRef.current;
           const tempCanvas = tempCanvasRef.current;
@@ -119,12 +106,7 @@ const ImageMaskModal = (props: {
       tempCtx.fillRect(startX, startY, width, height);
     }
     maskCtx.drawImage(tempCanvasRef.current!, 0, 0);
-    tempCtx.clearRect(
-      0,
-      0,
-      tempCanvasRef.current!.width,
-      tempCanvasRef.current!.height,
-    );
+    tempCtx.clearRect(0, 0, tempCanvasRef.current!.width, tempCanvasRef.current!.height);
     setStartPoint(null);
   };
 
@@ -142,12 +124,7 @@ const ImageMaskModal = (props: {
       tempCtx.lineTo(x, y);
       tempCtx.stroke();
     } else if (brushType === "rectangle" && startPoint) {
-      tempCtx.clearRect(
-        0,
-        0,
-        tempCanvasRef.current.width,
-        tempCanvasRef.current.height,
-      );
+      tempCtx.clearRect(0, 0, tempCanvasRef.current.width, tempCanvasRef.current.height);
       const width = x - startPoint.x;
       const height = y - startPoint.y;
       tempCtx.fillRect(startPoint.x, startPoint.y, width, height);
@@ -156,26 +133,14 @@ const ImageMaskModal = (props: {
 
   const handleReset = () => {
     if (maskCtx && maskCanvasRef.current) {
-      maskCtx.clearRect(
-        0,
-        0,
-        maskCanvasRef.current.width,
-        maskCanvasRef.current.height,
-      );
+      maskCtx.clearRect(0, 0, maskCanvasRef.current.width, maskCanvasRef.current.height);
     }
     if (tempCtx && tempCanvasRef.current) {
-      tempCtx.clearRect(
-        0,
-        0,
-        tempCanvasRef.current.width,
-        tempCanvasRef.current.height,
-      );
+      tempCtx.clearRect(0, 0, tempCanvasRef.current.width, tempCanvasRef.current.height);
     }
   };
 
-  const getCoordinates = (
-    e: React.MouseEvent<HTMLCanvasElement>,
-  ): { x: number; y: number } => {
+  const getCoordinates = (e: React.MouseEvent<HTMLCanvasElement>): { x: number; y: number } => {
     const canvas = maskCanvasRef.current!;
     const rect = canvas.getBoundingClientRect();
     return {
@@ -276,11 +241,7 @@ const ImageMaskModal = (props: {
             value={brushType}
             onChange={(value) => setBrushType(value as BrushType)}
           />
-          <Button
-            icon={<RedoOutlined />}
-            onClick={handleReset}
-            disabled={isLoading}
-          >
+          <Button icon={<RedoOutlined />} onClick={handleReset} disabled={isLoading}>
             Reset
           </Button>
           <div style={{ display: "flex", alignItems: "center" }}>

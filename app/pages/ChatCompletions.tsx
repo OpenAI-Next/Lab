@@ -15,21 +15,10 @@ import {
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-components";
-import {
-  jsonMapValidationRule,
-  jsonSchemaValidationRule,
-  safeJsonParse,
-} from "@/app/utils";
-import {
-  ChatCompletionAPI,
-  ChatCompletionRequest,
-} from "@/app/client/chatCompletions";
+import { jsonMapValidationRule, jsonSchemaValidationRule, safeJsonParse } from "@/app/utils";
+import { ChatCompletionAPI, ChatCompletionRequest } from "@/app/client/chatCompletions";
 import { PictureOutlined } from "@ant-design/icons";
-import {
-  renderCode,
-  renderRequestTimeDuration,
-  RenderSubmitter,
-} from "@/app/render";
+import { renderCode, renderRequestTimeDuration, RenderSubmitter } from "@/app/render";
 import { api2Provider, useAppConfig } from "@/app/store";
 
 const Upload2B64 = lazy(() => import("@/app/components/Upload2B64"));
@@ -37,9 +26,7 @@ const Upload2B64 = lazy(() => import("@/app/components/Upload2B64"));
 // TODO: https://platform.openai.com/playground
 export function ChatCompletionsPage() {
   const appConfig = useAppConfig();
-  const chatCompletionApi = new ChatCompletionAPI(
-    appConfig.getFirstApiKey(api2Provider.Chat),
-  );
+  const chatCompletionApi = new ChatCompletionAPI(appConfig.getFirstApiKey(api2Provider.Chat));
 
   const [chatCompletionsForm] = ProForm.useForm();
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -80,19 +67,15 @@ export function ChatCompletionsPage() {
   }
 
   const getCode = () => {
-    const value =
-      formRef.current?.getFieldsFormatValue?.() as ChatCompletionRequest;
+    const value = formRef.current?.getFieldsFormatValue?.() as ChatCompletionRequest;
     const transformedValue = transformChatCompletionsFormValue(value);
     return JSON.stringify(transformedValue, null, 2);
   };
 
-  const [isUserMessageTypeObj, setIsUserMessageTypeObj] = useState<boolean[]>(
-    [],
-  );
+  const [isUserMessageTypeObj, setIsUserMessageTypeObj] = useState<boolean[]>([]);
 
   const [getText, setGetText] = useState<boolean>(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
 
   const [res_text, setResText] = useState<string>("");
   const responseTextRef = useRef("");
@@ -121,13 +104,7 @@ export function ChatCompletionsPage() {
               const controller = new AbortController();
               setAbortController(controller);
               const needGetText = isStream && getText;
-              const res = await chatCompletionApi.request(
-                values,
-                controller.signal,
-                undefined,
-                needGetText,
-                onNewText,
-              );
+              const res = await chatCompletionApi.request(values, controller.signal, undefined, needGetText, onNewText);
 
               try {
                 // 此时 res 是一个 Response 对象
@@ -227,11 +204,7 @@ export function ChatCompletionsPage() {
                                   autoSize: { minRows: 2, maxRows: 8 },
                                 }}
                               />
-                              <ProFormText
-                                name={"name"}
-                                label={"Name"}
-                                rules={[{ required: false }]}
-                              />
+                              <ProFormText name={"name"} label={"Name"} rules={[{ required: false }]} />
                             </>
                           );
                         case "user":
@@ -246,10 +219,7 @@ export function ChatCompletionsPage() {
                                   onChange: (checked) => {
                                     handleUserMessageTypeChange(checked);
                                     // Reset content when switching between object and string, as the content type is different
-                                    chatCompletionsForm.setFieldValue(
-                                      ["messages", index, "content"],
-                                      undefined,
-                                    );
+                                    chatCompletionsForm.setFieldValue(["messages", index, "content"], undefined);
                                   },
                                 }}
                               />
@@ -257,10 +227,7 @@ export function ChatCompletionsPage() {
                                 <ProFormList
                                   name={"content"}
                                   label={"Content"}
-                                  itemRender={(
-                                    { listDom, action },
-                                    { index },
-                                  ) => (
+                                  itemRender={({ listDom, action }, { index }) => (
                                     <ProCard
                                       bordered
                                       style={{ marginBlockEnd: 8 }}
@@ -303,9 +270,7 @@ export function ChatCompletionsPage() {
                                                 name={["image_url", "url"]}
                                                 label={"URL"}
                                                 rules={[{ required: true }]}
-                                                tooltip={
-                                                  "Either a URL of the image or the base64 encoded image data."
-                                                }
+                                                tooltip={"Either a URL of the image or the base64 encoded image data."}
                                                 fieldProps={{
                                                   autoSize: {
                                                     minRows: 2,
@@ -343,11 +308,7 @@ export function ChatCompletionsPage() {
                                   }}
                                 />
                               )}
-                              <ProFormText
-                                name={"name"}
-                                label={"Name"}
-                                rules={[{ required: false }]}
-                              />
+                              <ProFormText name={"name"} label={"Name"} rules={[{ required: false }]} />
                             </>
                           );
                         case "assistant":
@@ -361,18 +322,11 @@ export function ChatCompletionsPage() {
                                   autoSize: { minRows: 2, maxRows: 8 },
                                 }}
                               />
-                              <ProFormText
-                                name={"name"}
-                                label={"Name"}
-                                rules={[{ required: false }]}
-                              />
+                              <ProFormText name={"name"} label={"Name"} rules={[{ required: false }]} />
                               <ProFormList
                                 name={"tool_calls"}
                                 label={"Tool Calls"}
-                                itemRender={(
-                                  { listDom, action },
-                                  { index },
-                                ) => (
+                                itemRender={({ listDom, action }, { index }) => (
                                   <ProCard
                                     bordered
                                     style={{ marginBlockEnd: 8 }}
@@ -395,20 +349,13 @@ export function ChatCompletionsPage() {
                                   label={"Type"}
                                   options={["function"]}
                                   rules={[{ required: true }]}
-                                  tooltip={
-                                    "The type of the tool. Currently, only function is supported."
-                                  }
+                                  tooltip={"The type of the tool. Currently, only function is supported."}
                                 />
                                 <ProFormList
                                   name={"function"}
                                   label={"Function"}
-                                  tooltip={
-                                    "The function that the model called."
-                                  }
-                                  itemRender={(
-                                    { listDom, action },
-                                    { index },
-                                  ) => (
+                                  tooltip={"The function that the model called."}
+                                  itemRender={({ listDom, action }, { index }) => (
                                     <ProCard
                                       bordered
                                       style={{ marginBlockEnd: 8 }}
@@ -424,17 +371,12 @@ export function ChatCompletionsPage() {
                                     name={"name"}
                                     label={"Name"}
                                     rules={[{ required: true }]}
-                                    tooltip={
-                                      "The name of the function to call."
-                                    }
+                                    tooltip={"The name of the function to call."}
                                   />
                                   <ProFormTextArea
                                     name={"arguments"}
                                     label={"arguments"}
-                                    rules={[
-                                      { required: true },
-                                      jsonMapValidationRule,
-                                    ]}
+                                    rules={[{ required: true }, jsonMapValidationRule]}
                                     tooltip={
                                       "The arguments to call the function with, as generated by the model in JSON format. Note that the model does not always generate valid JSON, and may hallucinate parameters not defined by your function schema. Validate the arguments in your code before calling your function."
                                     }
@@ -459,9 +401,7 @@ export function ChatCompletionsPage() {
                                 name={"tool_call_id"}
                                 label={"Tool Call ID"}
                                 rules={[{ required: true }]}
-                                tooltip={
-                                  "Tool call that this message is responding to."
-                                }
+                                tooltip={"Tool call that this message is responding to."}
                               />
                             </>
                           );
@@ -473,12 +413,7 @@ export function ChatCompletionsPage() {
             }}
           </ProFormList>
 
-          <ProFormDigit
-            name={"frequency_penalty"}
-            label={"Frequency Penalty"}
-            min={-2.0}
-            max={2.0}
-          />
+          <ProFormDigit name={"frequency_penalty"} label={"Frequency Penalty"} min={-2.0} max={2.0} />
 
           <ProFormTextArea
             name={"logit_bias"}
@@ -495,14 +430,7 @@ export function ChatCompletionsPage() {
             // initialValue={undefined}
           />
 
-          {LogprobsEnabled && (
-            <ProFormDigit
-              name={"top_logprobs"}
-              label={"Top Logprobs"}
-              min={0}
-              max={20}
-            />
-          )}
+          {LogprobsEnabled && <ProFormDigit name={"top_logprobs"} label={"Top Logprobs"} min={0} max={20} />}
 
           <ProFormDigit
             name={"max_tokens"}
@@ -576,9 +504,7 @@ export function ChatCompletionsPage() {
             // TODO: string | string[] | null;
             name={"stop"}
             label={"Stop"}
-            tooltip={
-              "Up to 4 sequences where the API will stop generating further tokens."
-            }
+            tooltip={"Up to 4 sequences where the API will stop generating further tokens."}
           />
 
           <ProFormCheckbox
@@ -610,10 +536,7 @@ export function ChatCompletionsPage() {
                 </ProCard>
               )}
             >
-              <ProFormCheckbox
-                name={["include_usage"]}
-                label={"Include Usage"}
-              />
+              <ProFormCheckbox name={["include_usage"]} label={"Include Usage"} />
             </ProFormList>
           )}
 
@@ -625,9 +548,7 @@ export function ChatCompletionsPage() {
             tooltip={
               "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic."
             }
-            extra={
-              "We generally recommend altering this or top_p but not both."
-            }
+            extra={"We generally recommend altering this or top_p but not both."}
           />
 
           <ProFormDigit
@@ -638,9 +559,7 @@ export function ChatCompletionsPage() {
             tooltip={
               "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered."
             }
-            extra={
-              "We generally recommend altering this or temperature but not both."
-            }
+            extra={"We generally recommend altering this or temperature but not both."}
           />
 
           <ProFormList
@@ -681,23 +600,12 @@ export function ChatCompletionsPage() {
                 </ProCard>
               )}
             >
-              <ProFormText
-                name={["name"]}
-                label={"Name"}
-                rules={[{ required: true }]}
-              />
-              <ProFormTextArea
-                name={["description"]}
-                label={"Description"}
-                rules={[{ required: false }]}
-              />
+              <ProFormText name={["name"]} label={"Name"} rules={[{ required: true }]} />
+              <ProFormTextArea name={["description"]} label={"Description"} rules={[{ required: false }]} />
               <ProFormTextArea
                 name={["parameters"]}
                 label={"Parameters"}
-                rules={[
-                  { required: false },
-                  { ...jsonSchemaValidationRule, warningOnly: true },
-                ]}
+                rules={[{ required: false }, { ...jsonSchemaValidationRule, warningOnly: true }]}
                 fieldProps={{
                   autoSize: { minRows: 2, maxRows: 8 },
                 }}
@@ -736,17 +644,11 @@ export function ChatCompletionsPage() {
         {res_text && renderCode(res_text)}
 
         <FloatButton.Group shape="square" style={{ right: 24 }}>
-          <FloatButton
-            icon={<PictureOutlined />}
-            onClick={() => setShowImg2B64Modal(true)}
-          />
+          <FloatButton icon={<PictureOutlined />} onClick={() => setShowImg2B64Modal(true)} />
         </FloatButton.Group>
       </Col>
 
-      <Upload2B64
-        open={showImg2B64Modal}
-        onClose={() => setShowImg2B64Modal(false)}
-      />
+      <Upload2B64 open={showImg2B64Modal} onClose={() => setShowImg2B64Modal(false)} />
     </>
   );
 }

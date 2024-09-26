@@ -28,12 +28,7 @@ import {
   ProFormUploadButton,
 } from "@ant-design/pro-components";
 import React, { useRef, useState } from "react";
-import {
-  COL_SCROLL_STYLE,
-  MidjourneyEndpoint,
-  MidjourneyTaskResStatus,
-  PRO_FORM_PROPS,
-} from "@/constant";
+import { COL_SCROLL_STYLE, MidjourneyEndpoint, MidjourneyTaskResStatus, PRO_FORM_PROPS } from "@/constant";
 import {
   CloudDownloadOutlined,
   CloudUploadOutlined,
@@ -195,11 +190,7 @@ const handleSubmit = async (
         break;
     }
 
-    if (
-      res.ok &&
-      (res.status === MidjourneyTaskResStatus.OK ||
-        res.status === MidjourneyTaskResStatus.CREATED)
-    ) {
+    if (res.ok && (res.status === MidjourneyTaskResStatus.OK || res.status === MidjourneyTaskResStatus.CREATED)) {
       if (!noUpdateResponse) {
         const resJson = await res.json();
         updateResponse({
@@ -231,8 +222,7 @@ const ImagineForm = (props: {
 }) => {
   const appConfig = useAppConfig();
 
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const selectedBotType = (ProForm.useWatch("botType", props.form) ||
@@ -240,10 +230,7 @@ const ImagineForm = (props: {
   const isCustomParam = ProForm.useWatch("customParam", props.form);
   const inputPrompt = ProForm.useWatch("userPrompt", props.form) || "";
 
-  const differentModelsDetail: Record<
-    MidjourneyImagineTaskRequestPayload["botType"],
-    any
-  > = {
+  const differentModelsDetail: Record<MidjourneyImagineTaskRequestPayload["botType"], any> = {
     MID_JOURNEY: {
       versionOptions: ["6", "5.2", "5.1", "5", "4"],
       styleOptions: ["raw"],
@@ -281,13 +268,7 @@ const ImagineForm = (props: {
               submitting={submitting}
               submitterProps={submitterProps}
               getValues={() =>
-                JSON.stringify(
-                  props.api.getImagineTaskPayload(
-                    props.form.getFieldsValue(),
-                  ) || "",
-                  null,
-                  2,
-                )
+                JSON.stringify(props.api.getImagineTaskPayload(props.form.getFieldsValue()) || "", null, 2)
               }
             />
           );
@@ -298,9 +279,7 @@ const ImagineForm = (props: {
       <ProFormSwitch
         name={"customParam"}
         label={"Custom Mode"}
-        tooltip={
-          "If you are familiar with the parameters, you can enable this option to customize the parameters."
-        }
+        tooltip={"If you are familiar with the parameters, you can enable this option to customize the parameters."}
       />
 
       <Divider />
@@ -315,9 +294,7 @@ const ImagineForm = (props: {
       <ProFormTextArea
         name="userPrompt"
         label={isCustomParam ? "Text Prompts & Parameters" : "Text Prompts"}
-        placeholder={
-          isCustomParam ? "Example: a cat --ar 4:3 --q 1" : "Example: a cat"
-        }
+        placeholder={isCustomParam ? "Example: a cat --ar 4:3 --q 1" : "Example: a cat"}
         fieldProps={{
           autoSize: { minRows: isCustomParam ? 5 : 3, maxRows: 8 },
         }}
@@ -326,12 +303,7 @@ const ImagineForm = (props: {
 
       {!isCustomParam && inputPrompt.length > 30 && (
         <ProForm.Item>
-          <Button
-            block
-            type="dashed"
-            icon={<FunctionOutlined />}
-            onClick={() => props.fillShortenForm(inputPrompt)}
-          >
+          <Button block type="dashed" icon={<FunctionOutlined />} onClick={() => props.fillShortenForm(inputPrompt)}>
             Shorten Prompt
           </Button>
         </ProForm.Item>
@@ -551,13 +523,7 @@ const ImagineForm = (props: {
             />
 
             {/*--iw <0–3> Sets image prompt weight relative to text weight. The default value is 1.*/}
-            <ProFormDigit
-              name="iw"
-              label="Image Weight"
-              min={0}
-              max={3}
-              width="xs"
-            />
+            <ProFormDigit name="iw" label="Image Weight" min={0} max={3} width="xs" />
 
             <ProFormUploadButton
               name="cref"
@@ -574,10 +540,7 @@ const ImagineForm = (props: {
                   Authorization: appConfig.getUploadConfig().auth,
                 },
                 onChange: (info) => {
-                  const getValueByPosition = (
-                    obj: any,
-                    position: readonly any[],
-                  ) => {
+                  const getValueByPosition = (obj: any, position: readonly any[]) => {
                     return position.reduce((acc, key) => acc && acc[key], obj);
                   };
 
@@ -585,10 +548,7 @@ const ImagineForm = (props: {
                     try {
                       const response = info.file.response;
                       if (response) {
-                        info.file.url = getValueByPosition(
-                          response,
-                          appConfig.getUploadConfig().position,
-                        );
+                        info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
                       }
                     } catch (e) {
                       console.error(e);
@@ -602,13 +562,7 @@ const ImagineForm = (props: {
             {/*Use the character weight parameter --cw to set the strength of characterization. --cw accepts values from 0 to 100. --cw 0 focuses on the character's face only. Higher values use the character's face, hair, and clothing. --cw 100 is default.*/}
 
             {/*prompt example: /imagine prompt illustration of a man sitting in a cafe --cref https://url.com/BlueHairGuy.png*/}
-            <ProFormDigit
-              name="cw"
-              label="Character Weight"
-              min={0}
-              max={100}
-              width="xs"
-            />
+            <ProFormDigit name="cw" label="Character Weight" min={0} max={100} width="xs" />
           </ProForm.Group>
 
           <Divider />
@@ -651,8 +605,7 @@ const BlendForm = (props: {
   updateResponse: (task: MidjourneyTaskList) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -678,9 +631,7 @@ const BlendForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -738,8 +689,7 @@ const DescribeForm = (props: {
   updateResponse: (task: MidjourneyTaskList) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -764,9 +714,7 @@ const DescribeForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -806,8 +754,7 @@ const ShortenForm = (props: {
   updateResponse: (task: MidjourneyTaskList) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -832,9 +779,7 @@ const ShortenForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -857,8 +802,7 @@ const ActionForm = (props: {
   updateResponse: (task: MidjourneyTaskList) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -883,9 +827,7 @@ const ActionForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-              }
+              getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
             />
           );
         },
@@ -901,12 +843,7 @@ const ActionForm = (props: {
         allowClear={true}
       />
 
-      <ProFormText
-        name="taskId"
-        label="Task ID"
-        tooltip={"Task ID"}
-        rules={[{ required: true }]}
-      />
+      <ProFormText name="taskId" label="Task ID" tooltip={"Task ID"} rules={[{ required: true }]} />
     </ProForm>
   );
 };
@@ -926,8 +863,7 @@ const ModalForm = (props: {
   // - 以及开启Remix模式时，执行Reroll、Variation、Pan也需要弹框确认
   // 这个时候该接口会返回21，并且任务状态会进入MODAL（窗口等待），需要执行提交Modal的接口进行操作
 
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const [showImageMaskModal, setShowImageMaskModal] = useState(false);
@@ -945,16 +881,10 @@ const ModalForm = (props: {
           setAbortController(controller);
           setSubmitting(true);
           try {
-            const res = await props.api.submitModalTask(
-              values,
-              controller.signal,
-            );
-            const resJson =
-              (await res.json()) as MidjourneySubmitTaskResponseType;
+            const res = await props.api.submitModalTask(values, controller.signal);
+            const resJson = (await res.json()) as MidjourneySubmitTaskResponseType;
             if (res.ok && resJson.code === 1) {
-              message.success(
-                resJson.description + " . Please manually refresh the task.",
-              );
+              message.success(resJson.description + " . Please manually refresh the task.");
               // 重置表单，避免重复提交
               props.form.resetFields();
               props.queryTask(values.taskId);
@@ -976,19 +906,13 @@ const ModalForm = (props: {
                 abortController={abortController}
                 submitting={submitting}
                 submitterProps={submitterProps}
-                getValues={() =>
-                  JSON.stringify(props.form.getFieldsValue(), null, 2) || ""
-                }
+                getValues={() => JSON.stringify(props.form.getFieldsValue(), null, 2) || ""}
               />
             );
           },
         }}
       >
-        <ProFormText
-          name="taskId"
-          label="Task ID"
-          rules={[{ required: true }]}
-        />
+        <ProFormText name="taskId" label="Task ID" rules={[{ required: true }]} />
 
         <ProFormTextArea
           name="prompt"
@@ -1047,8 +971,7 @@ const QueryTaskForm = (props: {
   updateResponse: (task: MidjourneyTaskList) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const inputTaskId = ProForm.useWatch("taskId", props.form) || "{{TASK_ID}}";
@@ -1084,20 +1007,13 @@ const QueryTaskForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                `GET ${props.api.path(MidjourneyEndpoint.IMAGINE).replace("{id}", inputTaskId)}`
-              }
+              getValues={() => `GET ${props.api.path(MidjourneyEndpoint.IMAGINE).replace("{id}", inputTaskId)}`}
             />
           );
         },
       }}
     >
-      <ProFormText
-        name="taskId"
-        label="Task ID"
-        tooltip={"Task ID"}
-        rules={[{ required: true }]}
-      />
+      <ProFormText name="taskId" label="Task ID" tooltip={"Task ID"} rules={[{ required: true }]} />
     </ProForm>
   );
 };
@@ -1108,8 +1024,7 @@ const QuerySeedForm = (props: {
   updateTaskSeed: (taskId: string, seed: string, error?: string) => void;
   updateError: (error: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   const inputTaskId = ProForm.useWatch("taskId", props.form) || "{{TASK_ID}}";
@@ -1129,11 +1044,7 @@ const QuerySeedForm = (props: {
           if (status === MidjourneyTaskResStatus.OK && resJson?.result) {
             props.updateTaskSeed(values.taskId, resJson.result);
           } else {
-            props.updateTaskSeed(
-              values.taskId,
-              "",
-              resJson?.message || "Error",
-            );
+            props.updateTaskSeed(values.taskId, "", resJson?.message || "Error");
             props.updateError(resJson);
           }
         } catch (e) {
@@ -1151,20 +1062,13 @@ const QuerySeedForm = (props: {
               abortController={abortController}
               submitting={submitting}
               submitterProps={submitterProps}
-              getValues={() =>
-                `GET ${props.api.path(MidjourneyEndpoint.SEED).replace("{id}", inputTaskId)}`
-              }
+              getValues={() => `GET ${props.api.path(MidjourneyEndpoint.SEED).replace("{id}", inputTaskId)}`}
             />
           );
         },
       }}
     >
-      <ProFormText
-        name="taskId"
-        label="Task ID"
-        tooltip={"Task ID"}
-        rules={[{ required: true }]}
-      />
+      <ProFormText name="taskId" label="Task ID" tooltip={"Task ID"} rules={[{ required: true }]} />
     </ProForm>
   );
 };
@@ -1207,11 +1111,7 @@ const MidjourneyTasksRenderer = (props: {
   return (
     <>
       {props.tasks.map((task: MidjourneyTaskList, index: number) => (
-        <Spin
-          spinning={loadingStates[index] || false}
-          key={task.id}
-          tip={"Refreshing..."}
-        >
+        <Spin spinning={loadingStates[index] || false} key={task.id} tip={"Refreshing..."}>
           <ProDescriptions
             title={"Task " + (index + 1)}
             dataSource={task}
@@ -1287,9 +1187,7 @@ const MidjourneyTasksRenderer = (props: {
                 key: "image_render",
                 render: (_dom, record) => {
                   if (!record.imageUrl) return null;
-                  return (
-                    <Image src={record.imageUrl} alt={record.id} height={150} />
-                  );
+                  return <Image src={record.imageUrl} alt={record.id} height={150} />;
                 },
               },
               {
@@ -1358,20 +1256,14 @@ const MidjourneyTasksRenderer = (props: {
           />
         </Spin>
       ))}
-      <CodeModal
-        open={showCodeModal}
-        onClose={() => setShowCodeModal(false)}
-        code={code}
-      />
+      <CodeModal open={showCodeModal} onClose={() => setShowCodeModal(false)} code={code} />
     </>
   );
 };
 
 export function MidjourneyPage() {
   const appConfig = useAppConfig();
-  const drawApi = new DrawAPI(
-    appConfig.getFirstApiKey(api2Provider.Midjourney),
-  );
+  const drawApi = new DrawAPI(appConfig.getFirstApiKey(api2Provider.Midjourney));
   const [mjImagineTaskForm] = ProForm.useForm();
   const [mjBlendTaskForm] = ProForm.useForm();
   const [mjDescribeTaskForm] = ProForm.useForm();
@@ -1388,23 +1280,12 @@ export function MidjourneyPage() {
     { label: "Query", value: "query", icon: <FileTextOutlined /> },
   ];
 
-  const midjourneySubmitFormOptions = [
-    "IMAGINE",
-    "BLEND",
-    "DESCRIBE",
-    "SHORTEN",
-    "ACTION",
-    "MODAL",
-  ];
+  const midjourneySubmitFormOptions = ["IMAGINE", "BLEND", "DESCRIBE", "SHORTEN", "ACTION", "MODAL"];
   const midjourneyQueryFormOptions = ["TASK", "SEED"];
 
   const [operateType, setOperateType] = useState<"create" | "query">("create");
-  const [submitFormType, setSubmitFormType] = useState(
-    midjourneySubmitFormOptions[0],
-  );
-  const [queryFormType, setQueryFormType] = useState(
-    midjourneyQueryFormOptions[0],
-  );
+  const [submitFormType, setSubmitFormType] = useState(midjourneySubmitFormOptions[0]);
+  const [queryFormType, setQueryFormType] = useState(midjourneyQueryFormOptions[0]);
 
   const [taskData, setTaskData] = useState<MidjourneyTaskList[]>([]);
   const [errorData, setErrorData] = useState<any>(null);
@@ -1424,10 +1305,7 @@ export function MidjourneyPage() {
       updateError(res);
       return;
     }
-    if (
-      res.status === "MODAL" ||
-      res.description === "Waiting for window confirm"
-    ) {
+    if (res.status === "MODAL" || res.description === "Waiting for window confirm") {
       if (operateType !== "create" || submitFormType !== "MODAL") {
         message.info("Waiting for window confirm.").then();
         setOperateType("create");
@@ -1443,9 +1321,7 @@ export function MidjourneyPage() {
       setTaskData((prevTaskData) => {
         const index = prevTaskData.findIndex((item) => item.id === res.id);
         if (index >= 0) {
-          return prevTaskData.map((item, i) =>
-            i === index ? { seed: item.seed, ...res } : item,
-          );
+          return prevTaskData.map((item, i) => (i === index ? { seed: item.seed, ...res } : item));
         } else {
           onScrollToBottom();
           return [...prevTaskData, res];
@@ -1504,10 +1380,7 @@ export function MidjourneyPage() {
     }
   };
 
-  const renderSubmitForm: Record<
-    (typeof midjourneySubmitFormOptions)[number],
-    any
-  > = {
+  const renderSubmitForm: Record<(typeof midjourneySubmitFormOptions)[number], any> = {
     IMAGINE: (
       <ImagineForm
         form={mjImagineTaskForm}
@@ -1521,37 +1394,15 @@ export function MidjourneyPage() {
         }}
       />
     ),
-    BLEND: (
-      <BlendForm
-        form={mjBlendTaskForm}
-        api={drawApi}
-        updateResponse={updateResponse}
-        updateError={updateError}
-      />
-    ),
+    BLEND: <BlendForm form={mjBlendTaskForm} api={drawApi} updateResponse={updateResponse} updateError={updateError} />,
     DESCRIBE: (
-      <DescribeForm
-        form={mjDescribeTaskForm}
-        api={drawApi}
-        updateResponse={updateResponse}
-        updateError={updateError}
-      />
+      <DescribeForm form={mjDescribeTaskForm} api={drawApi} updateResponse={updateResponse} updateError={updateError} />
     ),
     SHORTEN: (
-      <ShortenForm
-        form={mjShortenTaskForm}
-        api={drawApi}
-        updateResponse={updateResponse}
-        updateError={updateError}
-      />
+      <ShortenForm form={mjShortenTaskForm} api={drawApi} updateResponse={updateResponse} updateError={updateError} />
     ),
     ACTION: (
-      <ActionForm
-        form={mjActionTaskForm}
-        api={drawApi}
-        updateResponse={updateResponse}
-        updateError={updateError}
-      />
+      <ActionForm form={mjActionTaskForm} api={drawApi} updateResponse={updateResponse} updateError={updateError} />
     ),
     MODAL: (
       <ModalForm
@@ -1564,25 +1415,12 @@ export function MidjourneyPage() {
     ),
   };
 
-  const renderQueryForm: Record<
-    (typeof midjourneyQueryFormOptions)[number],
-    any
-  > = {
+  const renderQueryForm: Record<(typeof midjourneyQueryFormOptions)[number], any> = {
     TASK: (
-      <QueryTaskForm
-        form={mjQueryTaskForm}
-        api={drawApi}
-        updateResponse={updateResponse}
-        updateError={updateError}
-      />
+      <QueryTaskForm form={mjQueryTaskForm} api={drawApi} updateResponse={updateResponse} updateError={updateError} />
     ),
     SEED: (
-      <QuerySeedForm
-        form={mjQueryTaskForm}
-        api={drawApi}
-        updateTaskSeed={updateTaskSeed}
-        updateError={updateError}
-      />
+      <QuerySeedForm form={mjQueryTaskForm} api={drawApi} updateTaskSeed={updateTaskSeed} updateError={updateError} />
     ),
   };
 
@@ -1689,11 +1527,7 @@ export function MidjourneyPage() {
                       "buttons",
                     ];
                     for (const item of data) {
-                      if (
-                        !requiredProperties.every((prop) =>
-                          item.hasOwnProperty(prop),
-                        )
-                      ) {
+                      if (!requiredProperties.every((prop) => item.hasOwnProperty(prop))) {
                         ok = false;
                         break;
                       }
@@ -1717,9 +1551,7 @@ export function MidjourneyPage() {
           icon={<CloudDownloadOutlined />}
           onClick={() => {
             // download taskData
-            const dataStr =
-              "data:text/json;charset=utf-8," +
-              encodeURIComponent(JSON.stringify(taskData, null, 2));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(taskData, null, 2));
             const downloadAnchorNode = document.createElement("a");
             downloadAnchorNode.setAttribute("href", dataStr);
             downloadAnchorNode.setAttribute("download", "taskData.json");

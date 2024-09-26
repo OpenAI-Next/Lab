@@ -77,15 +77,11 @@ export const api2ProviderBaseUrl = {
 
 export const UPLOAD_INFO = {
   [Provider.NextAPI]: {
-    action: [[ProviderBaseUrlMap[Provider.NextAPI]], "fileSystem/upload"].join(
-      "/",
-    ),
+    action: [[ProviderBaseUrlMap[Provider.NextAPI]], "fileSystem/upload"].join("/"),
     position: ["url"],
   },
   [Provider.ProxyAPI]: {
-    action: [[ProviderBaseUrlMap[Provider.ProxyAPI]], "fileSystem/upload"].join(
-      "/",
-    ),
+    action: [[ProviderBaseUrlMap[Provider.ProxyAPI]], "fileSystem/upload"].join("/"),
     position: ["url"],
   },
   // [Provider.GodAPI]: {
@@ -105,15 +101,11 @@ export const useAppConfig = createPersistStore(
   { ...DEFAULT_CONFIG },
   (_set, get) => ({
     getFirstApiKey(provider: Provider): string {
-      const key = get().apiKeys.find(
-        (item) => item.provider === provider,
-      )?.apiKey;
+      const key = get().apiKeys.find((item) => item.provider === provider)?.apiKey;
       if (key) {
         return key;
       } else {
-        console.error(
-          `No API key found for provider ${PROVIDER_NAME[provider]}`,
-        );
+        console.error(`No API key found for provider ${PROVIDER_NAME[provider]}`);
         return "";
       }
     },

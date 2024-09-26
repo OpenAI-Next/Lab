@@ -31,11 +31,7 @@ export class Doc2XAPI {
     return [api2ProviderBaseUrl.Doc2X, Doc2XEndpoint.Default].join("/");
   }
 
-  model(
-    response_format: "text" | "json",
-    ocr: boolean = false,
-    progress: boolean = false,
-  ): string {
+  model(response_format: "text" | "json", ocr: boolean = false, progress: boolean = false): string {
     if (response_format) {
       switch (response_format) {
         case "text":
@@ -65,21 +61,13 @@ export class Doc2XAPI {
   payload(request: Doc2XFormFields): any {
     return request
       ? {
-          model: this.model(
-            request.response_format,
-            request.ocr,
-            request.progress,
-          ),
+          model: this.model(request.response_format, request.ocr, request.progress),
           messages: [{ role: "user", content: request?.file?.[0]?.url }],
         }
       : {};
   }
 
-  async request(
-    request: Doc2XFormFields,
-    signal?: AbortSignal,
-    timeoutMs: number = REQUEST_TIMEOUT_MS,
-  ) {
+  async request(request: Doc2XFormFields, signal?: AbortSignal, timeoutMs: number = REQUEST_TIMEOUT_MS) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);

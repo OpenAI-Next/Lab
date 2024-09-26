@@ -16,23 +16,14 @@ import {
 } from "@/app/client/whisper";
 import { Col, Divider, message } from "antd";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
-import {
-  renderCode,
-  renderRequestTimeDuration,
-  RenderSubmitter,
-} from "@/app/render";
+import { renderCode, renderRequestTimeDuration, RenderSubmitter } from "@/app/render";
 
 const WhisperForm = (props: {
   form: ProFormInstance;
   api: OpenAIWhisperAPI;
-  updateData: (
-    startTimestamp?: number,
-    endTimestamp?: number,
-    task?: any,
-  ) => void;
+  updateData: (startTimestamp?: number, endTimestamp?: number, task?: any) => void;
 }) => {
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
+  const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const [file, setFile] = useState<any>(null);
@@ -47,10 +38,7 @@ const WhisperForm = (props: {
         const controller = new AbortController();
         setAbortController(controller);
         try {
-          const res = await props.api.request(
-            { ...values, file },
-            controller.signal,
-          );
+          const res = await props.api.request({ ...values, file }, controller.signal);
           let responseInfo;
           try {
             if (res.ok) {
@@ -104,16 +92,12 @@ const WhisperForm = (props: {
         }
         rules={[{ required: true }]}
         max={1}
-        accept={
-          "audio/mp3, audio/mp4, audio/mpeg, audio/mpga, audio/m4a, audio/wav, audio/webm"
-        }
+        accept={"audio/mp3, audio/mp4, audio/mpeg, audio/mpga, audio/m4a, audio/wav, audio/webm"}
         fieldProps={{
           multiple: false,
           beforeUpload: (file: Blob) => {
             if (file.size < 1 || file.size > 25 * 1024 * 1024) {
-              throw new Error(
-                "File uploads must not be empty and are currently limited to 25 MB",
-              );
+              throw new Error("File uploads must not be empty and are currently limited to 25 MB");
             }
             setFile(file);
             return false; // 阻止自动上传
@@ -166,20 +150,14 @@ const WhisperForm = (props: {
 
 export function WhisperPage() {
   const appConfig = useAppConfig();
-  const whisperApi = new OpenAIWhisperAPI(
-    appConfig.getFirstApiKey(api2Provider.Whisper),
-  );
+  const whisperApi = new OpenAIWhisperAPI(appConfig.getFirstApiKey(api2Provider.Whisper));
   const [whisperForm] = ProForm.useForm<WhisperRequest>();
 
   const [startTimestamp, setStartTimestamp] = useState<number>(0);
   const [endTimestamp, setEndTimestamp] = useState<number>(0);
   const [task, setTask] = useState<any>(null);
 
-  const updateData = (
-    startTimestamp?: number,
-    endTimestamp?: number,
-    task?: any,
-  ) => {
+  const updateData = (startTimestamp?: number, endTimestamp?: number, task?: any) => {
     if (startTimestamp !== undefined) setStartTimestamp(startTimestamp);
     if (endTimestamp !== undefined) setEndTimestamp(endTimestamp);
     if (task !== undefined) setTask(task);
@@ -188,11 +166,7 @@ export function WhisperPage() {
   return (
     <>
       <Col flex="340px" style={COL_SCROLL_STYLE}>
-        <WhisperForm
-          form={whisperForm}
-          api={whisperApi}
-          updateData={updateData}
-        />
+        <WhisperForm form={whisperForm} api={whisperApi} updateData={updateData} />
       </Col>
       <Col flex={"none"}>
         <Divider type={"vertical"} style={{ height: "100%" }} />

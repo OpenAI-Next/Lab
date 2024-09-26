@@ -46,8 +46,7 @@ export class LumaApi {
   ) {
     // convert image_url and image_end_url to url
     request.image_url && (request.image_url = request.image_url.url);
-    request.image_end_url &&
-      (request.image_end_url = request.image_end_url.url);
+    request.image_end_url && (request.image_end_url = request.image_end_url.url);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -65,10 +64,7 @@ export class LumaApi {
 
       return res;
     } catch (e) {
-      console.error(
-        "[LumaProxy] failed to make a pika generate-task request",
-        e,
-      );
+      console.error("[LumaProxy] failed to make a pika generate-task request", e);
       throw e;
     }
   }
@@ -80,8 +76,7 @@ export class LumaApi {
     timeoutMs: number = REQUEST_TIMEOUT_MS,
   ) {
     // convert image_end_url to url
-    request.image_end_url &&
-      (request.image_end_url = request.image_end_url.url);
+    request.image_end_url && (request.image_end_url = request.image_end_url.url);
     request.video_url = request.video_url.url;
 
     const controller = new AbortController();
@@ -100,10 +95,7 @@ export class LumaApi {
 
       return res;
     } catch (e) {
-      console.error(
-        "[LumaProxy] failed to make a pika generate-task request",
-        e,
-      );
+      console.error("[LumaProxy] failed to make a pika generate-task request", e);
       throw e;
     }
   }
@@ -121,25 +113,16 @@ export class LumaApi {
     signal && signal.addEventListener("abort", () => controller.abort());
 
     try {
-      const res = await fetch(
-        this.path(accountType, LumaEndpoint.QUERY).replace(
-          "{{id}}",
-          request.id,
-        ),
-        {
-          ...getRequestOptions(this.apiKey, "GET"),
-          signal: abortSignal,
-        },
-      );
+      const res = await fetch(this.path(accountType, LumaEndpoint.QUERY).replace("{{id}}", request.id), {
+        ...getRequestOptions(this.apiKey, "GET"),
+        signal: abortSignal,
+      });
 
       clearTimeout(timeoutId);
 
       return res;
     } catch (e) {
-      console.error(
-        "[LumaProxy] failed to make a pika generate-task request",
-        e,
-      );
+      console.error("[LumaProxy] failed to make a pika generate-task request", e);
       throw e;
     }
   }

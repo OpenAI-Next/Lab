@@ -1,31 +1,21 @@
 // app/components/ShellApiApiKey.tsx
 
 import { App, Button, Modal, Result, StepProps, Steps, Table } from "antd";
-import {
-  ShellApi,
-  ShellApiLoginRequest,
-  ShellApiToken,
-} from "@/app/client/shell-api";
+import { ShellApi, ShellApiLoginRequest, ShellApiToken } from "@/app/client/shell-api";
 import React, { useState } from "react";
-import {
-  SmileOutlined,
-  SolutionOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { SmileOutlined, SolutionOutlined, UserOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
 
-const ShellApiApiKey = (props: {
-  open: boolean;
-  onClose: () => void;
-  baseUrl: string;
-}) => {
+const ShellApiApiKey = (props: { open: boolean; onClose: () => void; baseUrl: string }) => {
   const { message } = App.useApp();
   const api = new ShellApi(props.baseUrl);
   const [step, setStep] = useState(0);
 
-  const [status, setStatus] = useState<
-    ("error" | "wait" | "process" | "finish" | undefined)[]
-  >(["process", "wait", "wait"]);
+  const [status, setStatus] = useState<("error" | "wait" | "process" | "finish" | undefined)[]>([
+    "process",
+    "wait",
+    "wait",
+  ]);
 
   const authFailed = status[1] === "error";
 
@@ -136,12 +126,7 @@ const ShellApiApiKey = (props: {
               title: "API Key",
               key: "key",
               render: (_dom, record) => {
-                return (
-                  "sk-" +
-                  record.key.slice(0, 5) +
-                  "******" +
-                  record.key.slice(-3)
-                );
+                return "sk-" + record.key.slice(0, 5) + "******" + record.key.slice(-3);
               },
               width: "35%",
             },
@@ -149,9 +134,7 @@ const ShellApiApiKey = (props: {
               title: "Balance",
               key: "balance",
               render: (_dom, record) => {
-                return record.unlimited_quota
-                  ? "Unlimited"
-                  : `$ ${(record.remain_quota / 500000).toFixed(2)}`;
+                return record.unlimited_quota ? "Unlimited" : `$ ${(record.remain_quota / 500000).toFixed(2)}`;
               },
               width: "20%",
             },
@@ -166,9 +149,7 @@ const ShellApiApiKey = (props: {
                     block
                     type="link"
                     onClick={async () => {
-                      await window.navigator.clipboard.writeText(
-                        "sk-" + record.key,
-                      );
+                      await window.navigator.clipboard.writeText("sk-" + record.key);
                       message.success("API Key copied to clipboard");
                       props.onClose();
                     }}

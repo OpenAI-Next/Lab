@@ -16,7 +16,7 @@ import DalleIcon from "@/app/icons/dalle.svg";
 import PikaIcon from "@/app/icons/pika.svg";
 import LumaIcon from "@/app/icons/luma.svg";
 import BiBiGPTIcon from "@/app/icons/bibi-gpt.svg";
-import KelingIcon from "./providers/keling-ai/assets/logo_basic_mono.svg";
+import KlingIcon from "@/app/providers/kling/assets/logo_basic_mono.svg";
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Theme, useAppConfig } from "@/app/store";
 import { ProConfigProvider, ProLayout, type ProTokenType } from "@ant-design/pro-components";
@@ -138,8 +138,8 @@ const Doc2XPage = dynamic(async () => (await import("./pages/Doc2X")).default, {
   loading: () => <Loading />,
 });
 
-const KelingPage = dynamic(async () => (await import("./pages/Keling")).default, {
-  loading: () => <Loading logo={<KelingIcon />} />,
+const KlingPage = dynamic(async () => (await import("./pages/Kling")).default, {
+  loading: () => <Loading logo={<KlingIcon />} />,
 });
 
 const printCopyRight = () => console.log("@Kadxy 2024.");
@@ -276,9 +276,9 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
             icon: <FolderOpenFilled />,
           },
           {
-            path: Path.Keling,
-            name: "Keling",
-            icon: <Icon component={KelingIcon} />,
+            path: Path.Kling,
+            name: "Kling",
+            icon: <Icon component={KlingIcon} />,
           },
           {
             path: Path.Pricing,
@@ -317,7 +317,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
           <Route path={Path.Doc2X} element={<Doc2XPage />} />
           <Route path={Path.BiBiGPT} element={<BiBiGPTPage />} />
           <Route path={Path.GPTs} element={<GPTsPage />} />
-          <Route path={Path.Keling} element={<KelingPage />} />
+          <Route path={Path.Kling} element={<KlingPage />} />
           <Route path={Path.Pricing} element={<PricingPage />} />
           <Route path={Path.Tools} element={<ToolsPage />} />
           <Route path={Path.Settings} element={<Settings />} />

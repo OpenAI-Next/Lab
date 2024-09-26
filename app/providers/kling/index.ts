@@ -240,7 +240,7 @@ interface GenerateImage2VideoTaskRequest {
   callback_url?: string;
 }
 
-export interface KelingApiTypes extends CommonApiTypes {
+export interface KlingApiTypes extends CommonApiTypes {
   generateText2VideoTask: {
     req: GenerateText2VideoTaskRequest;
     res: GenerateText2VideoTaskResponse;
@@ -262,9 +262,9 @@ export interface KelingApiTypes extends CommonApiTypes {
   };
 }
 
-export class KelingAI implements AIProvider {
+export class Kling implements AIProvider {
   readonly name: ProviderName = {
-    en: "Keling AI",
+    en: "Kling",
     zh: "可灵 AI",
   };
 
@@ -315,7 +315,7 @@ export class KelingAI implements AIProvider {
     },
   ];
 
-  readonly api_config: ProviderAPIConfig<KelingApiTypes> = {
+  readonly api_config: ProviderAPIConfig<KlingApiTypes> = {
     base_url: BASE_URL_B,
     authorization: "Bearer xxx",
     call_map: {
@@ -396,12 +396,7 @@ export class KelingAI implements AIProvider {
     this.api_config.authorization = apiKey;
   }
 
-  callApi: CallApiFunction<KelingApiTypes> = ({ callKey, params, endpoint_params, signal }) => {
-    console.log(`KelingAI callApi triggered for ${callKey}`, {
-      params,
-      endpoint_params,
-    });
-
+  callApi: CallApiFunction<KlingApiTypes> = ({ callKey, params, endpoint_params, signal }) => {
     const headers: HeadersInit = {
       Authorization: `Bearer ${this.api_config.authorization}`,
     };

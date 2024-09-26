@@ -19,7 +19,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: kadxy
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          password: ${{ secrets.DOCKER_PASSWORD }} 
 
       - name: Push the Docker image
         run: |

@@ -12,8 +12,8 @@ import {
 } from "@ant-design/pro-components";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS, SEGMENTED_PROPS } from "@/constant";
 import { useAppConfig } from "@/app/store";
-import { Alert, Col, Divider, message, Segmented } from "antd";
-import { KelingAI, KelingApiTypes } from "@/app/providers/keling-ai";
+import { Alert, Col, Divider, message, Segmented, SegmentedProps } from "antd";
+import { Kling, KlingApiTypes } from "@/app/providers/kling";
 import { RenderSubmitter } from "../render";
 
 const MODE_OPTIONS = [
@@ -26,13 +26,20 @@ const DURATION_OPTIONS = [
   { label: "10s", value: "10" },
 ];
 
+const TASK_TYPE_OPTIONS = [
+  { label: "文生视频", value: "text2video" },
+  { label: "图生视频", value: "image2video" },
+  // { label: "图片生成", value: "generations", disabled: true },
+  { label: "任务查询", value: "queryTask" },
+];
+
 const MODEL_OPTIONS = [{ label: "kling-v1", value: "kling-v1" }];
 
-const KelingPage = () => {
+const KlingPage = () => {
   const appConfig = useAppConfig();
-  const api = new KelingAI("sk-sFplfAcnWY3sFCCs02Ac93Ce9cEf4984A7EdF93e70969c18");
+  const api = new Kling("sk-sFplfAcnWY3sFCCs02Ac93Ce9cEf4984A7EdF93e70969c18");
 
-  const [taskType, setTaskType] = useState<"text2video" | "image2video" | "queryTask">("text2video");
+  const [taskType, setTaskType] = useState("text2video");
   const [klingText2VideoForm] = ProForm.useForm();
   const [klingImage2VideoForm] = ProForm.useForm();
   const [klingQueryTaskForm] = ProForm.useForm();
@@ -42,7 +49,7 @@ const KelingPage = () => {
 
   const Text2VideoForm = (props: {
     form: ProFormInstance;
-    api: KelingAI;
+    api: Kling;
     updateTask: (data: any[]) => void;
     updateError: (error: any) => void;
   }) => {
@@ -53,7 +60,7 @@ const KelingPage = () => {
     const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
     return (
-      <ProForm<KelingApiTypes["generateText2VideoTask"]["req"]>
+      <ProForm<KlingApiTypes["generateText2VideoTask"]["req"]>
         {...PRO_FORM_PROPS}
         form={props.form}
         initialValues={{
@@ -100,25 +107,14 @@ const KelingPage = () => {
         <ProFormTextArea
           name={"prompt"}
           label={"Prompt"}
-          rules={[
-            { required: true },
-            {
-              type: "string",
-              max: 2500,
-            },
-          ]}
+          rules={[{ required: true }, { type: "string", max: 2500 }]}
           fieldProps={{ autoSize: { minRows: 3 } }}
           tooltip={"正向文本提示"}
         />
         <ProFormTextArea
           name={"negative_prompt"}
           label={"Negative Prompt"}
-          rules={[
-            {
-              type: "string",
-              max: 2500,
-            },
-          ]}
+          rules={[{ type: "string", max: 2500 }]}
           fieldProps={{ autoSize: { minRows: 2 } }}
           tooltip={"负向文本提示，用于排除不需要的元素或风格"}
         />
@@ -128,13 +124,7 @@ const KelingPage = () => {
           min={0}
           max={1}
           step={0.01}
-          marks={{
-            0: "0",
-            0.25: "0.25",
-            0.5: "0.5",
-            0.75: "0.75",
-            1: "1",
-          }}
+          marks={{ 0: "0", 0.25: "0.25", 0.5: "0.5", 0.75: "0.75", 1: "1" }}
           tooltip={"生成视频的自由度，值越大，模型自由度越小，与用户输入的提示词相关性越强"}
         />
 
@@ -152,26 +142,11 @@ const KelingPage = () => {
                 name={["camera_control", "type"]}
                 label={"Type"}
                 options={[
-                  {
-                    label: "Simple",
-                    value: "simple",
-                  },
-                  {
-                    label: "Down Back",
-                    value: "down_back",
-                  },
-                  {
-                    label: "Forward Up",
-                    value: "forward_up",
-                  },
-                  {
-                    label: "Right Turn Forward",
-                    value: "right_turn_forward",
-                  },
-                  {
-                    label: "Left Turn Forward",
-                    value: "left_turn_forward",
-                  },
+                  { label: "Simple", value: "simple" },
+                  { label: "Down Back", value: "down_back" },
+                  { label: "Forward Up", value: "forward_up" },
+                  { label: "Right Turn Forward", value: "right_turn_forward" },
+                  { label: "Left Turn Forward", value: "left_turn_forward" },
                 ]}
                 tooltip={
                   <>
@@ -312,7 +287,7 @@ const KelingPage = () => {
 
   const Image2VideoForm = (props: {
     form: ProFormInstance;
-    api: KelingAI;
+    api: Kling;
     updateTask: (data: any[]) => void;
     updateError: (error: any) => void;
   }) => {
@@ -341,7 +316,7 @@ const KelingPage = () => {
     };
 
     return (
-      <ProForm<KelingApiTypes["generateImage2VideoTask"]["req"]>
+      <ProForm<KlingApiTypes["generateImage2VideoTask"]["req"]>
         {...PRO_FORM_PROPS}
         form={props.form}
         initialValues={{
@@ -442,14 +417,14 @@ const KelingPage = () => {
 
   const QueryTaskForm = (props: {
     form: ProFormInstance;
-    api: KelingAI;
+    api: Kling;
     updateTask: (data: any[]) => void;
     updateError: (error: any) => void;
   }) => {
     const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
     return (
-      <ProForm<KelingApiTypes["queryTask"]["endpoint_params"]>
+      <ProForm<KlingApiTypes["queryTask"]["endpoint_params"]>
         {...PRO_FORM_PROPS}
         form={props.form}
         initialValues={{
@@ -485,21 +460,19 @@ const KelingPage = () => {
       >
         <ProFormRadio.Group
           name={"action"}
-          // label={"Action"}
           label={"目标类型"}
-          options={["images", "videos"]}
+          options={[
+            { label: "视频", value: "videos" },
+            { label: "图片", value: "images", disabled: true },
+          ]}
         />
         <ProFormRadio.Group
           name={"action2"}
-          // label={"Action2"}
           label={"任务类型"}
           options={[
-            // { label: "生成", value: "generations" },
-            // { label: "视频", value: "text2video" },
-            // { label: "图片", value: "image2video" },
-            "generations",
-            "text2video",
-            "image2video",
+            { label: "文生视频", value: "text2video" },
+            { label: "图生视频", value: "image2video" },
+            { label: "图片生成", value: "generations", disabled: true },
           ]}
         />
         <ProFormText name={"task_id"} label={"任务ID"} rules={[{ required: true }, { type: "string" }]} />
@@ -509,26 +482,8 @@ const KelingPage = () => {
 
   return (
     <>
-      <Col flex="340px" style={COL_SCROLL_STYLE}>
-        <Segmented
-          {...SEGMENTED_PROPS}
-          options={[
-            {
-              label: "文生视频",
-              value: "text2video",
-            },
-            {
-              label: "图生视频",
-              value: "image2video",
-            },
-            {
-              label: "任务查询",
-              value: "queryTask",
-            },
-          ]}
-          value={taskType}
-          onChange={setTaskType}
-        />
+      <Col flex="360px" style={COL_SCROLL_STYLE}>
+        <Segmented {...SEGMENTED_PROPS} options={TASK_TYPE_OPTIONS} value={taskType} onChange={setTaskType} />
         {taskType === "text2video" && (
           <Text2VideoForm form={klingText2VideoForm} api={api} updateTask={setTaskData} updateError={setErrorData} />
         )}
@@ -548,4 +503,4 @@ const KelingPage = () => {
   );
 };
 
-export default KelingPage;
+export default KlingPage;

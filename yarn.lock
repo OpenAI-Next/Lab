@@ -2031,10 +2031,10 @@
   dependencies:
     undici-types "~6.19.2"
 
-"@types/node@^20.9.0":
-  version "20.16.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.16.5.tgz#d43c7f973b32ffdf9aa7bd4f80e1072310fd7a53"
-  integrity sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==
+"@types/node@^22.7.2":
+  version "22.7.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.2.tgz#80ed66c0a5025ffa037587fd69a816f29b54e4c7"
+  integrity sha512-866lXSrpGpgyHBZUa2m9YNWqHDjjM0aBTJlNtYaGEw4rqY/dcD7deRVTbBBAJelfA7oaGDbNftXF/TL/A6RgoA==
   dependencies:
     undici-types "~6.19.2"
 

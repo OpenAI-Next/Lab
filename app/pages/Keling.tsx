@@ -16,7 +16,9 @@ import { Alert, Col, Divider, message, Segmented } from "antd";
 import { KelingAI, KelingApiTypes } from "@/app/providers/keling-ai";
 import { RenderSubmitter } from "../render";
 
-const MODE_OPTIONS = [{ label: "Std-标准模式（高性能）", value: "std" }, { label: "Pro-专家模式（高表现）", value: "pro" },
+const MODE_OPTIONS = [
+  { label: "Std-标准模式（高性能）", value: "std" },
+  { label: "Pro-专家模式（高表现）", value: "pro" },
 ];
 
 const DURATION_OPTIONS = [
@@ -98,14 +100,25 @@ const KelingPage = () => {
         <ProFormTextArea
           name={"prompt"}
           label={"Prompt"}
-          rules={[{ required: true }, { type: "string", max: 2500 }]}
+          rules={[
+            { required: true },
+            {
+              type: "string",
+              max: 2500,
+            },
+          ]}
           fieldProps={{ autoSize: { minRows: 3 } }}
           tooltip={"正向文本提示"}
         />
         <ProFormTextArea
           name={"negative_prompt"}
           label={"Negative Prompt"}
-          rules={[{ type: "string", max: 2500 }]}
+          rules={[
+            {
+              type: "string",
+              max: 2500,
+            },
+          ]}
           fieldProps={{ autoSize: { minRows: 2 } }}
           tooltip={"负向文本提示，用于排除不需要的元素或风格"}
         />
@@ -115,7 +128,13 @@ const KelingPage = () => {
           min={0}
           max={1}
           step={0.01}
-          marks={{ 0: "0", 0.25: "0.25", 0.5: "0.5", 0.75: "0.75", 1: "1" }}
+          marks={{
+            0: "0",
+            0.25: "0.25",
+            0.5: "0.5",
+            0.75: "0.75",
+            1: "1",
+          }}
           tooltip={"生成视频的自由度，值越大，模型自由度越小，与用户输入的提示词相关性越强"}
         />
 
@@ -133,11 +152,26 @@ const KelingPage = () => {
                 name={["camera_control", "type"]}
                 label={"Type"}
                 options={[
-                  { label: "Simple", value: "simple" },
-                  { label: "Down Back", value: "down_back" },
-                  { label: "Forward Up", value: "forward_up" },
-                  { label: "Right Turn Forward", value: "right_turn_forward" },
-                  { label: "Left Turn Forward", value: "left_turn_forward" },
+                  {
+                    label: "Simple",
+                    value: "simple",
+                  },
+                  {
+                    label: "Down Back",
+                    value: "down_back",
+                  },
+                  {
+                    label: "Forward Up",
+                    value: "forward_up",
+                  },
+                  {
+                    label: "Right Turn Forward",
+                    value: "right_turn_forward",
+                  },
+                  {
+                    label: "Left Turn Forward",
+                    value: "left_turn_forward",
+                  },
                 ]}
                 tooltip={
                   <>
@@ -176,7 +210,11 @@ const KelingPage = () => {
                     min={-10}
                     max={10}
                     step={0.1}
-                    marks={{ [-10]: "-10", 0: "0", 10: "10" }}
+                    marks={{
+                      [-10]: "-10",
+                      0: "0",
+                      10: "10",
+                    }}
                     initialValue={0}
                     tooltip={"水平运镜，控制摄像机在水平方向上的移动量（沿x轴平移）"}
                   />
@@ -186,7 +224,11 @@ const KelingPage = () => {
                     min={-10}
                     max={10}
                     step={0.1}
-                    marks={{ [-10]: "-10", 0: "0", 10: "10" }}
+                    marks={{
+                      [-10]: "-10",
+                      0: "0",
+                      10: "10",
+                    }}
                     initialValue={0}
                     tooltip={"垂直运镜，控制摄像机在垂直方向上的移动量（沿y轴平移）"}
                   />
@@ -197,7 +239,11 @@ const KelingPage = () => {
                     min={-10}
                     max={10}
                     step={0.1}
-                    marks={{ [-10]: "-10", 0: "0", 10: "10" }}
+                    marks={{
+                      [-10]: "-10",
+                      0: "0",
+                      10: "10",
+                    }}
                     initialValue={0}
                     tooltip={"水平摇镜，控制摄像机在水平方向上的旋转量（沿x轴旋转）"}
                   />
@@ -207,7 +253,11 @@ const KelingPage = () => {
                     min={-10}
                     max={10}
                     step={0.1}
-                    marks={{ [-10]: "-10", 0: "0", 10: "10" }}
+                    marks={{
+                      [-10]: "-10",
+                      0: "0",
+                      10: "10",
+                    }}
                     initialValue={0}
                     tooltip={"垂直摇镜，控制摄像机在垂直方向上的旋转量（沿y轴旋转）"}
                   />
@@ -217,7 +267,11 @@ const KelingPage = () => {
                     min={-10}
                     max={10}
                     step={0.1}
-                    marks={{ [-10]: "-10", 0: "0", 10: "10" }}
+                    marks={{
+                      [-10]: "-10",
+                      0: "0",
+                      10: "10",
+                    }}
                     initialValue={0}
                     tooltip={"旋转运镜，控制摄像机的滚动量（绕z轴旋转）"}
                   />
@@ -227,7 +281,11 @@ const KelingPage = () => {
                     min={-10}
                     max={10}
                     step={0.1}
-                    marks={{ [-10]: "-10", 0: "0", 10: "10" }}
+                    marks={{
+                      [-10]: "-10",
+                      0: "0",
+                      10: "10",
+                    }}
                     initialValue={0}
                     tooltip={"变焦，控制摄像机的焦距变化，影响视野的远近"}
                   />
@@ -240,7 +298,12 @@ const KelingPage = () => {
         <ProFormText
           name={"callback_url"}
           label={"Callback URL"}
-          rules={[{ type: "url", warningOnly: true }]}
+          rules={[
+            {
+              type: "url",
+              warningOnly: true,
+            },
+          ]}
           tooltip={"本次任务结果回调通知地址"}
         />
       </ProForm>
@@ -330,13 +393,23 @@ const KelingPage = () => {
         <ProFormTextArea
           name="prompt"
           label="Prompt"
-          rules={[{ type: "string", max: 2500 }]}
+          rules={[
+            {
+              type: "string",
+              max: 2500,
+            },
+          ]}
           fieldProps={{ autoSize: { minRows: 3 } }}
         />
         <ProFormTextArea
           name="negative_prompt"
           label="Negative Prompt"
-          rules={[{ type: "string", max: 2500 }]}
+          rules={[
+            {
+              type: "string",
+              max: 2500,
+            },
+          ]}
           fieldProps={{ autoSize: { minRows: 2 } }}
         />
         <ProFormSlider
@@ -345,9 +418,24 @@ const KelingPage = () => {
           min={0}
           max={1}
           step={0.01}
-          marks={{ 0: "0", 0.25: "0.25", 0.5: "0.5", 0.75: "0.75", 1: "1" }}
+          marks={{
+            0: "0",
+            0.25: "0.25",
+            0.5: "0.5",
+            0.75: "0.75",
+            1: "1",
+          }}
         />
-        <ProFormText name="callback_url" label="Callback URL" rules={[{ type: "url", warningOnly: true }]} />
+        <ProFormText
+          name="callback_url"
+          label="Callback URL"
+          rules={[
+            {
+              type: "url",
+              warningOnly: true,
+            },
+          ]}
+        />
       </ProForm>
     );
   };
@@ -425,9 +513,18 @@ const KelingPage = () => {
         <Segmented
           {...SEGMENTED_PROPS}
           options={[
-            { label: "文生视频", value: "text2video" },
-            { label: "图生视频", value: "image2video" },
-            { label: "任务查询", value: "queryTask" },
+            {
+              label: "文生视频",
+              value: "text2video",
+            },
+            {
+              label: "图生视频",
+              value: "image2video",
+            },
+            {
+              label: "任务查询",
+              value: "queryTask",
+            },
           ]}
           value={taskType}
           onChange={setTaskType}

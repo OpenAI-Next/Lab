@@ -12,6 +12,13 @@
       "bracketSpacing": true,
       "arrowParens": "always",
       "endOfLine": "auto"
+    }],
+    "object-curly-newline": ["error", {
+      "multiline": true,
+      "consistent": true
+    }],
+    "object-property-newline": ["error", {
+      "allowAllPropertiesOnSameLine": true
     }]
   }
 }

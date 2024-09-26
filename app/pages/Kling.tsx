@@ -12,9 +12,10 @@ import {
 } from "@ant-design/pro-components";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS, SEGMENTED_PROPS } from "@/constant";
 import { useAppConfig } from "@/app/store";
-import { Alert, Col, Divider, message, Segmented, SegmentedProps } from "antd";
+import { Alert, Col, Divider, App, Segmented } from "antd";
 import { Kling, KlingApiTypes } from "@/app/providers/kling";
 import { RenderSubmitter } from "../render";
+import { beforeUpload } from "../utils";
 
 const MODE_OPTIONS = [
   { label: "Std-标准模式（高性能）", value: "std" },
@@ -36,6 +37,7 @@ const TASK_TYPE_OPTIONS = [
 const MODEL_OPTIONS = [{ label: "kling-v1", value: "kling-v1" }];
 
 const KlingPage = () => {
+  const { message } = App.useApp();
   const appConfig = useAppConfig();
   const api = new Kling("sk-sFplfAcnWY3sFCCs02Ac93Ce9cEf4984A7EdF93e70969c18");
 
@@ -291,29 +293,9 @@ const KlingPage = () => {
     updateTask: (data: any[]) => void;
     updateError: (error: any) => void;
   }) => {
+    const [uploadType, setUploadType] = useState<"base64" | "url">("base64");
     const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
-
-    const handleImageUpload = async (file: File, fieldName: string) => {
-      const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-      if (!isJpgOrPng) {
-        message.error("只能上传 JPG/PNG 文件!");
-        return false;
-      }
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        message.error("图片大小不能超过 10MB!");
-        return false;
-      }
-
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64 = (reader.result as string).split(",")[1];
-        props.form.setFieldsValue({ [fieldName]: base64 });
-      };
-      return false;
-    };
 
     return (
       <ProForm<KlingApiTypes["generateImage2VideoTask"]["req"]>
@@ -352,19 +334,117 @@ const KlingPage = () => {
         <ProFormSelect name="mode" label="Mode" options={MODE_OPTIONS} />
         <ProFormRadio.Group name="duration" label="Duration" options={DURATION_OPTIONS} />
 
-        <ProFormUploadButton
-          accept=".jpg,.jpeg,.png"
+        <ProFormRadio.Group
+          label="Upload Type"
+          options={[
+            { label: "Base64", value: "base64" },
+            { label: "URL", value: "url" },
+          ]}
           fieldProps={{
-            maxCount: 1,
+            value: uploadType,
+            onChange: (e) => setUploadType(e.target.value),
+          }}
+          tooltip={"上传图片的方式，支持base64和url两种方式"}
+        />
+
+        <ProFormUploadButton
+          name="image"
+          label="Image"
+          accept=".jpg,.jpeg,.png"
+          max={1}
+          tooltip={
+            <>
+              <p>支持传入图片Base64编码或图片URL（确保可访问）</p>
+              <p>图片格式支持.jpg / .jpeg / .png</p>
+              <p>图片文件大小不能超过10MB，图片分辨率不小于300*300px</p>
+            </>
+          }
+          action={uploadType === "url" ? appConfig.getUploadConfig().action : undefined}
+          fieldProps={{
+            listType: "picture-card",
+            beforeUpload: async (file) =>
+              await beforeUpload(
+                file,
+                [-1, 10],
+                [
+                  [300, 300],
+                  [-1, -1],
+                ],
+                (msg) => message.error(msg),
+              ),
+            ...(uploadType === "url" && {
+              headers: {
+                Authorization: appConfig.getUploadConfig().auth,
+              },
+              onChange: (info) => {
+                const getValueByPosition = (obj: any, position: readonly any[]) => {
+                  return position.reduce((acc, key) => acc && acc[key], obj);
+                };
+
+                if (info.file.status === "done") {
+                  try {
+                    const response = info.file.response;
+                    if (response) {
+                      info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }
+              },
+            }),
           }}
         />
 
         <ProFormUploadButton
+          name="image_tail"
+          label="Image Tail"
           accept=".jpg,.jpeg,.png"
+          max={1}
+          tooltip={
+            <>
+              <p>支持传入图片Base64编码或图片URL（确保可访问）</p>
+              <p>图片格式支持.jpg / .jpeg / .png</p>
+              <p>图片文件大小不能超过10MB，图片分辨率不小于300*300px</p>
+            </>
+          }
+          action={uploadType === "url" ? appConfig.getUploadConfig().action : undefined}
           fieldProps={{
-            maxCount: 1,
+            listType: "picture-card",
+            beforeUpload: async (file) =>
+              await beforeUpload(
+                file,
+                [-1, 10],
+                [
+                  [300, 300],
+                  [-1, -1],
+                ],
+                (msg) => message.error(msg),
+              ),
+            ...(uploadType === "url" && {
+              headers: {
+                Authorization: appConfig.getUploadConfig().auth,
+              },
+              onChange: (info) => {
+                const getValueByPosition = (obj: any, position: readonly any[]) => {
+                  return position.reduce((acc, key) => acc && acc[key], obj);
+                };
+
+                if (info.file.status === "done") {
+                  try {
+                    const response = info.file.response;
+                    if (response) {
+                      info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }
+              },
+            }),
           }}
         />
+
         <ProFormTextArea
           name="prompt"
           label="Prompt"

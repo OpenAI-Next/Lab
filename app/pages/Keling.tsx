@@ -16,9 +16,7 @@ import { Alert, Col, Divider, message, Segmented } from "antd";
 import { KelingAI, KelingApiTypes } from "@/app/providers/keling-ai";
 import { RenderSubmitter } from "../render";
 
-const MODE_OPTIONS = [
-  { label: "Std-标准模式（高性能）", value: "std" },
-  { label: "Pro-专家模式（高表现）", value: "pro" },
+const MODE_OPTIONS = [{ label: "Std-标准模式（高性能）", value: "std" }, { label: "Pro-专家模式（高表现）", value: "pro" },
 ];
 
 const DURATION_OPTIONS = [

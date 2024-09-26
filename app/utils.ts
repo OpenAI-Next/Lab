@@ -11,7 +11,7 @@ export function safeJsonParse(jsonString: any, defaultValue: object): object {
   }
 }
 
-export function safeJsonStringify(jsonObject: any, defaultValue: string, alartOnError = false): string {
+export function safeJsonStringify(jsonObject: any, defaultValue = "error stringify", alartOnError = false): string {
   try {
     return JSON.stringify(jsonObject, null, 2);
   } catch (e) {

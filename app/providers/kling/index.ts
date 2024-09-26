@@ -9,8 +9,11 @@ import {
   ProviderName,
   ProviderWebsite,
 } from "@/app/providers/interfaces";
-import { ApiRequestConfig, makeApiRequest, replaceEndpointParams } from "@/app/utils/fetch";
+import { ApiRequestConfig, makeApiRequest, MakeApiRequestResult, replaceEndpointParams } from "@/app/utils/fetch";
 
+/**
+ * 文生视频任务请求接口
+ */
 interface GenerateText2VideoTaskRequest {
   /**
    * 生成视频的画面纵横比，可选，枚举值：16:9, 9:16, 1:1
@@ -80,6 +83,9 @@ interface GenerateText2VideoTaskRequest {
   prompt: string;
 }
 
+/**
+ * 文生视频任务响应接口
+ */
 interface GenerateText2VideoTaskResponse {
   /**
    * 错误码；具体定义错误码
@@ -112,63 +118,6 @@ interface GenerateText2VideoTaskResponse {
    * 请求ID，系统生成，用于跟踪请求、排查问题
    */
   request_id: string;
-}
-
-interface QueryTaskResponse {
-  /**
-   * 错误码；具体定义见错误码
-   */
-  code: number;
-  /**
-   * 错误信息
-   */
-  message: string;
-  /**
-   * 请求ID，系统生成，用于跟踪请求、排查问题
-   */
-  request_id: string;
-  data: {
-    /**
-     * 任务ID，系统生成
-     */
-    task_id: string;
-    /**
-     * 任务状态，枚举值：submitted（已提交）、processing（处理中）、succeed（成功）、failed（失败）
-     */
-    task_status: "submitted" | "processing" | "succeed" | "failed";
-    /**
-     * 任务状态信息，当任务失败时展示失败原因（如触发平台的内容风控等）
-     */
-    task_status_msg: string;
-    /**
-     * 任务创建时间，Unix时间戳、单位ms
-     */
-    created_at: number;
-    /**
-     * 任务更新时间，Unix时间戳、单位ms
-     */
-    updated_at: number;
-    task_result: {
-      videos: Array<{
-        /**
-         * 生成的视频ID；全局唯一
-         */
-        id: string;
-        /**
-         * 生成视频的URL
-         */
-        url: string;
-        /**
-         * 视频总时长，单位s
-         */
-        duration: string;
-      }>;
-      /**
-       * 官方文档没有说明，但是实际返回有这个字段
-       */
-      images: any;
-    };
-  };
 }
 
 /**
@@ -240,10 +189,80 @@ interface GenerateImage2VideoTaskRequest {
   callback_url?: string;
 }
 
+/**
+ * 图生视频任务响应接口
+ */
+type GenerateImage2VideoTaskResponse = GenerateText2VideoTaskResponse;
+
+interface QueryTaskResponse {
+  /**
+   * 错误码；具体定义见错误码
+   */
+  code: number;
+  /**
+   * 错误信息
+   */
+  message: string;
+  /**
+   * 请求ID，系统生成，用于跟踪请求、排查问题
+   */
+  request_id: string;
+  data: {
+    /**
+     * 任务ID，系统生成
+     */
+    task_id: string;
+    /**
+     * 任务状态，枚举值：submitted（已提交）、processing（处理中）、succeed（成功）、failed（失败）
+     */
+    task_status: "submitted" | "processing" | "succeed" | "failed";
+    /**
+     * 任务状态信息，当任务失败时展示失败原因（如触发平台的内容风控等）
+     */
+    task_status_msg: string;
+    /**
+     * 任务创建时间，Unix时间戳、单位ms
+     */
+    created_at: number;
+    /**
+     * 任务更新时间，Unix时间戳、单位ms
+     */
+    updated_at: number;
+    task_result: {
+      videos: Array<{
+        /**
+         * 生成的视频ID；全局唯一
+         */
+        id: string;
+        /**
+         * 生成视频的URL
+         */
+        url: string;
+        /**
+         * 视频总时长，单位s
+         */
+        duration: string;
+      }>;
+      /**
+       * 官方文档没有说明，但是实际返回有这个字段
+       */
+      images: any;
+    };
+  };
+}
+
+/**
+ * 可灵 API 类型
+ */
 export interface KlingApiTypes extends CommonApiTypes {
   generateText2VideoTask: {
     req: GenerateText2VideoTaskRequest;
     res: GenerateText2VideoTaskResponse;
+    endpoint_params: never;
+  };
+  generateImage2VideoTask: {
+    req: GenerateImage2VideoTaskRequest;
+    res: GenerateImage2VideoTaskResponse;
     endpoint_params: never;
   };
   queryTask: {
@@ -255,11 +274,23 @@ export interface KlingApiTypes extends CommonApiTypes {
       task_id: string;
     };
   };
-  generateImage2VideoTask: {
-    req: GenerateImage2VideoTaskRequest;
-    res: any;
-    endpoint_params: never;
-  };
+}
+
+/**
+ * 本地储存的任务
+ */
+export interface KlingTask {
+  // 本地任务唯一标识
+  id: string;
+  // 首次 fetch 信息
+  original_fetch_info: MakeApiRequestResult["metaData"];
+  // 最新 fetch 信息
+  latest_fetch_info: MakeApiRequestResult<KlingApiTypes["queryTask"]["res"]>["metaData"];
+  // 最新的任务信息
+  latest_task_info:
+    | KlingApiTypes["generateText2VideoTask"]["res"]["data"]
+    | KlingApiTypes["generateImage2VideoTask"]["res"]["data"]
+    | KlingApiTypes["queryTask"]["res"]["data"];
 }
 
 export class Kling implements AIProvider {
@@ -382,11 +413,22 @@ export class Kling implements AIProvider {
         endpoint: "kling/v1/videos/image2video",
         req_example: {
           model: "kling-v1",
-          image: "base64_encoded_image_or_url",
-          prompt: "A cat driving a car through a busy city street",
-          cfg_scale: 0.5,
           mode: "std",
           duration: "5",
+          image: "", // base64
+          prompt: "猫开车",
+          cfg_scale: 0.5,
+        },
+        res_example: {
+          code: 0,
+          message: "SUCCEED",
+          request_id: "ClogHGb1P5IAAAAAAAcRVA",
+          data: {
+            task_id: "ClogHGb1P5IAAAAAAAcRVA",
+            task_status: "submitted",
+            created_at: 1727362910941,
+            updated_at: 1727362910941,
+          },
         },
       },
     },
@@ -396,46 +438,98 @@ export class Kling implements AIProvider {
     this.api_config.authorization = apiKey;
   }
 
-  callApi: CallApiFunction<KlingApiTypes> = ({ callKey, params, endpoint_params, signal }) => {
+  callApi: CallApiFunction<KlingApiTypes> = async ({ callKey, params, endpoint_params, signal }) => {
     const headers: HeadersInit = {
       Authorization: `Bearer ${this.api_config.authorization}`,
     };
 
     switch (callKey) {
       case "generateText2VideoTask":
-        const opt: ApiRequestConfig = {
+        return await makeApiRequest({
           endpoint: this.api_config.call_map[callKey].endpoint,
           options: {
             method: this.api_config.call_map[callKey].method,
             headers,
-            signal,
             body: params,
+            signal,
           },
-        };
-        return makeApiRequest(opt);
+        });
+      case "generateImage2VideoTask":
+        return await makeApiRequest({
+          endpoint: this.api_config.call_map[callKey].endpoint,
+          options: {
+            method: this.api_config.call_map[callKey].method,
+            headers,
+            body: params,
+            signal,
+          },
+        });
       case "queryTask":
-        const opt2: ApiRequestConfig = {
+        return await makeApiRequest({
           endpoint: replaceEndpointParams(endpoint_params, this.api_config.call_map[callKey].endpoint),
           options: {
             method: this.api_config.call_map[callKey].method,
             headers,
             signal,
           },
-        };
-        return makeApiRequest(opt2);
-      case "generateImage2VideoTask":
-        const opt3: ApiRequestConfig = {
-          endpoint: this.api_config.call_map[callKey].endpoint,
-          options: {
-            method: this.api_config.call_map[callKey].method,
-            headers,
-            signal,
-            body: params,
-          },
-        };
-        return makeApiRequest(opt3);
+        });
       default:
         throw new Error(`Unknown API call key: ${callKey}`);
     }
   };
+
+  /**
+   * 更新任务
+   * @param task 任务
+   * @param originalTask 原始任务，如果传入，则更新任务信息，否则创建新任务
+   */
+  updateTask(
+    res: MakeApiRequestResult<
+      | KlingApiTypes["generateText2VideoTask"]["res"]
+      | KlingApiTypes["generateImage2VideoTask"]["res"]
+      | KlingApiTypes["queryTask"]["res"]
+    >,
+    originalTask?: KlingTask,
+  ): KlingTask {
+    return {
+      id: originalTask?.id || crypto.randomUUID(),
+      original_fetch_info: originalTask?.original_fetch_info || res?.metaData,
+      latest_fetch_info: res?.metaData,
+      latest_task_info: res?.resData?.data,
+    };
+  }
+
+  /**
+   * 轮询所有未完成的任务
+   * @param tasks 任务列表
+   * @param onUpdate 更新任务的回调函数，传给组件渲染
+   */
+  async pollTasks(tasks: KlingTask[], onUpdate: (task: KlingTask) => void) {
+    const unfinishedTasks = tasks.filter(
+      (t) => t?.latest_task_info?.task_status === "submitted" || t?.latest_task_info?.task_status === "processing",
+    );
+    console.log("[Polling Kling tasks]", `total: ${tasks?.length}`, `unfinished: ${unfinishedTasks?.length}`);
+    unfinishedTasks?.forEach(async (task, index) => {
+      console.log(`poll unfinished task ${index + 1}/${unfinishedTasks?.length}`);
+      const taskId = task?.latest_task_info?.task_id;
+      if (taskId) {
+        const res = await this.callApi({
+          callKey: "queryTask",
+          endpoint_params: {
+            action: "videos",
+            action2: "text2video",
+            task_id: taskId,
+          },
+          signal: undefined,
+        });
+        if (res.metaData.response.status === 200) {
+          onUpdate(this.updateTask(res, task));
+        } else {
+          console.error("Failed to query task:", res.metaData.response.status, res.metaData.response.statusText);
+        }
+      } else {
+        console.error("Task ID is undefined");
+      }
+    });
+  }
 }

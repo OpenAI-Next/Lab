@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Affix, Badge, Button, Col, Descriptions, message, Modal, Row, Select, Space } from "antd";
 import { CopyFilled, LoadingOutlined } from "@ant-design/icons";
 import { copyText } from "@/app/utils";
@@ -7,6 +7,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { a11yDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useNavigate } from "react-router-dom";
 import { Path } from "@/constant";
+import format from "json-stringify-pretty-compact";
 
 export const CodeModal = (prop: { open: boolean; code: string; onClose: () => void }) => {
   return (
@@ -28,6 +29,30 @@ export const CodeModal = (prop: { open: boolean; code: string; onClose: () => vo
 };
 
 export const renderCode = (code: string, maxHeight = "70vh", wrap: boolean = false) => {
+  let formattedCode = code;
+  try {
+    // 尝试解析并格式化 JSON
+    const parsedJson = JSON.parse(code);
+
+    // 检查是否有 body 字段，且 body 是字符串
+    if (parsedJson?.body && typeof parsedJson?.body === "string") {
+      try {
+        // 尝试解析 body 字段
+        const parsedBody = JSON.parse(parsedJson.body);
+        // 如果成功，替换原来的 body 字符串为解析后的对象
+        parsedJson.body = parsedBody;
+      } catch (e) {
+        // 如果 body 不是有效的 JSON，保持原样
+        console.warn("Failed to parse body as JSON, keeping original string");
+      }
+    }
+
+    formattedCode = format(parsedJson, { indent: 2 });
+  } catch (e) {
+    // 如果解析失败，使用原始代码
+    console.warn("Failed to parse JSON, using original code");
+  }
+
   return (
     <SyntaxHighlighter
       language="json"
@@ -39,7 +64,7 @@ export const renderCode = (code: string, maxHeight = "70vh", wrap: boolean = fal
       wrapLines={wrap}
       wrapLongLines={wrap}
     >
-      {code}
+      {formattedCode}
     </SyntaxHighlighter>
   );
 };

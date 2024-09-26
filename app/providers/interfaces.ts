@@ -320,9 +320,9 @@ export interface CallApiFunction<ApiTypes extends CommonApiTypes = CommonApiType
       (ApiTypes[K]["endpoint_params"] extends never
         ? { endpoint_params?: never }
         : { endpoint_params: ApiTypes[K]["endpoint_params"] }) & {
-        signal?: AbortSignal;
+        signal: AbortSignal | undefined;
       },
-  ): Promise<ApiTypes[K]["res"]>;
+  ): Promise<{ resData: ApiTypes[K]["res"]; metaData: any }>;
 }
 
 /**

@@ -13,10 +13,11 @@ import {
 } from "@ant-design/pro-components";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS, SEGMENTED_PROPS } from "@/constant";
 import { useAppConfig } from "@/app/store";
-import { Alert, Col, Divider, App, Segmented, Descriptions, Button, Space } from "antd";
+import { Alert, Col, Divider, App, Segmented, Descriptions, Button, Space, Popconfirm } from "antd";
 import { Kling, KlingApiTypes, KlingTask } from "@/app/providers/kling";
 import { renderCode, RenderSubmitter } from "../render";
 import { beforeUpload, safeJsonStringify } from "../utils";
+import { ascetic } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const MODE_OPTIONS = [
   { label: "Std-标准模式（高性能）", value: "std" },
@@ -688,7 +689,42 @@ const KlingPage = () => {
                 copyable: true,
               },
               {
-                title: "请求信息",
+                title: "任务状态",
+                dataIndex: ["latest_task_info", "task_status"],
+                valueEnum: {
+                  processing: { text: "Processing", status: "Processing" },
+                  submitted: { text: "Submitted", status: "Processing" },
+                  succeed: { text: "Succeed", status: "Success" },
+                  failed: { text: "Failed", status: "Error" },
+                },
+              },
+              {
+                title: "创建时间",
+                dataIndex: ["latest_task_info", "created_at"],
+                valueType: "dateTime",
+              },
+              {
+                title: "更新时间",
+                dataIndex: ["latest_task_info", "updated_at"],
+                valueType: "dateTime",
+              },
+              {
+                title: "视频预览",
+                render: (_, record) => {
+                  if (record?.latest_task_info?.task_result?.videos?.[0]?.url) {
+                    return (
+                      <video
+                        src={record.latest_task_info.task_result.videos[0].url}
+                        controls
+                        style={{ maxWidth: 300, maxHeight: 200 }}
+                      />
+                    );
+                  }
+                  return null;
+                },
+              },
+              {
+                title: "操作",
                 render: (_, record) => {
                   return (
                     <Space>
@@ -715,7 +751,7 @@ const KlingPage = () => {
                           });
                         }}
                       >
-                        原始
+                        原始请求
                       </Button>
                       <Button
                         size={"small"}
@@ -740,45 +776,51 @@ const KlingPage = () => {
                           });
                         }}
                       >
-                        最新
+                        最新请求
                       </Button>
+                      <Button
+                        key={"query"}
+                        size={"small"}
+                        onClick={async () => {
+                          const hide = message.loading({
+                            content: "正在更新",
+                            key: `message-${record.id}`,
+                            duration: 0,
+                          });
+                          const taskId = record?.latest_task_info?.task_id;
+                          if (!taskId) {
+                            hide();
+                            message.error({ content: "任务ID不存在", key: `message-${record.id}` });
+                            return;
+                          }
+                          const res = await api.callApi({
+                            callKey: "queryTask",
+                            endpoint_params: {
+                              action: "videos",
+                              action2: "text2video",
+                              task_id: record?.latest_task_info?.task_id,
+                            },
+                            signal: undefined,
+                          });
+                          updateTaskData(api.updateTask(res, record));
+                          hide();
+                          message.success({ content: "更新成功！", key: `message-${record.id}` });
+                        }}
+                      >
+                        更新任务
+                      </Button>
+                      <Popconfirm
+                        title="确定删除任务？"
+                        onConfirm={() => {
+                          setTaskData((prev) => prev.filter((_, i) => i !== index));
+                        }}
+                      >
+                        <Button size={"small"} danger>
+                          删除任务
+                        </Button>
+                      </Popconfirm>
                     </Space>
                   );
-                },
-              },
-              {
-                title: "任务状态",
-                dataIndex: ["latest_task_info", "task_status"],
-                valueEnum: {
-                  processing: { text: "Processing", status: "Processing" },
-                  submitted: { text: "Submitted", status: "Processing" },
-                  succeed: { text: "Succeed", status: "Success" },
-                  failed: { text: "Failed", status: "Error" },
-                },
-              },
-              {
-                title: "创建时间",
-                dataIndex: ["latest_task_info", "created_at"],
-                valueType: "dateTime",
-              },
-              {
-                title: "更新时间",
-                dataIndex: ["latest_task_info", "updated_at"],
-                valueType: "dateTime",
-              },
-              {
-                title: "预览",
-                render: (_, record) => {
-                  if (record?.latest_task_info?.task_result?.videos?.[0]?.url) {
-                    return (
-                      <video
-                        src={record.latest_task_info.task_result.videos[0].url}
-                        controls
-                        style={{ maxWidth: 320, maxHeight: 240 }}
-                      />
-                    );
-                  }
-                  return null;
                 },
               },
             ]}

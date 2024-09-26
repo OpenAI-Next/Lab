@@ -482,6 +482,7 @@ export class Kling implements AIProvider {
    * 更新任务
    * @param task 任务
    * @param originalTask 原始任务，如果传入，则更新任务信息，否则创建新任务
+   * @returns 更新后的任务
    */
   updateTask(
     res: MakeApiRequestResult<

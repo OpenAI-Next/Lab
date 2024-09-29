@@ -5,10 +5,7 @@ export enum Theme {
   Light = "light",
 }
 
-interface APIKey {
-  provider: Provider;
-  apiKey: string;
-}
+type APIKeys = Array<{ apiKey: string }>;
 
 type AvailableUploadServerProvider = Provider.NextAPI | Provider.ProxyAPI;
 
@@ -77,11 +74,15 @@ export const api2ProviderBaseUrl = {
 
 export const UPLOAD_INFO = {
   [Provider.NextAPI]: {
-    action: [[ProviderBaseUrlMap[Provider.NextAPI]], "fileSystem/upload"].join("/"),
+    action: [[ProviderBaseUrlMap[Provider.NextAPI]], "fileSystem/upload"].join(
+      "/",
+    ),
     position: ["url"],
   },
   [Provider.ProxyAPI]: {
-    action: [[ProviderBaseUrlMap[Provider.ProxyAPI]], "fileSystem/upload"].join("/"),
+    action: [[ProviderBaseUrlMap[Provider.ProxyAPI]], "fileSystem/upload"].join(
+      "/",
+    ),
     position: ["url"],
   },
   // [Provider.GodAPI]: {
@@ -91,8 +92,7 @@ export const UPLOAD_INFO = {
 } as const;
 
 const DEFAULT_CONFIG = {
-  apiKeys: [] as APIKey[],
-  uploadServerProvider: Provider.NextAPI as AvailableUploadServerProvider,
+  apiKeys: [] as APIKeys,
   theme: Theme.Light as Theme,
   lastUpdate: Date.now(),
 } as const;
@@ -100,14 +100,8 @@ const DEFAULT_CONFIG = {
 export const useAppConfig = createPersistStore(
   { ...DEFAULT_CONFIG },
   (_set, get) => ({
-    getFirstApiKey(provider: Provider): string {
-      const key = get().apiKeys.find((item) => item.provider === provider)?.apiKey;
-      if (key) {
-        return key;
-      } else {
-        console.error(`No API key found for provider ${PROVIDER_NAME[provider]}`);
-        return "";
-      }
+    getSelectedApiKey(): string {
+      return get().apiKeys[0]?.apiKey || "";
     },
 
     getUploadConfig(): UploadConfig {
@@ -118,7 +112,7 @@ export const useAppConfig = createPersistStore(
       return {
         action: UPLOAD_INFO[provider].action,
         position: UPLOAD_INFO[provider].position,
-        auth: "Bearer " + this.getFirstApiKey(provider),
+        auth: "Bearer " + this.getSelectedApiKey(provider),
       };
     },
   }),

@@ -18,6 +18,7 @@ import { Kling, KlingApiTypes, KlingTask } from "@/app/providers/kling";
 import { renderCode, RenderSubmitter } from "../render";
 import { beforeUpload, safeJsonStringify } from "../utils";
 import { ascetic } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { uploadToGetFileUrl } from "../utils/upload-to-server";
 
 const MODE_OPTIONS = [
   { label: "Std-标准模式（高性能）", value: "std" },
@@ -47,6 +48,8 @@ const KlingPage = () => {
   const [klingText2VideoForm] = ProForm.useForm();
   const [klingImage2VideoForm] = ProForm.useForm();
   const [klingQueryTaskForm] = ProForm.useForm();
+
+  const [uploadType, setUploadType] = useState<"base64" | "url">("base64");
 
   const [taskData, setTaskData] = useState<KlingTask[]>([]);
   const [errorData, setErrorData] = useState<any>(null);
@@ -334,7 +337,6 @@ const KlingPage = () => {
     updateTask: (data: KlingTask) => void;
     updateError: (error: any) => void;
   }) => {
-    const [uploadType, setUploadType] = useState<"base64" | "url">("base64");
     const [abortController, setAbortController] = useState<AbortController | null>(null);
     const [submitting, setSubmitting] = useState(false);
 
@@ -390,13 +392,11 @@ const KlingPage = () => {
             label="Upload Type"
             options={[
               { label: "Base64", value: "base64" },
-              // TODO: 支持url上传，目前接口维护，后续开放
-              { label: "URL", value: "url", disabled: true },
+              { label: "URL", value: "url" },
             ]}
             fieldProps={{
               value: uploadType,
               onChange: (e) => {
-                // 当上传类型改变时，清空图片和图片尾帧当上传类型改变时，清空图片和图片尾帧
                 props.form.resetFields(["image", "image_tail"]);
                 setUploadType(e.target.value);
               },
@@ -417,7 +417,6 @@ const KlingPage = () => {
                 <p>图片文件大小不能超过10MB，图片分辨率不小于300*300px</p>
               </>
             }
-            action={uploadType === "url" ? appConfig.getUploadConfig().action : undefined}
             fieldProps={{
               listType: "picture-card",
               beforeUpload: async (file) =>
@@ -431,23 +430,30 @@ const KlingPage = () => {
                   (msg) => message.error(msg),
                 ),
               ...(uploadType === "url" && {
-                headers: {
-                  Authorization: appConfig.getUploadConfig().auth,
+                customRequest: async (options) => {
+                  try {
+                    const fileUrl = await uploadToGetFileUrl(options.file as File);
+                    if (fileUrl) {
+                      options.onSuccess?.(fileUrl, options.file);
+                    } else {
+                      options.onError?.(new Error("上传失败"), options.file);
+                    }
+                  } catch (error) {
+                    console.error("Upload error:", error);
+                    options.onError?.(error as Error, options.file);
+                  }
                 },
                 onChange: (info) => {
-                  const getValueByPosition = (obj: any, position: readonly any[]) => {
-                    return position.reduce((acc, key) => acc && acc[key], obj);
-                  };
-
                   if (info.file.status === "done") {
-                    try {
-                      const response = info.file.response;
-                      if (response) {
-                        info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                      }
-                    } catch (e) {
-                      console.error(e);
+                    const fileUrl = info.file.response;
+                    if (fileUrl && typeof fileUrl === "string") {
+                      info.file.url = fileUrl;
+                    } else {
+                      info.file.status = "error";
+                      message.error("上传失败");
                     }
+                  } else if (info.file.status === "error") {
+                    message.error("上传失败");
                   }
                 },
               }),
@@ -476,7 +482,6 @@ const KlingPage = () => {
                 <p>图片文件大小不能超过10MB，图片分辨率不小于300*300px</p>
               </>
             }
-            action={uploadType === "url" ? appConfig.getUploadConfig().action : undefined}
             fieldProps={{
               listType: "picture-card",
               beforeUpload: async (file) =>
@@ -490,23 +495,30 @@ const KlingPage = () => {
                   (msg) => message.error(msg),
                 ),
               ...(uploadType === "url" && {
-                headers: {
-                  Authorization: appConfig.getUploadConfig().auth,
+                customRequest: async (options) => {
+                  try {
+                    const fileUrl = await uploadToGetFileUrl(options.file as File);
+                    if (fileUrl) {
+                      options.onSuccess?.(fileUrl, options.file);
+                    } else {
+                      options.onError?.(new Error("上传失败"), options.file);
+                    }
+                  } catch (error) {
+                    console.error("Upload error:", error);
+                    options.onError?.(error as Error, options.file);
+                  }
                 },
                 onChange: (info) => {
-                  const getValueByPosition = (obj: any, position: readonly any[]) => {
-                    return position.reduce((acc, key) => acc && acc[key], obj);
-                  };
-
                   if (info.file.status === "done") {
-                    try {
-                      const response = info.file.response;
-                      if (response) {
-                        info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                      }
-                    } catch (e) {
-                      console.error(e);
+                    const fileUrl = info.file.response;
+                    if (fileUrl && typeof fileUrl === "string") {
+                      info.file.url = fileUrl;
+                    } else {
+                      info.file.status = "error";
+                      message.error("上传失败");
                     }
+                  } else if (info.file.status === "error") {
+                    message.error("上传失败");
                   }
                 },
               }),

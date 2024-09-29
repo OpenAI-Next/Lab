@@ -1,6 +1,6 @@
 // app/pages/Doc2X.tsx
 
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import { Doc2XAPI } from "@/app/client/doc2X";
 import { ProForm, ProFormInstance, ProFormRadio, ProFormSwitch, ProFormUploadButton } from "@ant-design/pro-components";
 import React, { useState } from "react";
@@ -13,7 +13,7 @@ export interface Doc2XFormFields {
   response_format: "text" | "json";
   ocr: boolean;
   progress?: boolean;
-  file: any;
+  file: string; // 文件地址
 }
 
 const Doc2XForm = (props: {
@@ -94,32 +94,9 @@ const Doc2XForm = (props: {
       <ProFormUploadButton
         name="file"
         label="File"
-        max={1}
-        action={appConfig.getUploadConfig().action}
         accept={"application/pdf"}
         rules={[{ required: true, message: "Please upload a file" }]}
-        fieldProps={{
-          listType: "picture",
-          headers: {
-            Authorization: appConfig.getUploadConfig().auth,
-          },
-          onChange: (info) => {
-            const getValueByPosition = (obj: any, position: readonly any[]) => {
-              return position.reduce((acc, key) => acc && acc[key], obj);
-            };
-
-            if (info.file.status === "done") {
-              try {
-                const response = info.file.response;
-                if (response) {
-                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          },
-        }}
+        {...appConfig.getProFormUploadConfig("url", 1, "picture")}
         width="sm"
       />
     </ProForm>
@@ -128,7 +105,7 @@ const Doc2XForm = (props: {
 
 const Doc2XPage = () => {
   const appConfig = useAppConfig();
-  const doc2XApi = new Doc2XAPI(appConfig.getFirstApiKey(api2Provider.Doc2X));
+  const doc2XApi = new Doc2XAPI("");
 
   const [doc2XForm] = ProForm.useForm();
 

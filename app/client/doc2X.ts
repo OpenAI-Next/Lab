@@ -1,7 +1,7 @@
-import { api2ProviderBaseUrl } from "@/app/store";
 import { Doc2XEndpoint, REQUEST_TIMEOUT_MS } from "@/constant";
 import { Doc2XFormFields } from "@/app/pages/Doc2X";
 import { getRequestOptions } from "@/app/client/helper";
+import { BASE_URL_B } from "@/app/providers/interfaces";
 
 // {"uuid":"1ac0240c-2a30-46b6-8b17-a57df2479d34","status":"error","data":"add pages error"}
 
@@ -28,7 +28,7 @@ export class Doc2XAPI {
   }
 
   path(): string {
-    return [api2ProviderBaseUrl.Doc2X, Doc2XEndpoint.Default].join("/");
+    return [BASE_URL_B, Doc2XEndpoint.Default].join("/");
   }
 
   model(response_format: "text" | "json", ocr: boolean = false, progress: boolean = false): string {
@@ -62,7 +62,7 @@ export class Doc2XAPI {
     return request
       ? {
           model: this.model(request.response_format, request.ocr, request.progress),
-          messages: [{ role: "user", content: request?.file?.[0]?.url }],
+          messages: [{ role: "user", content: request?.file }],
         }
       : {};
   }

@@ -62,15 +62,5 @@
   },
   "resolutions": {
     "lint-staged/yaml": "^2.2.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
-    ]
   }
 }

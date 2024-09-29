@@ -54,6 +54,18 @@ const KlingPage = () => {
   const [taskData, setTaskData] = useState<KlingTask[]>([]);
   const [errorData, setErrorData] = useState<any>(null);
 
+  const beforeUploadImage = (file: File) => {
+    return beforeUpload(
+      file,
+      [-1, 10],
+      [
+        [300, 300],
+        [-1, -1],
+      ],
+      (msg) => message.error(msg),
+    );
+  };
+
   // 更新任务数据
   const updateTaskData = (data: KlingTask) => {
     // 检查本地 id 是否已存在
@@ -408,7 +420,6 @@ const KlingPage = () => {
             name="image"
             label="Image"
             accept=".jpg,.jpeg,.png"
-            max={1}
             rules={[{ required: true }]}
             tooltip={
               <>
@@ -417,57 +428,9 @@ const KlingPage = () => {
                 <p>图片文件大小不能超过10MB，图片分辨率不小于300*300px</p>
               </>
             }
-            fieldProps={{
-              listType: "picture-card",
-              beforeUpload: async (file) =>
-                await beforeUpload(
-                  file,
-                  [-1, 10],
-                  [
-                    [300, 300],
-                    [-1, -1],
-                  ],
-                  (msg) => message.error(msg),
-                ),
-              ...(uploadType === "url" && {
-                customRequest: async (options) => {
-                  try {
-                    const fileUrl = await uploadToGetFileUrl(options.file as File);
-                    if (fileUrl) {
-                      options.onSuccess?.(fileUrl, options.file);
-                    } else {
-                      options.onError?.(new Error("上传失败"), options.file);
-                    }
-                  } catch (error) {
-                    console.error("Upload error:", error);
-                    options.onError?.(error as Error, options.file);
-                  }
-                },
-                onChange: (info) => {
-                  if (info.file.status === "done") {
-                    const fileUrl = info.file.response;
-                    if (fileUrl && typeof fileUrl === "string") {
-                      info.file.url = fileUrl;
-                    } else {
-                      info.file.status = "error";
-                      message.error("上传失败");
-                    }
-                  } else if (info.file.status === "error") {
-                    message.error("上传失败");
-                  }
-                },
-              }),
-            }}
-            transform={(value: Array<{ thumbUrl: string; url: string }> | undefined) => {
-              if (!value) {
-                return undefined;
-              }
-              if (uploadType === "base64") {
-                return value?.[0]?.thumbUrl.replace(/^data:image\/\w+;base64,/, "");
-              } else {
-                return value?.[0]?.url;
-              }
-            }}
+            {...((uploadType === "url"
+              ? appConfig.getProFormUploadConfig("url", 1, "picture-card", false, beforeUploadImage)
+              : appConfig.getProFormUploadConfig("base64", 1, "picture-card", false, beforeUploadImage)) as any)}
           />
 
           <ProFormUploadButton
@@ -482,57 +445,9 @@ const KlingPage = () => {
                 <p>图片文件大小不能超过10MB，图片分辨率不小于300*300px</p>
               </>
             }
-            fieldProps={{
-              listType: "picture-card",
-              beforeUpload: async (file) =>
-                await beforeUpload(
-                  file,
-                  [-1, 10],
-                  [
-                    [300, 300],
-                    [-1, -1],
-                  ],
-                  (msg) => message.error(msg),
-                ),
-              ...(uploadType === "url" && {
-                customRequest: async (options) => {
-                  try {
-                    const fileUrl = await uploadToGetFileUrl(options.file as File);
-                    if (fileUrl) {
-                      options.onSuccess?.(fileUrl, options.file);
-                    } else {
-                      options.onError?.(new Error("上传失败"), options.file);
-                    }
-                  } catch (error) {
-                    console.error("Upload error:", error);
-                    options.onError?.(error as Error, options.file);
-                  }
-                },
-                onChange: (info) => {
-                  if (info.file.status === "done") {
-                    const fileUrl = info.file.response;
-                    if (fileUrl && typeof fileUrl === "string") {
-                      info.file.url = fileUrl;
-                    } else {
-                      info.file.status = "error";
-                      message.error("上传失败");
-                    }
-                  } else if (info.file.status === "error") {
-                    message.error("上传失败");
-                  }
-                },
-              }),
-            }}
-            transform={(value: Array<{ thumbUrl: string; url: string }> | undefined) => {
-              if (!value) {
-                return undefined;
-              }
-              if (uploadType === "base64") {
-                return value?.[0]?.thumbUrl.replace(/^data:image\/\w+;base64,/, "");
-              } else {
-                return value?.[0]?.url;
-              }
-            }}
+            {...((uploadType === "url"
+              ? appConfig.getProFormUploadConfig("url", 1, "picture-card", false, beforeUploadImage)
+              : appConfig.getProFormUploadConfig("base64", 1, "picture-card", false, beforeUploadImage)) as any)}
           />
         </ProForm.Group>
         <Divider />

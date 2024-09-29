@@ -40,6 +40,7 @@ export const useAppConfig = createPersistStore(
             max: max,
             fieldProps: {
               listType,
+              beforeUpload,
             },
             transform: (value: Array<{ thumbUrl?: string }>) => {
               if (!value) return undefined;
@@ -58,6 +59,7 @@ export const useAppConfig = createPersistStore(
             max: max,
             fieldProps: {
               listType,
+              beforeUpload,
               customRequest: async (options: any) => {
                 try {
                   const fileUrl = await uploadToGetFileUrl(options.file as File);

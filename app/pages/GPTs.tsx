@@ -6,7 +6,7 @@ import { renderCode, RenderSubmitter } from "@/app/render";
 import { handelResponseError, safeJsonStringify } from "@/app/utils";
 import React, { useState } from "react";
 import { FileSearchOutlined } from "@ant-design/icons";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import { ProForm, ProFormInstance, ProFormText } from "@ant-design/pro-components";
 import { GPTsAPI, GptsSearchRequest, GptsSearchResponse } from "@/app/client/Gpts";
 
@@ -63,7 +63,7 @@ const GPTsSearchForm = (props: {
 
 const GPTsPage = () => {
   const appConfig = useAppConfig();
-  const gptsApi = new GPTsAPI(appConfig.getFirstApiKey(api2Provider.GPTs));
+  const gptsApi = new GPTsAPI(appConfig.getApiKey());
   const [searchForm] = ProForm.useForm();
 
   const type_options = [{ label: "Search", value: "search", icon: <FileSearchOutlined /> }];

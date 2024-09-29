@@ -1,4 +1,4 @@
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import {
   ProForm,
   ProFormInstance,
@@ -150,7 +150,7 @@ const WhisperForm = (props: {
 
 export function WhisperPage() {
   const appConfig = useAppConfig();
-  const whisperApi = new OpenAIWhisperAPI(appConfig.getFirstApiKey(api2Provider.Whisper));
+  const whisperApi = new OpenAIWhisperAPI(appConfig.getApiKey());
   const [whisperForm] = ProForm.useForm<WhisperRequest>();
 
   const [startTimestamp, setStartTimestamp] = useState<number>(0);

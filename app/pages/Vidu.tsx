@@ -1,6 +1,6 @@
 // app/pages/Vidu.tsx
 
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import {
   ProCard,
   ProDescriptions,
@@ -519,7 +519,7 @@ const ViduTaskRenderer = (props: {
 
 export function ViduPage() {
   const appConfig = useAppConfig();
-  const viduApi = new ViduAPI(appConfig.getFirstApiKey(api2Provider.Vidu));
+  const viduApi = new ViduAPI(appConfig.getApiKey());
   const [generationForm] = ProForm.useForm();
   const [upscaleForm] = ProForm.useForm();
   const [queryForm] = ProForm.useForm();

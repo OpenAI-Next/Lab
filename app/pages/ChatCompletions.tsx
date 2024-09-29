@@ -19,14 +19,14 @@ import { jsonMapValidationRule, jsonSchemaValidationRule, safeJsonParse } from "
 import { ChatCompletionAPI, ChatCompletionRequest } from "@/app/client/chatCompletions";
 import { PictureOutlined } from "@ant-design/icons";
 import { renderCode, renderRequestTimeDuration, RenderSubmitter } from "@/app/render";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 
 const Upload2B64 = lazy(() => import("@/app/components/Upload2B64"));
 
 // TODO: https://platform.openai.com/playground
 export function ChatCompletionsPage() {
   const appConfig = useAppConfig();
-  const chatCompletionApi = new ChatCompletionAPI(appConfig.getFirstApiKey(api2Provider.Chat));
+  const chatCompletionApi = new ChatCompletionAPI(appConfig.getApiKey());
 
   const [chatCompletionsForm] = ProForm.useForm();
   const [submitting, setSubmitting] = useState<boolean>(false);

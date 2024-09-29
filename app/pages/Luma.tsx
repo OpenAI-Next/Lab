@@ -14,7 +14,7 @@ import {
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import { handelResponseError, safeJsonStringify } from "@/app/utils";
 import { CodeModal, renderCode, RenderSubmitter } from "@/app/render";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import { Col, Divider, Empty, Image, Segmented, Spin } from "antd";
 import { AccountType, LumaApi, LumaExtendTaskRequest, LumaGenerationTaskRequest } from "@/app/client/Luma";
 import { ExpandAltOutlined, FileTextOutlined, UnorderedListOutlined } from "@ant-design/icons";
@@ -155,30 +155,7 @@ const LumaGenerateForm = (props: {
         label={"Image URL"}
         tooltip={"Start frame picture"}
         accept={"image/*"}
-        max={1}
-        action={appConfig.getUploadConfig().action}
-        fieldProps={{
-          listType: "picture-card",
-          headers: {
-            Authorization: appConfig.getUploadConfig().auth,
-          },
-          onChange: (info) => {
-            const getValueByPosition = (obj: any, position: readonly any[]) => {
-              return position.reduce((acc, key) => acc && acc[key], obj);
-            };
-
-            if (info.file.status === "done") {
-              try {
-                const response = info.file.response;
-                if (response) {
-                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          },
-        }}
+        {...appConfig.getProFormUploadConfig("url", 1, "picture-card")}
       />
 
       <ProFormUploadButton
@@ -186,30 +163,7 @@ const LumaGenerateForm = (props: {
         label={"Image End URL"}
         tooltip={"End frame image, key frame"}
         accept={"image/*"}
-        max={1}
-        action={appConfig.getUploadConfig().action}
-        fieldProps={{
-          listType: "picture-card",
-          headers: {
-            Authorization: appConfig.getUploadConfig().auth,
-          },
-          onChange: (info) => {
-            const getValueByPosition = (obj: any, position: readonly any[]) => {
-              return position.reduce((acc, key) => acc && acc[key], obj);
-            };
-
-            if (info.file.status === "done") {
-              try {
-                const response = info.file.response;
-                if (response) {
-                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          },
-        }}
+        {...appConfig.getProFormUploadConfig("url", 1, "picture-card")}
       />
     </ProForm>
   );
@@ -284,60 +238,14 @@ const LumaExtendForm = (props: {
       <ProFormUploadButton
         name={"image_end_url"}
         label={"Image End URL"}
-        max={1}
-        action={appConfig.getUploadConfig().action}
         accept={"image/*"}
-        fieldProps={{
-          listType: "picture-card",
-          headers: {
-            Authorization: appConfig.getUploadConfig().auth,
-          },
-          onChange: (info) => {
-            const getValueByPosition = (obj: any, position: readonly any[]) => {
-              return position.reduce((acc, key) => acc && acc[key], obj);
-            };
-
-            if (info.file.status === "done") {
-              try {
-                const response = info.file.response;
-                if (response) {
-                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          },
-        }}
+        {...appConfig.getProFormUploadConfig("url", 1, "picture-card")}
       />
       <ProFormUploadButton
         name={"video_url"}
         label={"Video URL"}
         accept={"video/*"}
-        max={1}
-        action={appConfig.getUploadConfig().action}
-        fieldProps={{
-          listType: "picture-card",
-          headers: {
-            Authorization: appConfig.getUploadConfig().auth,
-          },
-          onChange: (info) => {
-            const getValueByPosition = (obj: any, position: readonly any[]) => {
-              return position.reduce((acc, key) => acc && acc[key], obj);
-            };
-
-            if (info.file.status === "done") {
-              try {
-                const response = info.file.response;
-                if (response) {
-                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          },
-        }}
+        {...appConfig.getProFormUploadConfig("url", 1, "picture-card")}
         rules={[{ required: true }]}
       />
     </ProForm>
@@ -540,7 +448,7 @@ const LumaTaskRenderer = (props: {
 
 const LumaPage = () => {
   const appConfig = useAppConfig();
-  const lumaApi = new LumaApi(appConfig.getFirstApiKey(api2Provider.Luma));
+  const lumaApi = new LumaApi(appConfig.getApiKey());
   const [accountType, setAccountType] = useState<AccountType>("relax");
 
   const operate_type_options = [

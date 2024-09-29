@@ -12,7 +12,7 @@ import {
 } from "@ant-design/pro-components";
 import React, { useState } from "react";
 import { BibiGPTAPI } from "@/app/client/BibiGPT";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import { RenderSubmitter } from "@/app/render";
 
 const BibiGptOpenForm = (props: {
@@ -96,7 +96,7 @@ const BibiGptOpenForm = (props: {
 
 const BibiGptPage = () => {
   const appConfig = useAppConfig();
-  const bibiGptAPI = new BibiGPTAPI(appConfig.getFirstApiKey(api2Provider.BibiGPT));
+  const bibiGptAPI = new BibiGPTAPI(appConfig.getApiKey());
   const [bibiGptOpenForm] = ProForm.useForm();
   const [bibiGptChatForm] = ProForm.useForm();
   const [bibiGptSubtitleForm] = ProForm.useForm();

@@ -9,7 +9,7 @@ import {
   TTS_VOICE_OPTIONS,
   TtsRequest,
 } from "@/app/client/tts";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import { renderCode, renderRequestTimeDuration, RenderSubmitter } from "@/app/render";
 
 const TtsForm = (props: {
@@ -110,7 +110,7 @@ const TtsForm = (props: {
 
 export function TTSPage() {
   const appConfig = useAppConfig();
-  const ttsApi = new OpenAITTSAPI(appConfig.getFirstApiKey(api2Provider.TTS));
+  const ttsApi = new OpenAITTSAPI(appConfig.getApiKey());
   const [ttsForm] = ProForm.useForm<TtsRequest>();
 
   const [startTimestamp, setStartTimestamp] = useState<number>(0);

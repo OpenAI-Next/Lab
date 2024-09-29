@@ -33,7 +33,7 @@ import {
 } from "@ant-design/icons";
 import { CloseAllSound, handelResponseError, safeJsonStringify } from "@/app/utils";
 import { CodeModal, QuickFillStyleModal, renderCode, RenderSubmitter } from "@/app/render";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 
 const SunoGenerateForm = (props: {
   form: ProFormInstance<SunoGenerateRequest>;
@@ -311,34 +311,12 @@ const SunoUploadForm = (props: {
       }}
     >
       <ProFormUploadButton
-        max={1}
         name={"url"}
         label={"Audio URL"}
         title={"Upload Audio"}
         rules={[{ required: true }]}
-        action={appConfig.getUploadConfig().action}
-        fieldProps={{
-          listType: "picture",
-          headers: {
-            Authorization: appConfig.getUploadConfig().auth,
-          },
-          onChange: (info) => {
-            const getValueByPosition = (obj: any, position: readonly any[]) => {
-              return position.reduce((acc, key) => acc && acc[key], obj);
-            };
-
-            if (info.file.status === "done") {
-              try {
-                const response = info.file.response;
-                if (response) {
-                  info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                }
-              } catch (e) {
-                console.error(e);
-              }
-            }
-          },
-        }}
+        accept={"audio/*"}
+        {...appConfig.getProFormUploadConfig("url", 1, "picutre")}
       />
     </ProForm>
   );
@@ -614,7 +592,7 @@ const SunoTaskInfo = (props: {
 
 export function SunoPage() {
   const appConfig = useAppConfig();
-  const sunoApi = new SunoAPI(appConfig.getFirstApiKey(api2Provider.Suno));
+  const sunoApi = new SunoAPI(appConfig.getApiKey());
   const [generateForm] = ProForm.useForm();
   const [uploadForm] = ProForm.useForm();
   const [queryForm] = ProForm.useForm();

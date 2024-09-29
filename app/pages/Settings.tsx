@@ -1,11 +1,17 @@
 import React, { lazy, useState } from "react";
-import { Provider, PROVIDER_NAME, ProviderRealBaseUrlMap, useAppConfig } from "../store";
+import { DEFAULT_BASE_URL, useAppConfig } from "../store";
 
 import { SCROLL_STYLE, SITE_TITLE } from "@/constant";
-import { Button, Col, message, Row, Space } from "antd";
-import { ProCard, ProCardProps, ProForm, ProFormList, ProFormSelect, ProFormText } from "@ant-design/pro-components";
-import { DeleteOutlined, DownloadOutlined, UploadOutlined } from "@ant-design/icons";
-import { ShellApiToken } from "@/app/client/shell-api";
+import { Button, Col, Input, Row, Space } from "antd";
+import { ProCard, ProCardProps, ProForm } from "@ant-design/pro-components";
+import {
+  DeleteOutlined,
+  DownloadOutlined,
+  GlobalOutlined,
+  KeyOutlined,
+  RedoOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 
 const ShellApiApiKey = lazy(() => import("@/app/components/ShellApiApiKey"));
 
@@ -23,6 +29,7 @@ export function Settings() {
   const [shellApiBaseUrl, setShellApiBaseUrl] = useState("");
 
   const onExport = () => {
+    if (!window.confirm("This will export all data to a JSON file. Are you sure you want to continue?")) return;
     const data = JSON.stringify(localStorage, null, 2);
     const blob = new Blob([data], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -58,7 +65,7 @@ export function Settings() {
   };
 
   const onClear = () => {
-    onExport();
+    if (!window.confirm("This will clear all data. Are you sure you want to continue?")) return;
     localStorage.clear();
     document.cookie.split(";").forEach(function (c) {
       document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
@@ -66,124 +73,84 @@ export function Settings() {
     location.reload();
   };
 
+  /**
+   * Validate base URL,
+   * - must start with http
+   * - must not end with /
+   * @returns "warning" | "error" | undefined
+   * - warning: valid but not recommended
+   * - error: invalid
+   * - undefined: valid
+   * @param baseUrl
+   */
+  const validateBaseUrl = (baseUrl: string): "warning" | "error" | undefined => {
+    if (!baseUrl) return "error";
+    if (baseUrl === DEFAULT_BASE_URL) {
+      return undefined;
+    } else {
+      const valid = [baseUrl.startsWith("http"), !baseUrl.endsWith("/")].every(Boolean);
+      return valid ? "warning" : "error";
+    }
+  };
+
+  /**
+   * Validate API Key,
+   * - must start with sk-
+   * - must be 51 characters long
+   * - must contain only alphanumeric characters and hyphens
+   * @returns "warning" | "error" | undefined
+   * @param apiKey
+   */
+  const validateApiKey = (apiKey: string): "warning" | "error" | undefined => {
+    if (!apiKey) return undefined;
+    if (apiKey.startsWith("sk-")) {
+      return apiKey.length === 51 && apiKey.match(/^[a-zA-Z0-9-]+$/) ? undefined : "error";
+    } else if (apiKey.length === 51 - "sk-".length) {
+      return apiKey.match(/^[a-zA-Z0-9-]+$/) ? "warning" : "error";
+    }
+    return "error";
+  };
+
   return (
     <>
       <Col span={24} style={{ ...SCROLL_STYLE, padding: 32 }}>
         <ProForm layout="vertical" submitter={false}>
-          <Col span={12} offset={6}>
+          <Col
+            xs={{ span: 24, offset: 0 }}
+            sm={{ span: 22, offset: 1 }}
+            md={{ span: 20, offset: 2 }}
+            lg={{ span: 16, offset: 4 }}
+            xl={{ span: 12, offset: 6 }}
+            xxl={{ span: 10, offset: 7 }}
+          >
             <Row gutter={[16, 16]}>
-              <ProCard {...SettingProCardProps} title="Basic Settings">
-                <ProFormList
-                  name={"apiKeys"}
-                  label="API Keys"
-                  initialValue={config.apiKeys}
-                  itemRender={({ listDom, action }, { index }) => (
-                    <ProCard
-                      bordered
-                      style={{ marginBlockEnd: 8 }}
-                      title={`API Key ${index + 1}`}
-                      extra={action}
-                      bodyStyle={{ paddingBlockEnd: 0 }}
-                    >
-                      {listDom}
-                    </ProCard>
-                  )}
-                  actionGuard={{
-                    // 由于这里是直接更新 config，所以在新增/删除的时候需要手动更新config.apiKeys
-                    beforeAddRow: () => {
-                      updateConfig((config) => {
-                        config.apiKeys.push({
-                          provider: undefined as any,
-                          apiKey: "",
-                        });
-                      });
-                      return true;
-                    },
-                    beforeRemoveRow: (index: any) => {
-                      if (typeof index === "number") {
-                        updateConfig((config) => {
-                          config.apiKeys.splice(index, 1);
-                        });
-                        return true;
-                      } else {
-                        console.error("index is not a number");
-                        return false;
-                      }
-                    },
-                  }}
-                >
-                  {(_f, index) => {
-                    return (
-                      <>
-                        <ProFormSelect
-                          options={[
-                            {
-                              label: PROVIDER_NAME[Provider.NextAPI],
-                              value: Provider.NextAPI,
-                            },
-                            {
-                              label: PROVIDER_NAME[Provider.ProxyAPI],
-                              value: Provider.ProxyAPI,
-                            },
-                          ]}
-                          placeholder="API Provider"
-                          fieldProps={{
-                            value: config?.apiKeys[index]?.provider,
-                            onChange: (v) =>
-                              updateConfig((config) => {
-                                config.apiKeys[index].provider = v as Provider;
-                              }),
-                          }}
-                        />
-                        <ProFormText
-                          placeholder="Your API Key"
-                          fieldProps={{
-                            value: config?.apiKeys[index]?.apiKey,
-                            onChange: (e) =>
-                              updateConfig((config) => {
-                                config.apiKeys[index].apiKey = e.target.value;
-                              }),
-                          }}
-                          extra={
-                            !config?.apiKeys[index]?.apiKey && (
-                              <a
-                                style={{ marginLeft: 2 }}
-                                onClick={() => {
-                                  setShellApiBaseUrl(ProviderRealBaseUrlMap[config?.apiKeys[index]?.provider]);
-                                  setShowShellApiApiKeyModal(true);
-                                }}
-                              >
-                                Load from {PROVIDER_NAME[config?.apiKeys[index]?.provider]}
-                              </a>
-                            )
-                          }
-                        />
-                      </>
-                    );
-                  }}
-                </ProFormList>
-                <ProFormSelect
-                  label="Upload Server Provider"
-                  options={[
-                    {
-                      label: PROVIDER_NAME[Provider.NextAPI],
-                      value: Provider.NextAPI,
-                    },
-                    {
-                      label: PROVIDER_NAME[Provider.ProxyAPI],
-                      value: Provider.ProxyAPI,
-                    },
-                  ]}
-                  fieldProps={{
-                    value: config.uploadServerProvider,
-                    onChange: (v) => updateConfig((config) => (config.uploadServerProvider = v)),
-                  }}
-                  allowClear={false}
-                />
+              <ProCard {...SettingProCardProps} title="API Configuration">
+                <Space direction={"vertical"} size={[12, 12]} style={{ width: "100%" }}>
+                  <Input
+                    value={config.base_url}
+                    onChange={(e) => updateConfig((config) => (config.base_url = e.target.value))}
+                    placeholder="Base URL"
+                    prefix={<GlobalOutlined style={{ marginRight: 6 }} />}
+                    autoComplete="new-password"
+                    status={validateBaseUrl(config.base_url)}
+                    suffix={
+                      config.base_url === DEFAULT_BASE_URL ? null : <RedoOutlined onClick={config.resetBaseUrl} />
+                    }
+                  />
+
+                  <Input
+                    value={config.apiKey}
+                    onChange={(e) => updateConfig((config) => (config.apiKey = e.target.value))}
+                    placeholder="API Key"
+                    prefix={<KeyOutlined style={{ marginRight: 6 }} />}
+                    autoComplete="new-password"
+                    status={validateApiKey(config.apiKey)}
+                  />
+                </Space>
               </ProCard>
 
               <ProCard {...SettingProCardProps} title="Operations">
-                <Space size={[16, 16]} wrap={true}>
+                <Space size={[12, 12]} wrap={true}>
                   <Button icon={<DownloadOutlined />} onClick={onExport}>
                     Export
                   </Button>

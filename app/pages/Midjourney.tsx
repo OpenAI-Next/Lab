@@ -52,7 +52,7 @@ import {
 } from "@/app/client/midjourneyProxy";
 import { CodeModal, renderCode, RenderSubmitter } from "@/app/render";
 import { handelResponseError, safeJsonStringify } from "@/app/utils";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import ImageMaskModal from "@/app/components/ImageMask";
 import { ProFormItem } from "@ant-design/pro-form";
 
@@ -531,31 +531,31 @@ const ImagineForm = (props: {
               tooltip={
                 "You can use images as character references in your prompt to generate images of the same character in different situations."
               }
-              max={2}
-              action={appConfig.getUploadConfig().action}
               accept={"image/*"}
-              fieldProps={{
-                listType: "picture-card",
-                headers: {
-                  Authorization: appConfig.getUploadConfig().auth,
-                },
-                onChange: (info) => {
-                  const getValueByPosition = (obj: any, position: readonly any[]) => {
-                    return position.reduce((acc, key) => acc && acc[key], obj);
-                  };
-
-                  if (info.file.status === "done") {
-                    try {
-                      const response = info.file.response;
-                      if (response) {
-                        info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
-                      }
-                    } catch (e) {
-                      console.error(e);
-                    }
-                  }
-                },
-              }}
+              {...appConfig.getProFormUploadConfig("url", 2, "picture-card")}
+              // action={appConfig.getUploadConfig().action}
+              // fieldProps={{
+              //   listType: "picture-card",
+              //   headers: {
+              //     Authorization: appConfig.getUploadConfig().auth,
+              //   },
+              //   onChange: (info) => {
+              //     const getValueByPosition = (obj: any, position: readonly any[]) => {
+              //       return position.reduce((acc, key) => acc && acc[key], obj);
+              //     };
+              //
+              //     if (info.file.status === "done") {
+              //       try {
+              //         const response = info.file.response;
+              //         if (response) {
+              //           info.file.url = getValueByPosition(response, appConfig.getUploadConfig().position);
+              //         }
+              //       } catch (e) {
+              //         console.error(e);
+              //       }
+              //     }
+              //   },
+              // }}
               width="sm"
             />
 
@@ -1263,7 +1263,7 @@ const MidjourneyTasksRenderer = (props: {
 
 export function MidjourneyPage() {
   const appConfig = useAppConfig();
-  const drawApi = new DrawAPI(appConfig.getFirstApiKey(api2Provider.Midjourney));
+  const drawApi = new DrawAPI(appConfig.getApiKey());
   const [mjImagineTaskForm] = ProForm.useForm();
   const [mjBlendTaskForm] = ProForm.useForm();
   const [mjDescribeTaskForm] = ProForm.useForm();

@@ -1,6 +1,6 @@
 // /app/pages/Flux.tsx
 
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import { FluxAPI, FluxGetRequest, FluxGetResponse, FluxImageRequest, FluxImageResponse } from "@/app/client/FluxProxy";
 import {
   ProDescriptions,
@@ -301,7 +301,7 @@ const FluxTaskRender = (props: {
 
 export function FluxPage() {
   const appConfig = useAppConfig();
-  const fluxApi = new FluxAPI(appConfig.getFirstApiKey(api2Provider.Flux));
+  const fluxApi = new FluxAPI(appConfig.getApiKey());
   const [generationForm] = ProForm.useForm();
   const [queryForm] = ProForm.useForm();
 

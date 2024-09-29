@@ -7,15 +7,11 @@ export enum Theme {
   Light = "light",
 }
 
-export interface APIKey {
-  id: string;
-  name: string;
-  apiKey: string;
-}
+export const DEFAULT_BASE_URL = "https://draw.openai-next.com";
 
 const DEFAULT_CONFIG = {
-  apiKeys: [] as APIKey[],
-  selectedApiKeyId: "",
+  apiKey: "" as string,
+  base_url: DEFAULT_BASE_URL as string,
   theme: Theme.Light as Theme,
   lastUpdate: Date.now(),
 } as const;
@@ -23,10 +19,15 @@ const DEFAULT_CONFIG = {
 export const useAppConfig = createPersistStore(
   { ...DEFAULT_CONFIG },
   (_set, get) => ({
-    getSelectedApiKey(): string {
-      return get().apiKeys.find((k) => k.id === get().selectedApiKeyId)?.apiKey || "";
+    getApiKey() {
+      return get().apiKey;
     },
-
+    getBaseUrl() {
+      return get().base_url;
+    },
+    resetBaseUrl() {
+      _set({ base_url: DEFAULT_BASE_URL });
+    },
     getProFormUploadConfig(
       type: "base64" | "url" = "base64",
       max: number = 1,

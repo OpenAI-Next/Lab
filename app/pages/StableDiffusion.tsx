@@ -14,7 +14,7 @@ import {
   ProFormTextArea,
   ProFormUploadButton,
 } from "@ant-design/pro-components";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import {
   StableDiffusion3Request,
   StableDiffusionAPI,
@@ -349,7 +349,7 @@ const StableDiffusionDataRenderer = (props: {
 
 export const StableDiffusionPage = () => {
   const appConfig = useAppConfig();
-  const stableDiffusionApi = new StableDiffusionAPI(appConfig.getFirstApiKey(api2Provider.StableDiffusion));
+  const stableDiffusionApi = new StableDiffusionAPI(appConfig.getApiKey());
   const [sdForm] = ProForm.useForm();
 
   const [data, setData] = useState<StableDiffusionData[]>([]);

@@ -4,7 +4,7 @@ import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import { Col, Divider, Empty, Image, Segmented, Spin } from "antd";
 import React, { useState } from "react";
 import { ProDescriptions, ProForm, ProFormSelect, ProFormTextArea } from "@ant-design/pro-components";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import {
   CreatePikaTaskRequest,
   CreatePikaTaskResponse,
@@ -353,7 +353,7 @@ const PikaTaskRenderer = (props: {
 
 const PikaPage = () => {
   const appConfig = useAppConfig();
-  const pikaApi = new PikaAPI(appConfig.getFirstApiKey(api2Provider.Pika));
+  const pikaApi = new PikaAPI(appConfig.getApiKey());
   const [pikaCreateForm] = ProForm.useForm();
   const [pikaQueryForm] = ProForm.useForm();
 

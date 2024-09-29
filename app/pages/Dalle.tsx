@@ -1,4 +1,4 @@
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import {
   AvailableDalleModels,
   DallEAPI,
@@ -465,7 +465,7 @@ const renderPicture = (data: DallEResponse) => {
 
 const DallePage = () => {
   const appConfig = useAppConfig();
-  const dallEApi = new DallEAPI(appConfig.getFirstApiKey(api2Provider.DallE));
+  const dallEApi = new DallEAPI(appConfig.getApiKey());
   const [createForm] = ProForm.useForm();
   const [editForm] = ProForm.useForm();
   const [variationForm] = ProForm.useForm();

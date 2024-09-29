@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import { COL_SCROLL_STYLE, PRO_FORM_PROPS } from "@/constant";
 import { arrayValidationRule, handelResponseError, safeJsonStringify } from "@/app/utils";
 import { renderCode, RenderSubmitter } from "@/app/render";
-import { api2Provider, useAppConfig } from "@/app/store";
+import { useAppConfig } from "@/app/store";
 import { Col, Divider } from "antd";
 
 const EmbeddingsForm = (props: {
@@ -155,7 +155,7 @@ const EmbeddingsForm = (props: {
 
 const EmbeddingsPage = () => {
   const appConfig = useAppConfig();
-  const embeddingsApi = new EmbeddingsAPI(appConfig.getFirstApiKey(api2Provider.Embeddings));
+  const embeddingsApi = new EmbeddingsAPI(appConfig.getApiKey());
   const [embeddingsForm] = ProForm.useForm();
 
   const [data, setData] = useState<any>();

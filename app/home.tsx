@@ -162,7 +162,7 @@ const App = (props: { dark: boolean; updateConfig: any }) => {
 
   return (
     <ProLayout
-      logo={"./logo.svg"}
+      logo={"./logo.png"}
       title={"OpenAI Next Lab"}
       layout="side"
       locale="en-US"

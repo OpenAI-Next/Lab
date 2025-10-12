@@ -9,6 +9,63 @@ export enum Theme {
 
 export const DEFAULT_BASE_URL = "https://draw.openai-next.com";
 
+export enum Provider {
+  NextAPI,
+  ProxyAPI,
+}
+
+export const PROVIDER_NAME = {
+  [Provider.NextAPI]: "Next API",
+  [Provider.ProxyAPI]: "Proxy API",
+} as const;
+
+export const ProviderBaseUrlMap = {
+  // [Provider.NextAPI]: "https://api.openai-next.com",
+  // [Provider.ProxyAPI]: "https://mj.openai-next.com",
+  [Provider.NextAPI]: "/nextapi",
+  [Provider.ProxyAPI]: "/proxyapi",
+} as const;
+
+export const ProviderRealBaseUrlMap = {
+  [Provider.NextAPI]: "https://api.openai-next.com",
+  [Provider.ProxyAPI]: "https://mj.openai-next.com",
+} as const;
+
+export const api2Provider = {
+  Chat: Provider.NextAPI,
+  Embeddings: Provider.NextAPI,
+  DallE: Provider.NextAPI,
+  Flux: Provider.ProxyAPI,
+  TTS: Provider.NextAPI,
+  Whisper: Provider.NextAPI,
+  Midjourney: Provider.ProxyAPI,
+  Suno: Provider.ProxyAPI,
+  Vidu: Provider.ProxyAPI,
+  Pika: Provider.ProxyAPI,
+  Luma: Provider.ProxyAPI,
+  Doc2X: Provider.ProxyAPI,
+  GPTs: Provider.ProxyAPI,
+  StableDiffusion: Provider.ProxyAPI,
+  BibiGPT: Provider.ProxyAPI,
+} as const;
+
+export const api2ProviderBaseUrl = {
+  Chat: ProviderBaseUrlMap[api2Provider.Chat],
+  Embeddings: ProviderBaseUrlMap[api2Provider.Embeddings],
+  DallE: ProviderBaseUrlMap[api2Provider.DallE],
+  Flux: ProviderBaseUrlMap[api2Provider.Flux],
+  TTS: ProviderBaseUrlMap[api2Provider.TTS],
+  Whisper: ProviderBaseUrlMap[api2Provider.Whisper],
+  Midjourney: ProviderBaseUrlMap[api2Provider.Midjourney],
+  Suno: ProviderBaseUrlMap[api2Provider.Suno],
+  Vidu: ProviderBaseUrlMap[api2Provider.Vidu],
+  Pika: ProviderBaseUrlMap[api2Provider.Pika],
+  Luma: ProviderBaseUrlMap[api2Provider.Luma],
+  Doc2X: ProviderBaseUrlMap[api2Provider.Doc2X],
+  Gpts: ProviderBaseUrlMap[api2Provider.GPTs],
+  StableDiffusion: ProviderBaseUrlMap[api2Provider.StableDiffusion],
+} as const;
+
 const DEFAULT_CONFIG = {
   apiKey: "" as string,
   base_url: DEFAULT_BASE_URL as string,

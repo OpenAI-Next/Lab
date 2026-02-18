@@ -11,9 +11,7 @@
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "export": "cross-env BUILD_MODE=export BUILD_APP=1 next build",
-    "export:dev": "cross-env BUILD_MODE=export BUILD_APP=1 next dev",
-    "app:dev": "yarn tauri dev",
-    "app:build": "yarn tauri build"
+    "export:dev": "cross-env BUILD_MODE=export BUILD_APP=1 next dev"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
@@ -42,7 +40,6 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
-    "@tauri-apps/cli": "1.6.2",
     "@types/ali-oss": "^6.16.11",
     "@types/lodash": "^4.17.9",
     "@types/node": "^22.7.2",
@@ -60,9 +57,16 @@
     "typescript": "5.6.2",
     "webpack": "^5.104.1"
   },
-  "resolutions": {
-    "lint-staged/yaml": "^2.2.2",
-    "prismjs": "^1.30.0",
-    "glob": "^10.5.0"
+  "pnpm": {
+    "overrides": {
+      "lint-staged>yaml": "^2.2.2",
+      "prismjs": "^1.30.0",
+      "glob": "^10.5.0"
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }

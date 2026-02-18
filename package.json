@@ -22,7 +22,7 @@
     "@fortaine/fetch-event-source": "^3.0.6",
     "@types/file-saver": "^2.0.7",
     "ai-model-hub": "^1.2.1",
-    "ajv": "8.17.1",
+    "ajv": "8.18.0",
     "ali-oss": "^6.20.0",
     "antd": "^5.21.1",
     "js-tiktoken": "^1.0.12",
